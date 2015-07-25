@@ -19,15 +19,26 @@
  */
 
 require_once('BaseSingleton.php');
+require_once('../model/classeBidon.php');
 
-class classeBidonDAL
+class classeBidonDAL extends classeBidon
 {
+    /**
+     * Retourne l'objet correspondant à l'id donnée.
+     * 
+     * @param int $id Identifiant de l'objet à trouver
+     * @return classeBion
+     */
     public static function findById($id)
     {
         $data = BBD::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
                           . 'FROM classe_bidon '
                           . 'WHERE id = ?', array('i', $id));
         
-        return $data;
+        $objetBidon = new classeBion();
+        
+        $objetBidon->hydrate($data);
+        
+        return $objetBidon;
     }
 }
