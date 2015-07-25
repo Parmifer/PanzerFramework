@@ -31,7 +31,7 @@ class classeBidonDAL extends classeBidon
      */
     public static function findById($id)
     {
-        $data = BBD::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
+        $data = BaseSingleton::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
                           . 'FROM classe_bidon '
                           . 'WHERE id = ?', array('i', $id));
         
@@ -40,5 +40,72 @@ class classeBidonDAL extends classeBidon
         $objetBidon->hydrate($data);
         
         return $objetBidon;
+    }
+    
+    /**
+     * Retourne tous les objets classeBidon.
+     * 
+     * @return mixed Tous les objets dans un tableau.
+     */
+    public static function findAll()
+    {
+        $mesObjets = array();
+        
+        $data = BaseSingleton::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
+                          . 'FROM classe_bidon ');
+        
+        foreach($data as $row)
+        {
+            $objetBidon = new classeBion();
+            $objetBidon->hydrate($row);
+            $mesObjets[] = $objetBidon;
+        }
+        
+        return $mesObjets;
+    }
+    
+    /**
+     * 
+     * @param classeBidon $classeBidon
+     * @return int L'id de l'objet inséré en base. False si ça a planté.
+     */
+    public static function insertOnDuplicate($classeBidon)
+    {
+        $sql = 'INSERT INTO classe_bidon '
+            + '(nom, date_de_naissance, '
+            + 'solde, vivant, ext_objet) '
+            + 'VALUES(?, ?, ?, ?, ?, ?) '
+            + 'ON DUPLICATE KEY '
+            + 'UPDATE nom = VALUES(nom), '
+            + 'date_de_naissance = VALUES(date_de_naissance), '
+            + 'solde = VALUES(solde), '
+            + 'vivant = VALUES(vivant), '
+            + 'ext_objet = VALUES(ext_objet)';
+        
+        $params = array('sidii', array(
+            $classeBidon->getNom(),
+            $classeBidon->getDateDeNaissance(),
+            $classeBidon->getSolde(),
+            $classeBidon->getVivant(),
+            $classeBidon->getObjet()->getId(),
+        ));
+        
+        $idInsert = BaseSingleton::insertOrEdit($sql, $params);
+        
+        return $idInsert;
+    }
+
+    
+    /**
+     * Delete the row corresponding to the given id.
+     * 
+     * @param int $id
+     * @return bool True if the row has been deleted. False if not.
+     */
+    public static function deleteClasseBidon($id)
+    {
+        $deleted = BaseSingleton::delete('delete from classe_bidon where id = ?', array('i', $id));
+        
+        return $deleted;
     }
 }

@@ -165,7 +165,7 @@ class classeBidon {
         }
         else if(is_a($objet, "Objet"))
         {
-            $this->extObjet = $objet->getId();
+            $this->extObjet = $objet;
         }
     }
     
@@ -176,6 +176,7 @@ class classeBidon {
         if(is_int($this->extObjet))
         {
             $objet = ObjetDAL::findById($this->extObjet);
+            $this->extObjet = $objet;
         }
         else if(is_a($this->extObjet, "Objet"))
         {

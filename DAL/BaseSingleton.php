@@ -48,6 +48,13 @@ class BaseSingleton
         self::$instance = null;    
     }
     
+    /**
+     * Data access function.
+     * 
+     * @param string $sql The SQL query.
+     * @param mixed $params The parameters to replace (and their data types) in an array. Eg : array("i", $id);
+     * @return mixed Result of the select statement. Data are formated in an array.
+     */
     public static function select($sql, $params = null)
     {
         $data = array();
@@ -94,11 +101,113 @@ class BaseSingleton
         return $data;
     }
     
+     
     /**
-     * Fonction utilitaire.
+     * Try to delete one or multiple rows according to the SQL query.
      * 
-     * @param mixed $resultat
-     * @return mixed Un tableau de données. 
+     * @param string $sql The SQL query.
+     * @param mixed $params The parameters to replace (and their data types) in an array. Eg : array("i", $id);
+     * @return bool True if the query has been executed. False if it failed.
+     */
+    public static function insertOrEdit($sql, $params = null)
+    {
+        $idInserted = false;
+        
+        self::connect();
+        
+        // S'il n'y a pas d'erreur de connection.
+        if(!self::$instance->mysqli->connect_error)
+        {
+            try
+            {
+                // On prépare la requête.
+                self::$instance->statement = self::$instance->mysqli->prepare($sql);
+                
+                // Si la requête a des paramètres.
+                if(!is_null($params))
+                {                   
+                    $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param');
+                    $bindParamsMethod->invokeArgs(self::$instance->statement, $params);
+                }
+                
+                // Execution de la requête
+                self::$instance->statement->execute();
+                $idInserted = self::$instance->statement->insert_id;
+            }
+            catch (Exception $e)
+            {
+                // Handle exception.
+                echo $e->getMessage();
+            }
+            finally
+            {
+                self::$instance->disconnect();
+            }       
+        }
+        else
+        {
+            echo 'La connexion a échouée.';
+            echo self::$instance->mysqli->connect_error;
+        }
+        
+        return $idInserted;
+    }
+    
+    /**
+     * Try to delete one or multiple rows according to the SQL query.
+     * 
+     * @param string $sql The SQL query.
+     * @param mixed $params The parameters to replace (and their data types) in an array. Eg : array("i", $id);
+     * @return bool True if the query has been executed. False if it failed.
+     */
+    public static function delete($sql, $params = null)
+    {
+        $deleted = false;
+        
+        self::connect();
+        
+        // S'il n'y a pas d'erreur de connection.
+        if(!self::$instance->mysqli->connect_error)
+        {
+            try
+            {
+                // On prépare la requête.
+                self::$instance->statement = self::$instance->mysqli->prepare($sql);
+                
+                // Si la requête a des paramètres.
+                if(!is_null($params))
+                {                   
+                    $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param');
+                    $bindParamsMethod->invokeArgs(self::$instance->statement, $params);
+                }
+                
+                // Execution de la requête
+                $deleted = self::$instance->statement->execute();
+            }
+            catch (Exception $e)
+            {
+                // Handle exception.
+                echo $e->getMessage();
+            }
+            finally
+            {
+                self::$instance->disconnect();
+            }       
+        }
+        else
+        {
+            echo 'La connexion a échouée.';
+            echo self::$instance->mysqli->connect_error;
+        }
+        
+        return $deleted;
+    }
+    
+    /**
+     * Utilitary function.
+     * 
+     * @param mixed $resultat Raw dataset from the mysql statement.
+     * @return mixed Formated dataset.
      */
     private static function fetchResult($resultat)
     {
