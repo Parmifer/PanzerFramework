@@ -18,16 +18,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once('BaseSingleton.php');
+require_once('../DAL/BaseSingleton.php');
 
-class classeBidonDAL
-{
-    public static function findById($id)
-    {
-        $data = BBD::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
-                          . 'FROM classe_bidon '
-                          . 'WHERE id = ?', array('i', $id));
-        
-        return $data;
-    }
-}
+$params = array('i', 2);
+
+// $data = BaseSingleton::select('SELECT * FROM user WHERE id = ?', $params);
+
+
+$data = BaseSingleton::select('SELECT * FROM user');
+
+var_dump($data);

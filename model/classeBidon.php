@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require_once '../DAL/classeBidonDAL.php';
+
 /**
  * Description of classeBidon
  *
@@ -59,6 +61,13 @@ class classeBidon {
      */
     private $vivant;
     
+    /**
+     *
+     * @var mixed 
+     */
+    private $extObjet;   
+   
+    
     ///////////////////
     // CONSTRUCTEURS //
     ///////////////////
@@ -78,7 +87,7 @@ class classeBidon {
     
     public function setId($id)
     {
-        if(typeof($id) == int)
+        if(is_int($id))
         {
             $this->id = $id;
         }
@@ -91,7 +100,7 @@ class classeBidon {
     
     public function setNom($nom)
     {
-        if(typeof($nom) == string)
+        if(is_string($nom))
         {
             $this->nom = $nom;
         }
@@ -104,7 +113,7 @@ class classeBidon {
     
     public function setDateDeNaissance($dateDeNaissance)
     {
-        if(typeof($dateDeNaissance) == DateTime)
+        if(is_a($dateDeNaissance, "DateTime"))
         {
             $this->dateDeNaissance = $dateDeNaissance;
         }
@@ -117,7 +126,7 @@ class classeBidon {
     
     public function setSolde($solde)
     {
-        if(typeof($solde) == double)
+        if(is_double($solde))
         {
             $this->solde = $solde;
         }
@@ -130,7 +139,7 @@ class classeBidon {
     
     public function setVivant($vivant)
     {
-        if(typeof($vivant) == boolean)
+        if(is_bool($vivant))
         {
             $this->vivant = $vivant;
         }
@@ -141,13 +150,53 @@ class classeBidon {
         return $this->vivant;
     }
     
+    /**
+     * Setteur de l'objet rattaché par une clef externe.
+     * 
+     * Accepte soit l'objet soit son ID.
+     * 
+     * @param mixed $objet
+     */
+    public function setObjet($objet)
+    {
+        if(is_int($objet))
+        {
+            $this->extObjet = ObjetDAL::findById($objet);
+        }
+        else if(is_a($objet, "Objet"))
+        {
+            $this->extObjet = $objet->getId();
+        }
+    }
+    
+    public function getObjet()
+    {
+        $objet = null;
+        
+        if(is_int($this->extObjet))
+        {
+            $objet = ObjetDAL::findById($this->extObjet);
+        }
+        else if(is_a($this->extObjet, "Objet"))
+        {
+            $objet = $this->extObjet;
+        }
+        
+        return $objet;
+    }
+    
     //////////////
     // METHODES //
     //////////////
     
-    public function hydrate()
+    protected function hydrate($dataSet)
     {
-        
+        $this->id = $dataSet['id'];
+        $this->nom = $dataSet['nom'];
+        $this->dateDeNaissance = $dataSet['datedenaissance'];
+        $this->solde = $dataSet['solde'];
+        $this->vivant = $dataSet['vivant'];
+        $this->extObjet = $dataSet['objet'];
     }
     
     /*
