@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2015 lucile
  *
  * This program is free software; you can redistribute it and/or
@@ -21,8 +21,8 @@
 require_once('BaseSingleton.php');
 require_once('../model/classeBidon.php');
 
-class classeBidonDAL extends classeBidon
-{
+class classeBidonDAL extends classeBidon {
+
     /**
      * Retourne l'objet correspondant à l'id donnée.
      * 
@@ -31,17 +31,17 @@ class classeBidonDAL extends classeBidon
      */
     public static function findById($id)
     {
-        $data = BaseSingleton::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
-                          . 'FROM classe_bidon '
-                          . 'WHERE id = ?', array('i', $id));
-        
+        $data = BaseSingleton::select(
+                        'SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
+                        . 'FROM classe_bidon '
+                        . 'WHERE id = ?', array('i', $id)
+        );
         $objetBidon = new classeBion();
-        
         $objetBidon->hydrate($data);
-        
+
         return $objetBidon;
     }
-    
+
     /**
      * Retourne tous les objets classeBidon.
      * 
@@ -50,20 +50,21 @@ class classeBidonDAL extends classeBidon
     public static function findAll()
     {
         $mesObjets = array();
-        
-        $data = BaseSingleton::select('SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
-                          . 'FROM classe_bidon ');
-        
-        foreach($data as $row)
+        $data = BaseSingleton::select(
+                        'SELECT id, nom, date_de_naissance, solde, vivant, ext_objet'
+                        . 'FROM classe_bidon '
+        );
+
+        foreach ($data as $row)
         {
             $objetBidon = new classeBion();
             $objetBidon->hydrate($row);
             $mesObjets[] = $objetBidon;
         }
-        
+
         return $mesObjets;
     }
-    
+
     /**
      * 
      * @param classeBidon $classeBidon
@@ -71,31 +72,36 @@ class classeBidonDAL extends classeBidon
      */
     public static function insertOnDuplicate($classeBidon)
     {
-        $sql = 'INSERT INTO classe_bidon '
-            + '(nom, date_de_naissance, '
-            + 'solde, vivant, ext_objet) '
-            + 'VALUES(?, ?, ?, ?, ?, ?) '
-            + 'ON DUPLICATE KEY '
-            + 'UPDATE nom = VALUES(nom), '
-            + 'date_de_naissance = VALUES(date_de_naissance), '
-            + 'solde = VALUES(solde), '
-            + 'vivant = VALUES(vivant), '
-            + 'ext_objet = VALUES(ext_objet)';
-        
+        $sql = 'INSERT INTO classe_bidon ' .
+                '(nom, date_de_naissance, ' .
+                'solde, vivant, ext_objet) ' .
+                'VALUES(?, ?, ?, ?, ?, ?) ' .
+                'ON DUPLICATE KEY ' .
+                'UPDATE nom = VALUES(nom), ' .
+                'date_de_naissance = VALUES(date_de_naissance), ' .
+                'solde = VALUES(solde), ' .
+                'vivant = VALUES(vivant), ' .
+                'ext_objet = VALUES(ext_objet)';
+
+        $nom = $classeBidon->getNom();
+        $dateDeNaissance = $classeBidon->getDateDeNaissance();
+        $solde = $classeBidon->getSolde();
+        $vivant = $classeBidon->getVivant();
+        $objetId = $classeBidon->getObjet()->getId();
+
         $params = array('sidii', array(
-            $classeBidon->getNom(),
-            $classeBidon->getDateDeNaissance(),
-            $classeBidon->getSolde(),
-            $classeBidon->getVivant(),
-            $classeBidon->getObjet()->getId(),
+                $nom,
+                $dateDeNaissance,
+                $solde,
+                $vivant,
+                $objetId,
         ));
-        
+
         $idInsert = BaseSingleton::insertOrEdit($sql, $params);
-        
+
         return $idInsert;
     }
 
-    
     /**
      * Delete the row corresponding to the given id.
      * 
@@ -105,7 +111,8 @@ class classeBidonDAL extends classeBidon
     public static function deleteClasseBidon($id)
     {
         $deleted = BaseSingleton::delete('delete from classe_bidon where id = ?', array('i', $id));
-        
+
         return $deleted;
     }
+
 }
