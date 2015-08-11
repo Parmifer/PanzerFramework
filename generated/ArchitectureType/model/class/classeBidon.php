@@ -65,7 +65,7 @@ class classeBidon {
      *
      * @var mixed 
      */
-    private $extObjet;   
+    private $extType;   
    
     
     ///////////////////
@@ -151,39 +151,39 @@ class classeBidon {
     }
     
     /**
-     * Setteur de l'objet rattaché par une clef externe.
+     * Setteur de l'type rattaché par une clef externe.
      * 
-     * Accepte soit l'objet soit son ID.
+     * Accepte soit l'type soit son ID.
      * 
-     * @param mixed $objet
+     * @param mixed $type
      */
-    public function setObjet($objet)
+    public function setType($type)
     {
-        if(is_int($objet))
+        if(is_int($type))
         {
-            $this->extObjet = ObjetDAL::findById($objet);
+            $this->extType = TypeDAL::findById($type);
         }
-        else if(is_a($objet, "Objet"))
+        else if(is_a($type, "Type"))
         {
-            $this->extObjet = $objet;
+            $this->extType = $type;
         }
     }
     
-    public function getObjet()
+    public function getType()
     {
-        $objet = null;
+        $type = null;
         
-        if(is_int($this->extObjet))
+        if(is_int($this->extType))
         {
-            $objet = ObjetDAL::findById($this->extObjet);
-            $this->extObjet = $objet;
+            $type = TypeDAL::findById($this->extType);
+            $this->extType = $type;
         }
-        else if(is_a($this->extObjet, "Objet"))
+        else if(is_a($this->extType, "Type"))
         {
-            $objet = $this->extObjet;
+            $type = $this->extType;
         }
         
-        return $objet;
+        return $type;
     }
     
     //////////////
@@ -197,7 +197,7 @@ class classeBidon {
         $this->dateDeNaissance = $dataSet['datedenaissance'];
         $this->solde = $dataSet['solde'];
         $this->vivant = $dataSet['vivant'];
-        $this->extObjet = $dataSet['objet'];
+        $this->extType = $dataSet['type'];
     }
     
     /*

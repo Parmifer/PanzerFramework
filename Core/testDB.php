@@ -18,13 +18,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once('../DAL/BaseSingleton.php');
+require_once('DAL/UserDAL.php');
 
-$params = array('i', 2);
+$users = UserDAL::findAll();
+$parmifer = UserDAL::findById(2);
 
-// $data = BaseSingleton::select('SELECT * FROM user WHERE id = ?', $params);
-
-
-$data = BaseSingleton::select('SELECT * FROM user');
-
-var_dump($data);
+echo '<pre>';
+var_dump($users);
+echo '<br />';
+var_dump($parmifer);
+echo '</pre>';

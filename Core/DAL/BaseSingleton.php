@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2015 lucile
  *
  * This program is free software; you can redistribute it and/or
@@ -20,34 +20,33 @@
 
 class BaseSingleton
 {
+
     private static $instance;
-    
     private $mysqli;
-    
     private $statement;
-    
+
     private function __construct()
     {
-        $this->mysqli = null;    
+        $this->mysqli = null;
         $this->statement = null;
     }
-            
+
     private static function connect()
     {
-        if(is_null(self::$instance))
+        if (is_null(self::$instance))
         {
             self::$instance = new BaseSingleton();
         }
-        
+
         self::$instance->mysqli = new mysqli('localhost', 'root', '', 'PanzerTest');
     }
-    
+
     private function disconnect()
     {
         self::$instance->mysqli->close();
-        self::$instance = null;    
+        self::$instance = null;
     }
-    
+
     /**
      * Data access function.
      * 
@@ -58,54 +57,66 @@ class BaseSingleton
     public static function select($sql, $params = null)
     {
         $data = array();
-        
+
         self::connect();
-        
+
         // S'il n'y a pas d'erreur de connection.
-        if(!self::$instance->mysqli->connect_error)
+        if (!self::$instance->mysqli->connect_error)
         {
-            try
+            // On prépare la requête.
+            if (self::$instance->statement = self::$instance->mysqli->prepare($sql))
             {
-                // On prépare la requête.
-                self::$instance->statement = self::$instance->mysqli->prepare($sql);
-                
+
                 // Si la requête a des paramètres.
-                if(!is_null($params))
-                {                   
+                if (!is_null($params))
+                {
                     $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param');
                     $bindParamsMethod->invokeArgs(self::$instance->statement, $params);
                 }
-                
-                // Récupération des résultats.
-                self::$instance->statement->execute();
-                $resultat = self::$instance->statement->get_result();
-                
-                if ($resultat === false) {
-                    echo self::$instance->mysqli->error;
+
+                try
+                {
+                    // Récupération des résultats.
+                    self::$instance->statement->execute();
+                    $resultat = self::$instance->statement->get_result();
+
+                    if ($resultat === false)
+                    {
+                        echo self::$instance->mysqli->error;
+                    }
                 }
+                catch (Exception $e)
+                {
+                    // Handle exception.
+                    echo $e->getTraceAsString();
+                    echo 'Impossible de charger les données.';
+                }
+                finally
+                {
+                    self::$instance->disconnect();
+                }
+
+                $data = self::fetchResult($resultat);
             }
-            catch (Exception $e)
-            {
-                // Handle exception.
-                echo $e->getMessage();
+            else
+            {                
+                // TODO : Replace this with message utilitary.
+                echo 'An error has occured when preparing the SQL query.';
+                // TODO : Replace this with logs
+                echo self::$instance->mysqli->error;
             }
-            finally
-            {
-                self::$instance->disconnect();
-            }
-            
-            $data = self::fetchResult($resultat);
         }
         else
         {
-            echo 'La connexion a échoué.';
+            // TODO : Replace this with message utilitary.
+            echo 'La connexion a échouée.';
+            // TODO : Replace this with logs
             echo self::$instance->mysqli->connect_error;
         }
-        
+
         return $data;
     }
-    
-     
+
     /**
      * Try to delete one or multiple rows according to the SQL query.
      * 
@@ -116,51 +127,64 @@ class BaseSingleton
     public static function insertOrEdit($sql, $params = null)
     {
         $idInserted = false;
-        
+
         self::connect();
-        
+
         // S'il n'y a pas d'erreur de connection.
-        if(!self::$instance->mysqli->connect_error)
+        if (!self::$instance->mysqli->connect_error)
         {
-            try
+            // On prépare la requête.
+            if (self::$instance->statement = self::$instance->mysqli->prepare($sql))
             {
-                // On prépare la requête.
-                self::$instance->statement = self::$instance->mysqli->prepare($sql);
-                
-                // Si la requête a des paramètres.
-                if(!is_null($params))
-                {                   
-                    $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param');
-                    $bindParamsMethod->invokeArgs(self::$instance->statement, $params);
+                try
+                {
+                    // Si la requête a des paramètres.
+                    if (!is_null($params))
+                    {                        
+                        $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param');
+                        $bindParamsMethod->invokeArgs(self::$instance->statement, $params);
+                    }
+
+                    // Execution de la requête
+                    if(!self::$instance->statement->execute())
+                    {
+                        $_SESSION['message']['danger'] = 'The query failed.';
+                        // TODO : Replace this with logs
+                        $_SESSION['message']['info'] = self::$instance->mysqli->error;
+                    }
+                    else
+                    {
+                        $idInserted = self::$instance->statement->insert_id;
+                    }
                 }
-                
-                // Execution de la requête
-                self::$instance->statement->execute();
-                $idInserted = self::$instance->statement->insert_id;
-                
-                if ($idInserted === false) {
-                    echo self::$instance->mysqli->error;
+                catch (Exception $e)
+                {                    
+                    // Handle exception.
+                    echo $e->getTraceAsString();
+                    echo 'L\'insertion a échouée.';
+                }
+                finally
+                {
+                    self::$instance->disconnect();
                 }
             }
-            catch (Exception $e)
+            else
             {
-                // Handle exception.
-                echo $e->getMessage();
+                echo 'An error has occured when preparing the SQL query.';
+                // TODO : Replace this with logs
+                $_SESSION['message']['info'] = self::$instance->mysqli->error;
             }
-            finally
-            {
-                self::$instance->disconnect();
-            }       
         }
         else
         {
-            echo 'La connexion a échoué.';
+            echo 'Database connect failed.';
+            // TODO : Replace this with logs
             echo self::$instance->mysqli->connect_error;
         }
-        
+
         return $idInserted;
     }
-    
+
     /**
      * Try to delete one or multiple rows according to the SQL query.
      * 
@@ -171,28 +195,29 @@ class BaseSingleton
     public static function delete($sql, $params = null)
     {
         $deleted = false;
-        
+
         self::connect();
-        
+
         // S'il n'y a pas d'erreur de connection.
-        if(!self::$instance->mysqli->connect_error)
+        if (!self::$instance->mysqli->connect_error)
         {
             try
             {
                 // On prépare la requête.
                 self::$instance->statement = self::$instance->mysqli->prepare($sql);
-                
+
                 // Si la requête a des paramètres.
-                if(!is_null($params))
-                {                   
+                if (!is_null($params))
+                {
                     $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param');
                     $bindParamsMethod->invokeArgs(self::$instance->statement, $params);
                 }
-                
+
                 // Execution de la requête
                 $deleted = self::$instance->statement->execute();
-                
-                if ($deleted === false) {
+
+                if ($deleted === false)
+                {
                     echo self::$instance->mysqli->error;
                 }
             }
@@ -204,17 +229,17 @@ class BaseSingleton
             finally
             {
                 self::$instance->disconnect();
-            }       
+            }
         }
         else
         {
             echo 'La connexion a échoué.';
             echo self::$instance->mysqli->connect_error;
         }
-        
+
         return $deleted;
     }
-    
+
     /**
      * Utilitary function.
      * 
@@ -224,17 +249,18 @@ class BaseSingleton
     private static function fetchResult($resultat)
     {
         $data = array();
-        
+
         // S'il n'y a pas eu d'erreur lors de la requête.
-        if(isset($resultat) && $resultat)
-        {            
+        if (isset($resultat) && $resultat)
+        {
             // On fetch les résultats.
-            while ($row = $resultat->fetch_array())
+            while ($row = $resultat->fetch_assoc())
             {
                 $data[] = $row;
             }
         }
-        
+
         return $data;
     }
+
 }
