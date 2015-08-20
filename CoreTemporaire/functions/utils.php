@@ -17,29 +17,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-require_once('BaseSingleton.php');
-require_once('PanzerDAL.php');
-require_once('User.php');
 
-class UserDAL extends PanzerDAL
+function premiereLettreMaj($string)
 {
-    public static function findById($id)
+    return strtoupper(substr($string, 0, 1)) . substr($string, 1);
+}
+
+function convertBddEnCamelCase($string)
+{
+    $mots = explode('_', strtolower($string));
+    
+    $nbMots = count($mots);
+    
+    $camelCase = $mots[0];
+    
+    for($i = 1; $i < $nbMots; $i++)
     {
-        $params = array('i', &$id);
-        $dataset = BaseSingleton::select('SELECT * FROM user WHERE id = ?', $params);
-        
-        return self::hydrate($dataset[0]);
+        $camelCase .= premiereLettreMaj($mots[$i]);
     }
     
-    public static function findAll()
+    return $camelCase;
+}
+
+function formatBddPourEval($string)
+{
+    $mots = explode('_', strtolower($string));
+    
+    $nbMots = count($mots);
+    $start = $mots[0] === 'ext' ? 1 : 0;
+    
+    $camelCase = '';
+    
+    for($i = $start; $i < $nbMots; $i++)
     {
-        $dataset = BaseSingleton::select('SELECT * FROM user');
-        $users = array();
-        foreach($dataset as $row)
-        {
-            $users[] = self::hydrate($row);
-        }
-        
-        return $users;
+        $camelCase .= premiereLettreMaj($mots[$i]);
     }
+    
+    return $camelCase;
 }
