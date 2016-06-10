@@ -18,10 +18,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once('../../model/DAL/UserDAL.php');
+require_once($_SESSION['config']['env']['projectRoot'].'model/DAL/UserDAL.php');
 
-$users = UserDAL::findAll();
-$parmifer = UserDAL::findById(2);
+$users      = UserDAL::findAll();
+$parmifer   = UserDAL::findById(2);
 
 echo '<pre>';
 var_dump($users);

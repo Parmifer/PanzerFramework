@@ -18,10 +18,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// TODO : Remplacer les liens des require par $_SESSION['projectRoot']/chemin/vers/la/ressource
-require_once($_SERVER['DOCUMENT_ROOT'].'/PanzerFramework/ProjetExemple/Core/BaseSingleton.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/PanzerFramework/ProjetExemple/Core/PanzerDAL.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/PanzerFramework/ProjetExemple/model/Class/User.php');
+require_once($_SESSION['config']['env']['projectRoot'].'core/BaseSingleton.php');
+require_once($_SESSION['config']['env']['projectRoot'].'core/PanzerDAL.php');
+require_once($_SESSION['config']['env']['projectRoot'].'model/class/User.php');
 
 class UserDAL extends PanzerDAL
 {
@@ -60,7 +59,7 @@ class UserDAL extends PanzerDAL
     public static function findByRoleId($idRole)
     {
         $params = array('i', &$idRole);
-        $dataset = BaseSingleton::select('SELECT * FROM user where ext_role = ?');
+        $dataset = BaseSingleton::select('SELECT * FROM user where ext_role = ?', $params);
         
         return self::handleResults($dataset);
     }
