@@ -18,12 +18,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once($_SESSION['config']['env']['projectRoot'].'model/DAL/UserDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/UserDAL.php');
 
 $users      = UserDAL::findAll();
 $parmifer   = UserDAL::findById(2);
 
+if(isset($_SESSION['message']))
+{
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
+
+
 echo '<pre>';
+var_dump ($message);
+echo '<br />';
 var_dump($users);
 echo '<br />';
 var_dump($parmifer);

@@ -1,5 +1,4 @@
 <?php
-
 /* 
  * Copyright (C) 2015 Yann
  *
@@ -18,9 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once($_SESSION['config']['env']['projectRoot'].'core/BaseSingleton.php');
-require_once($_SESSION['config']['env']['projectRoot'].'core/PanzerDAL.php');
-require_once($_SESSION['config']['env']['projectRoot'].'model/class/User.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/class/User.php');
 
 class UserDAL extends PanzerDAL
 {

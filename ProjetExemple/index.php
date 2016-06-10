@@ -21,6 +21,12 @@ require_once('model/Class/User.php');
 require_once('core_imports.php');
 
 session_start();
+
+if(!isset($_SESSION[PanzerConfiguration::CONFIG]))
+{
+    PanzerConfiguration::loadConfiguration();
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,7 +63,7 @@ session_start();
 //        }
         ?>
         <div class="page-header col-sm-offset-2 col-sm-8">
-            <h1 class="white chalk"><em>ABC University</em></h1>
+            <h1 class="white chalk"><em>PanzerFramework</em></h1>
         </div>
         <?php
         // If we have a message
@@ -84,8 +90,9 @@ session_start();
 //        else
 //        {
 //            header('Location: home');
-//        }        
-        ?>
-        <a href="controller/page/testDB.php">testDB</a>
+//        }
+        
+        require_once('controller/page/testDB.php');
+        ?>        
     </body>
 </html>
