@@ -21,10 +21,22 @@ class BaseSingleton
     private static $instance;
     private $mysqli;
     private $statement;
+    
+    private $dbHost;
+    private $dbUser;
+    private $dbPassword;
+    private $database;
+    
+    
     private function __construct()
     {
         $this->mysqli = null;
-        $this->statement = null; 
+        $this->statement = null;
+        
+        $dbHost     = $_SESSION[PanzerConfiguration::CONFIG][PanzerConfiguration::FILE_DATABASE][PanzerConfiguration::DATABASE_HOST];
+        $dbUser     = $_SESSION[PanzerConfiguration::CONFIG][PanzerConfiguration::FILE_DATABASE][PanzerConfiguration::DATABASE_USER];
+        $dbPassword = $_SESSION[PanzerConfiguration::CONFIG][PanzerConfiguration::FILE_DATABASE][PanzerConfiguration::DATABASE_PASSWORD];
+        $dbName     = $_SESSION[PanzerConfiguration::CONFIG][PanzerConfiguration::FILE_DATABASE][PanzerConfiguration::DATABASE_NAME];
     }
     private static function connect()
     {
@@ -32,7 +44,7 @@ class BaseSingleton
         {
             self::$instance = new BaseSingleton();
         }
-        self::$instance->mysqli = new mysqli('localhost', 'root', '', 'PanzerTest');
+        self::$instance->mysqli = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
     }
     private function disconnect()
     {
