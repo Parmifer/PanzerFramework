@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-class StringUtils
+class PanzerStringUtils
 {
 
     static function premiereLettreMaj($string)
@@ -57,5 +57,14 @@ class StringUtils
         }
 
         return $camelCase;
+    }
+    
+    static function addEndingSlashIfNeeded(&$string)
+    {
+        // Si la chaîne ne fini pas pas '/', on le rajoute.
+        if(substr($string, -1) !== '/')
+        {
+            $string .= '/';
+        }                
     }
 }
