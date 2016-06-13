@@ -41,24 +41,7 @@ class PanzerStringUtils
 
         return $camelCase;
     }
-
-    public static function formatBddPourEval($string)
-    {
-        $mots = explode('_', strtolower($string));
-
-        $nbMots = count($mots);
-        $start = $mots[0] === 'ext' ? 1 : 0;
-
-        $camelCase = '';
-
-        for ($i = $start; $i < $nbMots; $i++)
-        {
-            $camelCase .= self::premiereLettreMaj($mots[$i]);
-        }
-
-        return $camelCase;
-    }
-    
+        
     public static function addEndingSlashIfNeeded(&$string)
     {
         // Si la chaîne ne fini pas pas '/', on le rajoute.
