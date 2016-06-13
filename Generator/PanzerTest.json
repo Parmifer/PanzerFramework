@@ -1,0 +1,105 @@
+{
+    "chaine_connexion_BDD":
+    {
+        "host": "localhost",
+        "utilisateur": "root",
+        "mot_de_passe": "",
+        "nom_bdd": "PanzerTest"
+    },
+    "tables_a_transformer":
+    {        
+        "role":
+        {
+            "relations": []
+        },
+        "user":
+        {
+            "relations":
+            [
+                {"table": "role", "clef_externe": "ext_role", "storage": "object"},
+                {"table": "canard", "storage": "array"}
+            ]        
+        }        
+    },   
+    "widgets":
+    [
+        "horloge",
+        "calendrier",
+        "period_picker",
+        "mini_carte"
+    ],
+    "theme_CSS": "theme_bleu",
+    "arborescence":
+    {
+        "pages":
+        {
+            "accueil":
+            {
+                "droits": "V",
+                "label_menu": "Accueil",
+                "type": "custom"
+            },
+            "chats_etat_sante":
+            {
+                "droits": "U",
+                "label_menu": "Etat de santé",
+                "type": "custom"
+            },
+            "chats_liste":
+            {
+                "droits": "V",
+                "label_menu": "Liste",
+                "type": "list",
+                "table": "chat"
+            },
+            "chats_ajouter":
+            {
+                "droits": "A",
+                "label_menu": "Ajouter",
+                "type": "create"
+            },
+            "veterinaires_liste":
+            {
+                "droits": "V",
+                "label_menu": "Liste",
+                "type": "list"
+            },
+            "veterinaires_fiche_de_paie":
+            {
+                "droits": "S",
+                "label_menu": "Editer fiche de paie",
+                "type": "custom"
+            },
+            "aide":
+            {
+                "droits": "V",
+                "label_menu": "?",
+                "type": "custom"
+            }
+        },
+        "menu":
+        {
+            "accueil": "page",
+            "chats":
+            {
+                "label_menu": "Chats",
+                "sous_pages":
+                [
+                    "chats_etat_sante",
+                    "chats_liste",
+                    "chats_ajouter"
+                ]
+            },
+            "veterinaires":
+            {
+                "label_menu": "Vétérinaires",
+                "sous_pages":
+                [
+                    "veterinaires_liste",
+                    "veterinaires_fiche_de_paie"
+                ]
+            },
+            "aide": "page"
+        }
+    }
+}
