@@ -100,9 +100,9 @@ class PanzerAlerter
      */
     static public function resetAlerts()
     {
-        PanzerLogger::logError('Resetting alerts...');
+        PanzerLogger::logInfo('Resetting alerts...');
         unset($_SESSION[self::ALERT]);
-        PanzerLogger::logError('Alerts resetted');
+        PanzerLogger::logInfo('Alerts resetted');
     }
 
 }
