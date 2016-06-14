@@ -21,12 +21,14 @@
 class PanzerClassGenerator
 {
     private $attributes;
+    private $includes;
 
     public function generateOneClass($table, $relations, $folder)
     {
         // Usefull vars
-        $className = PanzerStringUtils::premiereLettreMaj($table);
+        $className = PanzerStringUtils::convertTableEnNomClasse($table);
         $this->attributes = BaseSingleton::select('describe ' . $table);
+        $this->includes = array();
 
         if (!empty($relations))
         {
@@ -34,10 +36,24 @@ class PanzerClassGenerator
             {
                 $this->attributes[] = array(
                     'Field' => $uneRelation['table'],
-                    'Type' => PanzerStringUtils::premiereLettreMaj($uneRelation['table']),
+                    'Type' => PanzerStringUtils::convertTableEnNomClasse($uneRelation['table']),
                     'storage' => $uneRelation['storage'],
-                    'Key' => $uneRelation['clef_externe']
+                    'Key' => (isset($uneRelation['clef_externe']) ? $uneRelation['clef_externe'] : null),
+                    'DAL' => (isset($uneRelation['DAL']) ? $uneRelation['DAL'] : null)
                 );
+
+                switch ($uneRelation['storage'])
+                {
+                    case 'object':
+                    case 'array':
+                        $fileName = PanzerStringUtils::convertTableEnNomClasse($uneRelation['table']) . 'DAL.php';
+                        $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $fileName;
+                        break;
+                    case 'manyToMany':
+                        $fileName = PanzerStringUtils::convertTableEnNomClasse($uneRelation['DAL']) . 'DAL.php';
+                        $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $fileName;
+                        break;
+                }
             }
         }
 
@@ -63,9 +79,18 @@ class PanzerClassGenerator
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+';
+
+        foreach($this->includes as $fileToInclude)
+        {
+            $maClasse .= '
+require_once('.$fileToInclude.'\');';
+        }
+
+        $maClasse .= '
 
 class ' . $className .
-                '
+'
 {
     ////////////////
     // ATTRIBUTES //
@@ -129,15 +154,15 @@ class ' . $className .
                 $attributMaj = PanzerStringUtils::premiereLettreMaj($attributCamelCase);
                 $type = PanzerSQLUtils::getPhpType($attribut['Type']);
 
-                if(isset($attribut['storage']))
+                if (isset($attribut['storage']))
                 {
                     $maClasse .=
-                        '
+                            '
 
     /**
      * Setter of ' . $attributCamelCase . '.
      *
-     * @param '.$type.'|int $' . $attributCamelCase . '
+     * @param ' . $type . '|int $' . $attributCamelCase . '
      */
     public function set' . $attributMaj . '($' . $attributCamelCase . ')
     {
@@ -145,21 +170,21 @@ class ' . $className .
         {
             $this->' . $attributCamelCase . ' = $' . $attributCamelCase . ';
         }
-        else if (is_int($'.$attributCamelCase.'))
+        else if (is_int($' . $attributCamelCase . '))
         {
-            $this->' . $attributCamelCase . ' = '.$attributMaj.'DAL::findById($' . $attributCamelCase . ');
+            $this->' . $attributCamelCase . ' = ' . $attributMaj . 'DAL::findById($' . $attributCamelCase . ');
         }
     }';
                 }
                 else
                 {
                     $maClasse .=
-                        '
+                            '
 
     /**
      * Setter of ' . $attributCamelCase . '.
      *
-     * @param '.$type.' $' . $attributCamelCase . '
+     * @param ' . $type . ' $' . $attributCamelCase . '
      */
     public function set' . $attributMaj . '($' . $attributCamelCase . ')
     {
@@ -176,7 +201,7 @@ class ' . $className .
     /**
      * Getter of ' . $attributCamelCase . '.
      *
-     * @return '.$type.'
+     * @return ' . $type . '
      */
     public function get' . $attributMaj . '()
     {

@@ -10,10 +10,12 @@
     {        
         "role":
         {
+            "onlyDAL": "false",
             "relations": []
         },
         "user":
         {
+            "onlyDAL": "false",
             "relations":
             [
                 {"table": "role", "clef_externe": "ext_role", "storage": "object"},
