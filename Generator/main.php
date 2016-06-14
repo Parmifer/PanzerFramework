@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2016 Parmifer
  *
  * This program is free software; you can redistribute it and/or
@@ -33,4 +33,5 @@ $optionsJSON = file_get_contents('PanzerTest.json');
 
 $generator = new PanzerGenerator($optionsJSON);
 
-$generator->generateClasses();
+$generator->generateAllClasses();
+$generator->generateAllDAL();

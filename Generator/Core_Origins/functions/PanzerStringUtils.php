@@ -41,13 +41,18 @@ class PanzerStringUtils
 
         return $camelCase;
     }
-        
+
+    public static function convertTableEnNomClasse($string)
+    {
+        return self::premiereLettreMaj(self::convertBddEnCamelCase($string));
+    }
+
     public static function addEndingSlashIfNeeded(&$string)
     {
         // Si la chaîne ne fini pas pas '/', on le rajoute.
         if(substr($string, -1) !== '/')
         {
             $string .= '/';
-        }                
+        }
     }
 }
