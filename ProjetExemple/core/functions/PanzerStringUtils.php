@@ -42,7 +42,7 @@ class PanzerStringUtils
         return $camelCase;
     }
 
-    public static function convertTableEnNomClasse($string)
+    public static function convertToClassName($string)
     {
         return self::premiereLettreMaj(self::convertBddEnCamelCase($string));
     }
@@ -54,5 +54,12 @@ class PanzerStringUtils
         {
             $string .= '/';
         }
+    }
+    
+    public static function getParentClassName($string)
+    {
+        $mots = explode('_', strtolower($string));
+        
+        return self::premiereLettreMaj($mots[0]);
     }
 }

@@ -27,55 +27,97 @@
 class PanzerLogger
 {
 
+    /**
+     * All log levels available
+     */
     const LEVEL_INFO = 'INFO';
     const LEVEL_DEBUG = 'DEBUG';
     const LEVEL_WARNING = 'WARNING';
     const LEVEL_ERROR = 'ERROR';
 
+    /**
+     * List of all alert levels
+     */
     const LEVELS = [
-        LEVEL_INFO,
-        LEVEL_DEBUG,
-        LEVEL_WARNING,
-        LEVEL_ERROR
+        self::LEVEL_INFO,
+        self::LEVEL_DEBUG,
+        self::LEVEL_WARNING,
+        self::LEVEL_ERROR,
     ];
 
+    /**
+     * Log a new line in the appropriate file, using the $level parameter.
+     * @param PanzerLogger::LEVEL $level Level for the log
+     * @param String $message Message to log
+     */
     static public function log($level, $message)
     {
         if (in_array($level, self::LEVELS))
         {
-            $date = new Date('Y-m-d H:i:s');
-            $calledBy = debug_backtrace()[1]['function'];
-            $log = printf('[%s] [%s] %s : %s', $date, $calledBy, $level, $message);
+            $date = date('Y-m-d H:i:s');
+
+            if (isset(debug_backtrace()[2]))
+            {
+                $calledBy = debug_backtrace()[2]['function'];
+            }
+            else
+            {
+                $calledBy = debug_backtrace()[1]['function'];
+            }
+
+            $log = sprintf('[%s] [%s] %s : %s\r\n', $date, $calledBy, $level, $message);
 
             self::saveLog($level, $log);
         }
     }
 
+    /**
+     * Log a new info log
+     * @param String $message Message to log
+     */
     static public function logInfo($message)
     {
         self::log(self::LEVEL_INFO, $message);
     }
 
+    /**
+     * Log a new debug log
+     * @param String $message Message to log
+     */
     static public function logDebug($message)
     {
         self::log(self::LEVEL_DEBUG, $message);
     }
 
+    /**
+     * Log a new warning log
+     * @param String $message Message to log
+     */
     static public function logWarning($message)
     {
         self::log(self::LEVEL_WARNING, $message);
     }
 
+    /**
+     * Log a new error log
+     * @param String $message Message to log
+     */
     static public function logError($message)
     {
         self::log(self::LEVEL_ERROR, $message);
     }
 
+    /**
+     * Write in the appropriate file a log message
+     * @param PanzerLogger::LEVEL $level Level for the log
+     * @param String $log Complete message to log (with date and name function)
+     */
     static private function saveLog($level, $log)
     {
         $filePath = PanzerConfiguration::getLogConfiguration($level);
         $logFile = fopen($filePath, "a+");
         fputs($logFile, $log);
+        fputs($logFile, PHP_EOL);
         fclose($logFile);
     }
 
