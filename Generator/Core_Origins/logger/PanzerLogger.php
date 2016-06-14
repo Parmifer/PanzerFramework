@@ -55,7 +55,16 @@ class PanzerLogger
         if (in_array($level, self::LEVELS))
         {
             $date = date('Y-m-d H:i:s');
-            $calledBy = debug_backtrace()[2]['function'];
+
+            if (isset(debug_backtrace()[2]))
+            {
+                $calledBy = debug_backtrace()[2]['function'];
+            }
+            else
+            {
+                $calledBy = debug_backtrace()[1]['function'];
+            }
+
             $log = sprintf('[%s] [%s] %s : %s\r\n', $date, $calledBy, $level, $message);
 
             self::saveLog($level, $log);
@@ -108,6 +117,7 @@ class PanzerLogger
         $filePath = PanzerConfiguration::getLogConfiguration($level);
         $logFile = fopen($filePath, "a+");
         fputs($logFile, $log);
+        fputs($logFile, PHP_EOL);
         fclose($logFile);
     }
 
