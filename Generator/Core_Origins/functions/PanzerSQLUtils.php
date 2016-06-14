@@ -60,4 +60,16 @@ class PanzerSQLUtils
             return $rawType;
         }
     }
+    
+    public static function getNiveauRoleFromCode($code)
+    {
+        $niveauByCode = array(
+            'S' => 3,
+            'A' => 2,
+            'U' => 1,
+            'V' => 0,
+        );
+
+        return $niveauByCode[$code];
+    }
 }

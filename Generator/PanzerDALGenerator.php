@@ -26,7 +26,7 @@ class PanzerDALGenerator
     public function generateOneDAL($table, $relations, $folder)
     {
         // Usefull vars
-        $className = PanzerStringUtils::convertTableEnNomClasse($table);
+        $className = PanzerStringUtils::convertToClassName($table);
         $dalName = $className . 'DAL';
         $classCamelCase = PanzerStringUtils::convertBddEnCamelCase($table);
         $this->attributes = BaseSingleton::select('describe ' . $table);
@@ -38,7 +38,7 @@ class PanzerDALGenerator
             {
                 $this->attributes[] = array(
                     'Field' => $uneRelation['table'],
-                    'Type' => PanzerStringUtils::convertTableEnNomClasse($uneRelation['table']),
+                    'Type' => PanzerStringUtils::convertToClassName($uneRelation['table']),
                     'storage' => $uneRelation['storage'],
                     'Key' => (isset($uneRelation['clef_externe']) ? $uneRelation['clef_externe'] : null),
                     'DAL' => (isset($uneRelation['DAL']) ? $uneRelation['DAL'] : null)
@@ -46,8 +46,8 @@ class PanzerDALGenerator
             }
         }
 
-        $generatedClassFile = $folder . $dalName . '.php';
-        $handle = fopen($generatedClassFile, 'w') or die('Cannot open file:  ' . $generatedClassFile);
+        $generatedDALFile = $folder . $dalName . '.php';
+        $handle = fopen($generatedDALFile, 'w') or die('Cannot open file:  ' . $generatedDALFile);
 
         $newDAL = '<?php
 
@@ -97,7 +97,28 @@ class ' . $dalName . ' extends PanzerDAL
         $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true, true).' FROM '.$table.'\');
 
         return self::handleResults($dataset);
-    }
+    }';
+
+        if($table == 'user')
+        {
+            $newDAL .= '
+                
+    /**
+     * Returns the User matching with the given pseudo.
+     *
+     * @params string $pseudo The searched User\'s pseudo.
+     * @return User The matched User.
+     */
+    public static function findByPseudo($pseudo)
+    {
+        $params = array(\'s\', &$pseudo);
+        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true, true).' FROM user WHERE pseudo = ?\', $params);
+
+        return self::handleResults($dataset);
+    }';
+        }
+
+        $newDAL .= '
 
     /**
      * Create or edit a '.$className.'.
@@ -114,13 +135,13 @@ class ' . $dalName . ' extends PanzerDAL
             if($attribut['Key'] !== 'MUL' && !isset($attribut['storage']))
             {
                 $newDAL .= '
-        $'.$nomObjet . ' = $'.$classCamelCase.'->get'.PanzerStringUtils::convertTableEnNomClasse($attribut['Field']) . '();';
+        $'.$nomObjet . ' = $'.$classCamelCase.'->get'.PanzerStringUtils::convertToClassName($attribut['Field']) . '();';
             }
             else if(isset($attribut['storage']) && $attribut['storage'] == 'object')
             {
-                $getPKfunction = 'get'. PanzerStringUtils::convertTableEnNomClasse($this->getPrimaryKeyFromDb($attribut['Field'])).'()';
+                $getPKfunction = 'get'. PanzerStringUtils::convertToClassName($this->getPrimaryKeyFromDb($attribut['Field'])).'()';
                 $newDAL .= '
-        $'. $nomObjet . ' = $'.$classCamelCase.'->get'.PanzerStringUtils::convertTableEnNomClasse($attribut['Field']).'()->'.$getPKfunction.';';
+        $'. $nomObjet . ' = $'.$classCamelCase.'->get'.PanzerStringUtils::convertToClassName($attribut['Field']).'()->'.$getPKfunction.';';
             }
         }
 
@@ -232,7 +253,7 @@ class ' . $dalName . ' extends PanzerDAL
 
         foreach ($this->attributes as $attribut)
         {
-            if ($attribut['Key'] === '' || ($attribut['Key'] === 'PRI' && $idIsNeeded))
+            if ($attribut['Key'] === '' || $attribut['Key'] === 'UNI' || ($attribut['Key'] === 'PRI' && $idIsNeeded))
             {
                 $attributesList .= $attribut['Field'] . ', ';
                 $this->requestableFieldCount++;

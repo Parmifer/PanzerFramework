@@ -26,7 +26,7 @@ class PanzerClassGenerator
     public function generateOneClass($table, $relations, $folder)
     {
         // Usefull vars
-        $className = PanzerStringUtils::convertTableEnNomClasse($table);
+        $className = PanzerStringUtils::convertToClassName($table);
         $this->attributes = BaseSingleton::select('describe ' . $table);
         $this->includes = array();
 
@@ -36,7 +36,7 @@ class PanzerClassGenerator
             {
                 $this->attributes[] = array(
                     'Field' => $uneRelation['table'],
-                    'Type' => PanzerStringUtils::convertTableEnNomClasse($uneRelation['table']),
+                    'Type' => PanzerStringUtils::convertToClassName($uneRelation['table']),
                     'storage' => $uneRelation['storage'],
                     'Key' => (isset($uneRelation['clef_externe']) ? $uneRelation['clef_externe'] : null),
                     'DAL' => (isset($uneRelation['DAL']) ? $uneRelation['DAL'] : null)
@@ -46,11 +46,11 @@ class PanzerClassGenerator
                 {
                     case 'object':
                     case 'array':
-                        $fileName = PanzerStringUtils::convertTableEnNomClasse($uneRelation['table']) . 'DAL.php';
+                        $fileName = PanzerStringUtils::convertToClassName($uneRelation['table']) . 'DAL.php';
                         $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $fileName;
                         break;
                     case 'manyToMany':
-                        $fileName = PanzerStringUtils::convertTableEnNomClasse($uneRelation['DAL']) . 'DAL.php';
+                        $fileName = PanzerStringUtils::convertToClassName($uneRelation['DAL']) . 'DAL.php';
                         $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $fileName;
                         break;
                 }

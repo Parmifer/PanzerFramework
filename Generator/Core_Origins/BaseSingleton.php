@@ -86,7 +86,7 @@ class BaseSingleton
                 catch (Exception $e)
                 {
                     // Handle exception.
-                    $_SESSION['message']['danger'] = $e->getMessage();
+                    PanzerLogger::logError($e->getMessage());
                 }
                 finally
                 {
@@ -96,15 +96,14 @@ class BaseSingleton
             }
             else
             {
-                $_SESSION['message']['danger'] = 'An error has occured when preparing the SQL query.';
-                // TODO : Replace this with logs
-                $_SESSION['message']['info'] = self::$instance->mysqli->error;
+                PanzerLogger::logError('An error has occured when preparing the SQL query.');
+                PanzerLogger::logError(self::$instance->mysqli->error);
             }
         }
         else
         {
-            $_SESSION['message']['danger'] = 'Database connect failed.';
-            $_SESSION['message']['info'] = self::$instance->mysqli->connect_error;
+            PanzerLogger::logError('Database connection failed.');
+            PanzerLogger::logError(self::$instance->mysqli->connect_error);
         }
         return $data;
     }
@@ -138,9 +137,8 @@ class BaseSingleton
                     // Execution de la requête
                     if(!self::$instance->statement->execute())
                     {
-                        $_SESSION['message']['danger'] = 'The query failed.';
-                        // TODO : Replace this with logs
-                        $_SESSION['message']['info'] = self::$instance->mysqli->error;
+                        PanzerLogger::logError('The query failed.');
+                        PanzerLogger::logError(self::$instance->mysqli->error);
                     }
                     else
                     {
@@ -150,7 +148,7 @@ class BaseSingleton
                 catch (Exception $e)
                 {
                     // Handle exception.
-                    $_SESSION['message']['danger'] = $e->getMessage();
+                    PanzerLogger::logError($e->getMessage());
                 }
                 finally
                 {
@@ -159,15 +157,14 @@ class BaseSingleton
             }
             else
             {
-                $_SESSION['message']['danger'] = 'An error has occured when preparing the SQL query.';
-                // TODO : Replace this with logs
-                $_SESSION['message']['info'] = self::$instance->mysqli->error;
+                PanzerLogger::logError('An error has occured when preparing the SQL query.');
+                PanzerLogger::logError(self::$instance->mysqli->error);
             }
         }
         else
         {
-            $_SESSION['message']['danger'] = 'Database connect failed.';
-            $_SESSION['message']['info'] = self::$instance->mysqli->connect_error;
+            PanzerLogger::logError('Database connect failed.');
+            PanzerLogger::logError(self::$instance->mysqli->connect_error);
         }
         return $idInserted;
     }
@@ -204,7 +201,7 @@ class BaseSingleton
                 catch (Exception $e)
                 {
                     // Handle exception.
-                    $_SESSION['message']['danger'] = $e->getMessage();
+                    PanzerLogger::logError($e->getMessage());
                 }
                 finally
                 {
@@ -213,16 +210,16 @@ class BaseSingleton
             }
             else
             {
-                $_SESSION['message']['danger'] = 'An error has occured when preparing the SQL query.';
-                // TODO : Replace this with logs
-                $_SESSION['message']['info'] = self::$instance->mysqli->error;
+                PanzerLogger::logError('An error has occured when preparing the SQL query.');
+                PanzerLogger::logError(self::$instance->mysqli->error);
             }
         }
         else
         {
-            $_SESSION['message']['danger'] = 'Database connect failed.';
-            $_SESSION['message']['info'] = self::$instance->mysqli->connect_error;
+            PanzerLogger::logError('Database connect failed.');
+            PanzerLogger::logError(self::$instance->mysqli->connect_error);
         }
+        
         return $deleted;
     }
     /**

@@ -59,17 +59,20 @@ class PanzerConfiguration
      */
     public static function loadConfiguration()
     {
-        $environnement = parse_ini_file(self::FILE_ENVIRONNEMENT . ".ini");        
-        $_SESSION[self::CONFIG][self::FILE_ENVIRONNEMENT] = $environnement;
-        
-        // If the project's root doesn't end with '/', it's added.
-        PanzerStringUtils::addEndingSlashIfNeeded($_SESSION[self::CONFIG][self::FILE_ENVIRONNEMENT][self::PROJECT_ROOT]);
-        
-        $log = parse_ini_file(self::FILE_LOG . ".ini");
-        $_SESSION[self::CONFIG][self::FILE_LOG] = $log;
-        
-        $database = parse_ini_file(self::FILE_DATABASE . ".ini");   
-        $_SESSION[self::CONFIG][self::FILE_DATABASE] = $database;        
+        if(!self::isLoaded())
+        {
+            $environnement = parse_ini_file(self::FILE_ENVIRONNEMENT . ".ini");        
+            $_SESSION[self::CONFIG][self::FILE_ENVIRONNEMENT] = $environnement;
+
+            // If the project's root doesn't end with '/', it's added.
+            PanzerStringUtils::addEndingSlashIfNeeded($_SESSION[self::CONFIG][self::FILE_ENVIRONNEMENT][self::PROJECT_ROOT]);
+
+            $log = parse_ini_file(self::FILE_LOG . ".ini");
+            $_SESSION[self::CONFIG][self::FILE_LOG] = $log;
+
+            $database = parse_ini_file(self::FILE_DATABASE . ".ini");   
+            $_SESSION[self::CONFIG][self::FILE_DATABASE] = $database; 
+        }   
     }
     
     /**
