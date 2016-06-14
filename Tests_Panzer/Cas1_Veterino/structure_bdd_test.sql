@@ -7,15 +7,15 @@ USE `panzer_veterino_test`;
 CREATE TABLE `role` (
     `id` int AUTO_INCREMENT PRIMARY KEY,
     `label` VARCHAR(255),
-    `niveau` int NOT NULL UNIQUE,
+    `level` int NOT NULL UNIQUE,
     `code` VARCHAR(1) NOT NULL UNIQUE
 );
 
-CREATE TABLE `utilisateur` (
+CREATE TABLE `user` (
     `id` int AUTO_INCREMENT PRIMARY KEY,
     `pseudo` VARCHAR(255) NOT NULL UNIQUE,
-    `mdp` VARCHAR(255) UNIQUE,
-    `date_creation` TIMESTAMP DEFAULT NOW(),
+    `password` VARCHAR(255) UNIQUE,
+    `creation_date` TIMESTAMP DEFAULT NOW(),
     role_id int,
     FOREIGN KEY (role_id) REFERENCES role(id)
 );
@@ -26,8 +26,8 @@ CREATE TABLE `ressources_humaines` (
     `prenom` VARCHAR(255),
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
-    `utilisateur_id` int,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
+    `user_id` int,
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE `veterinaire` (
@@ -36,8 +36,8 @@ CREATE TABLE `veterinaire` (
     `prenom` VARCHAR(255),
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
-    `utilisateur_id` int,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
+    `user_id` int,
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE `infirmier` (
@@ -46,8 +46,8 @@ CREATE TABLE `infirmier` (
     `prenom` VARCHAR(255),
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
-    `utilisateur_id` int,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
+    `user_id` int,
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE `salle` (

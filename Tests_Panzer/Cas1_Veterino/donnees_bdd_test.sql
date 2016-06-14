@@ -8,19 +8,19 @@ DELETE FROM `infirmier`;
 DELETE FROM `veterinaire`;
 DELETE FROM `salle`;
 DELETE FROM `ressources_humaines`;
-DELETE FROM `utilisateur`;
+DELETE FROM `user`;
 DELETE FROM `role`;
 
 INSERT INTO `role`
-(`id`, `label`, `niveau`, `code`)
+(`id`, `label`, `level`, `code`)
 VALUES 
 (1, 'Visiteur', 0, 'V'),
 (2, 'Utilisateur', 1, 'U'),
 (3, 'Administrateur', 2, 'A'),
 (4, 'Super administrateur', 3, 'S');
 
-INSERT INTO `utilisateur`
-(`id`, `pseudo`, `mdp`, `date_creation`, `role_id`)
+INSERT INTO `user`
+(`id`, `pseudo`, `password`, `creation_date`, `role_id`)
 VALUES 
 (1, 'josiane_debret', SHA2('aze', 512), NOW(), 1), -- done
 (2, 'michel_djida', SHA2('qsd', 512), NOW(), 1),-- done
@@ -32,20 +32,20 @@ VALUES
 (6, 'mohamed_benzine', SHA2('jkl', 512), NOW(), 3);
 
 INSERT INTO `ressources_humaines`
-(`id`, `prenom`, `nom`, `adresse`, `salaire`, `utilisateur_id`)
+(`id`, `prenom`, `nom`, `adresse`, `salaire`, `user_id`)
 VALUES 
 (1, 'Maurice', 'Ponnet', '221 avenue des droits de lhomme 34000 MONTPELLIER', 1650, 3),
 (2, 'Marceline', 'Mercier', '499 rue de Bouillargues 30000 NIMES', 1655, 4);
 
 INSERT INTO `veterinaire`
-(`id`, `prenom`, `nom`, `adresse`, `salaire`, `utilisateur_id`)
+(`id`, `prenom`, `nom`, `adresse`, `salaire`, `user_id`)
 VALUES 
 (1, 'Josiane', 'Debret', '394 RN7 la plaine 38500 AUBERIVES', 1850, 1),
 (2, 'Elise', 'Badinent', '1000 rue des Concombre Masqués 68950 Tsoin-Tsoin-Les-Tartignoles', 1700, 5),
 (3, 'Bastien', 'Ziaten', '15 impasse du Parc 79000 NIORT', 1900, 8);
 
 INSERT INTO `infirmier`
-(`id`, `prenom`, `nom`, `adresse`, `salaire`, `utilisateur_id`)
+(`id`, `prenom`, `nom`, `adresse`, `salaire`, `user_id`)
 VALUES 
 (1, 'Michel', 'Djida', '135 boulevard Gambetta 87000 LIMOGES', 1750, 1),
 (2, 'Pauline', 'Marchant', '8 avenue du Levant 81600 GAILLAC', 1600, 1);
