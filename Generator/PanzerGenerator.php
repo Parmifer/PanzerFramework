@@ -20,6 +20,7 @@
 
 require_once('PanzerClassGenerator.php');
 require_once('PanzerDALGenerator.php');
+require_once('PanzerControllerGenerator.php');
 
 /**
  * Description of PanzerGenerator
@@ -31,6 +32,7 @@ class PanzerGenerator
     private $options;
     private $panzerClassGenerator;
     private $panzerDALGenerator;
+    private $panzerControllerGenerator;
 
     /**
      * Constructor
@@ -59,7 +61,7 @@ class PanzerGenerator
         {
             if($infosTable['onlyDAL'] != "true")
             {
-                $this->panzerClassGenerator->generateOneClass($uneTable, $infosTable['relations'], '../ProjetExemple/model/class/');
+                $this->panzerClassGenerator->generateOneClass($uneTable, $infosTable['relations'], PanzerConfiguration::getProjectRoot().'model/class/');
 
                 echo 'Classe : ' . $uneTable . ' ok ! <br />';
             }
@@ -75,11 +77,19 @@ class PanzerGenerator
 
         foreach ($this->options['tables_a_transformer'] as $uneTable => $infosTable)
         {
-            $this->panzerDALGenerator->generateOneDAL($uneTable, $infosTable['relations'], '../ProjetExemple/model/DAL/');
+            $this->panzerDALGenerator->generateOneDAL($uneTable, $infosTable['relations'], PanzerConfiguration::getProjectRoot().'model/DAL/');
 
             echo 'DAL : ' . $uneTable . ' ok ! <br />';
         }
     }
 
-
+    public function generateAllControllers()
+    {
+        $this->panzerControllerGenerator = new panzerControllerGenerator();
+        
+        foreach($this->options['arborescence']['pages'] as $pageName => $pageInfos)
+        {
+            $this->panzerControllerGenerator->generateOneController($pageName, $pageInfos, PanzerConfiguration::getProjectRoot().'controller/page/');
+        }
+    }
 }

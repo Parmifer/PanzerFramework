@@ -22,10 +22,8 @@ session_start();
 
 require_once('core_origins_imports.php');
 
-if(!isset($_SESSION[PanzerConfiguration::CONFIG]))
-{
-    PanzerConfiguration::loadConfiguration();
-}
+PanzerConfiguration::resetConfiguration();
+PanzerConfiguration::loadConfiguration();
 
 require_once('PanzerGenerator.php');
 
@@ -35,3 +33,4 @@ $generator = new PanzerGenerator($optionsJSON);
 
 $generator->generateAllClasses();
 $generator->generateAllDAL();
+$generator->generateAllControllers();
