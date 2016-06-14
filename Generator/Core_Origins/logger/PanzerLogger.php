@@ -31,7 +31,6 @@ class PanzerLogger
     const LEVEL_DEBUG = 'DEBUG';
     const LEVEL_WARNING = 'WARNING';
     const LEVEL_ERROR = 'ERROR';
-
     const LEVELS = [
         LEVEL_INFO,
         LEVEL_DEBUG,
@@ -39,6 +38,11 @@ class PanzerLogger
         LEVEL_ERROR
     ];
 
+    /**
+     * Log a new line in the appropriate file, using the $level parameter.
+     * @param PanzerLogger::LEVEL $level Level for the log
+     * @param String $message Message to log
+     */
     static public function log($level, $message)
     {
         if (in_array($level, self::LEVELS))
@@ -51,26 +55,47 @@ class PanzerLogger
         }
     }
 
+    /**
+     * Log a new info log
+     * @param String $message Message to log
+     */
     static public function logInfo($message)
     {
         self::log(self::LEVEL_INFO, $message);
     }
 
+    /**
+     * Log a new debug log
+     * @param String $message Message to log
+     */
     static public function logDebug($message)
     {
         self::log(self::LEVEL_DEBUG, $message);
     }
 
+    /**
+     * Log a new warning log
+     * @param String $message Message to log
+     */
     static public function logWarning($message)
     {
         self::log(self::LEVEL_WARNING, $message);
     }
 
+    /**
+     * Log a new error log
+     * @param String $message Message to log
+     */
     static public function logError($message)
     {
         self::log(self::LEVEL_ERROR, $message);
     }
 
+    /**
+     * Write in the appropriate file a log message
+     * @param PanzerLogger::LEVEL $level Level for the log
+     * @param String $log Complete message to log (with date and name function)
+     */
     static private function saveLog($level, $log)
     {
         $filePath = PanzerConfiguration::getLogConfiguration($level);
