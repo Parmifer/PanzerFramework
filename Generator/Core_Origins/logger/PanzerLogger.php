@@ -65,7 +65,7 @@ class PanzerLogger
                 $calledBy = debug_backtrace()[1]['function'];
             }
 
-            $log = sprintf('[%s] [%s] %s : %s\r\n', $date, $calledBy, $level, $message);
+            $log = sprintf('[%s] [%s] %s : %s', $date, $calledBy, $level, $message);
 
             self::saveLog($level, $log);
         }
