@@ -74,4 +74,41 @@ class PanzerConfiguration
         
         return $projectRoot;
     }
+
+    public static function getLogConfiguration($level)
+    {
+        switch ($level)
+        {
+            case PanzerLogger::LEVEL_INFO:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_INFO_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_INFO_LOCATION];
+                }
+                return null;
+
+            case PanzerLogger::LEVEL_DEBUG:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_DEBUG_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_DEBUG_LOCATION];
+                }
+                return null;
+
+            case PanzerLogger::LEVEL_WARNING:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_WARNING_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_WARNING_LOCATION];
+                }
+                return null;
+
+            case PanzerLogger::LEVEL_ERROR:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_ERROR_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_ERROR_LOCATION];
+                }
+                return null;
+
+            default:
+                return false;
+        }
+    }
 }
