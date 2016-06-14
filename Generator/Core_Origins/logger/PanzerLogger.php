@@ -54,9 +54,9 @@ class PanzerLogger
     {
         if (in_array($level, self::LEVELS))
         {
-            $date = new Date('Y-m-d H:i:s');
-            $calledBy = debug_backtrace()[1]['function'];
-            $log = printf('[%s] [%s] %s : %s', $date, $calledBy, $level, $message);
+            $date = date('Y-m-d H:i:s');
+            $calledBy = debug_backtrace()[2]['function'];
+            $log = sprintf('[%s] [%s] %s : %s\r\n', $date, $calledBy, $level, $message);
 
             self::saveLog($level, $log);
         }
