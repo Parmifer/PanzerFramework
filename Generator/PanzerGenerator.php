@@ -19,6 +19,7 @@
  */
 
 require_once('PanzerClassGenerator.php');
+require_once('PanzerDALGenerator.php');
 
 /**
  * Description of PanzerGenerator
@@ -28,8 +29,8 @@ require_once('PanzerClassGenerator.php');
 class PanzerGenerator
 {
     private $options;
-	private $tablesPourGeneration;
     private $panzerClassGenerator;
+    private $panzerDALGenerator;
 
     /**
      * Constructor
@@ -37,28 +38,48 @@ class PanzerGenerator
     function __construct($options)
     {
         $this->options = json_decode($options, true);
-		
-		// echo('<pre>');
-		// var_dump($this->options);
-		// echo('</pre>');
+
+        // echo('<pre>');
+        // var_dump($this->options);
+        // echo('</pre>');
     }
 
     /**
      * Génère toutes les classes à partir des options choisies par l'utilisateur.
      */
-    public function generateClasses()
-    {        
-        $this->panzerClassGenerator = new PanzerClassGenerator();        
-        
+    public function generateAllClasses()
+    {
+        $this->panzerClassGenerator = new PanzerClassGenerator();
+
         // echo('<pre>');
         // var_dump($this->options['tables_a_transformer']);
         // echo('</pre>');
-        
-        foreach ($this->options['tables_a_transformer'] as $uneTable => $infos)
-        {  	
-            $this->panzerClassGenerator->generateOneClass($uneTable, $infos['relations'], '../ProjetExemple/model/Class/');
-            
-            echo 'Table : ' . $uneTable . ' ok ! <br />';
+
+        foreach ($this->options['tables_a_transformer'] as $uneTable => $infosTable)
+        {
+            if($infosTable['onlyDAL'] != "true")
+            {
+                $this->panzerClassGenerator->generateOneClass($uneTable, $infosTable['relations'], '../ProjetExemple/model/class/');
+
+                echo 'Classe : ' . $uneTable . ' ok ! <br />';
+            }
         }
     }
-}   
+
+    /**
+     * Génère toutes les DAL à partir des options choisies par l'utilisateur.
+     */
+    public function generateAllDAL()
+    {
+        $this->panzerDALGenerator = new PanzerDALGenerator();
+
+        foreach ($this->options['tables_a_transformer'] as $uneTable => $infosTable)
+        {
+            $this->panzerDALGenerator->generateOneDAL($uneTable, $infosTable['relations'], '../ProjetExemple/model/DAL/');
+
+            echo 'DAL : ' . $uneTable . ' ok ! <br />';
+        }
+    }
+
+
+}
