@@ -27,15 +27,22 @@
 class PanzerLogger
 {
 
+    /**
+     * All log levels available
+     */
     const LEVEL_INFO = 'INFO';
     const LEVEL_DEBUG = 'DEBUG';
     const LEVEL_WARNING = 'WARNING';
     const LEVEL_ERROR = 'ERROR';
+
+    /**
+     * List of all alert levels
+     */
     const LEVELS = [
-        LEVEL_INFO,
-        LEVEL_DEBUG,
-        LEVEL_WARNING,
-        LEVEL_ERROR
+        self::LEVEL_INFO,
+        self::LEVEL_DEBUG,
+        self::LEVEL_WARNING,
+        self::LEVEL_ERROR,
     ];
 
     /**
