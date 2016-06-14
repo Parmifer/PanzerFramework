@@ -20,7 +20,7 @@
 
 class PanzerSQLUtils
 {
-    private $typeEquivalents = array (
+    private static $typeEquivalents = array (
         'CHAR'          => 'string',
         'VARCHAR'       => 'string',
         'TINYTEXT'      => 'string',
@@ -46,8 +46,18 @@ class PanzerSQLUtils
         'YEAR'          => 'int'
     );
           
-    public static function getPhpType($sqlType)
+    public static function getPhpType($rawType)
     {
-        return $this->typeEquivalents[$sqlType];
+        $toRemove = strrchr($rawType, '(');        
+        $sqlType = strtoupper(str_replace($toRemove, '', $rawType));
+        
+        if(in_array($sqlType, array_keys(self::$typeEquivalents)))
+        {
+            return self::$typeEquivalents[$sqlType];
+        }
+        else
+        {
+            return $rawType;
+        }
     }
 }

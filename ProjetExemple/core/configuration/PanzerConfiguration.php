@@ -44,16 +44,25 @@ class PanzerConfiguration
     const DATABASE_PASSWORD     = 'database_password';
     const DATABASE_NAME         = 'database_name';
     
-    
     /**
-     * Charge les données de configuration dans des variables de session.
+     * Inform you if the configuration is loaded or not.
+     * 
+     * @return boolean True if the configuration is loaded. False otherwise.
+     */
+    public static function isLoaded()
+    {
+        return (isset($_SESSION[self::CONFIG]) ? true : false);
+    }
+
+    /**
+     * Load the configuration files infos in session.
      */
     public static function loadConfiguration()
     {
         $environnement = parse_ini_file(self::FILE_ENVIRONNEMENT . ".ini");        
         $_SESSION[self::CONFIG][self::FILE_ENVIRONNEMENT] = $environnement;
         
-        // Si la racine du projet ne fini pas pas '/', on le rajoute.
+        // If the project's root doesn't end with '/', it's added.
         PanzerStringUtils::addEndingSlashIfNeeded($_SESSION[self::CONFIG][self::FILE_ENVIRONNEMENT][self::PROJECT_ROOT]);
         
         $log = parse_ini_file(self::FILE_LOG . ".ini");
@@ -63,6 +72,19 @@ class PanzerConfiguration
         $_SESSION[self::CONFIG][self::FILE_DATABASE] = $database;        
     }
     
+    /**
+     * Reset the configuration.
+     */
+    public static function resetConfiguration()
+    {
+        unset($_SESSION[self::CONFIG]);
+    }
+    
+    /**
+     * Return the project's root for more convinient includes.
+     * 
+     * @return string The path to the project's root.
+     */
     public static function getProjectRoot()
     {
         $projectRoot = null;
@@ -73,5 +95,48 @@ class PanzerConfiguration
         }
         
         return $projectRoot;
+    }
+
+    /**
+     * Return the log file's path given a log's level.
+     * 
+     * @param string $level The log's level.
+     * @return string The log file's path.
+     */
+    public static function getLogConfiguration($level)
+    {
+        switch ($level)
+        {
+            case PanzerLogger::LEVEL_INFO:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_INFO_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_INFO_LOCATION];
+                }
+                return null;
+
+            case PanzerLogger::LEVEL_DEBUG:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_DEBUG_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_DEBUG_LOCATION];
+                }
+                return null;
+
+            case PanzerLogger::LEVEL_WARNING:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_WARNING_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_WARNING_LOCATION];
+                }
+                return null;
+
+            case PanzerLogger::LEVEL_ERROR:
+                if (isset($_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_ERROR_LOCATION]))
+                {
+                    return $_SESSION[self::CONFIG][self::FILE_LOG][self::LOG_ERROR_LOCATION];
+                }
+                return null;
+
+            default:
+                return false;
+        }
     }
 }

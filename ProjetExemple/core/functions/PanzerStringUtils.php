@@ -42,29 +42,17 @@ class PanzerStringUtils
         return $camelCase;
     }
 
-    public static function formatBddPourEval($string)
+    public static function convertTableEnNomClasse($string)
     {
-        $mots = explode('_', strtolower($string));
-
-        $nbMots = count($mots);
-        $start = $mots[0] === 'ext' ? 1 : 0;
-
-        $camelCase = '';
-
-        for ($i = $start; $i < $nbMots; $i++)
-        {
-            $camelCase .= self::premiereLettreMaj($mots[$i]);
-        }
-
-        return $camelCase;
+        return self::premiereLettreMaj(self::convertBddEnCamelCase($string));
     }
-    
+
     public static function addEndingSlashIfNeeded(&$string)
     {
         // Si la chaîne ne fini pas pas '/', on le rajoute.
         if(substr($string, -1) !== '/')
         {
             $string .= '/';
-        }                
+        }
     }
 }

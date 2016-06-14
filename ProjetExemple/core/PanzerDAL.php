@@ -28,8 +28,8 @@ abstract class PanzerDAL
             $createObjectCode = '$object = new ' . $className . '();';
             eval($createObjectCode);
             foreach($row as $field => $value)
-            {                
-                $fillCode = '$object->set' . PanzerStringUtils::formatBddPourEval($field) . '($value);';        
+            {    
+                $fillCode = '$object->set' . PanzerStringUtils::convertBddEnCamelCase($field) . '($value);';        
                 eval($fillCode);
             }
         
@@ -42,14 +42,7 @@ abstract class PanzerDAL
     }
     
     protected static function handleResults($dataSet)
-    {
-        echo '<pre>';
-        var_dump($dataSet);
-        echo '</pre>';
-        echo '<br />';
-        echo 'Fin';
-        echo '<br />';
-        
+    {               
         switch (count($dataSet))
         {
             case 0:
