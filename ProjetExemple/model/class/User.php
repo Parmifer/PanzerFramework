@@ -1,7 +1,7 @@
 <?php
 
-/* 
- * Copyright (C) 2015 Yann
+/*
+ * Copyright (C) 2016
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RoleDAL.php');
+// require_once(PanzerConfiguration::getProjectRoot().'model/DAL/CanardDAL.php');
+
 class User
 {
     ////////////////
@@ -29,39 +32,63 @@ class User
      * @var int
      */
     private $id;
-    
-    /**
-     *
-     * @var string
-     */
-    private $nom;  
 
     /**
      *
      * @var string
      */
-    private $adresseEmail; 
+    private $pseudo;
 
     /**
      *
-     * @var role
+     * @var string
+     */
+    private $password;
+
+    /**
+     *
+     * @var DateTime
+     */
+    private $creationDate;
+
+    /**
+     *
+     * @var Role
      */
     private $role;
 
-    //////////////////
-    // CONSTRUCTORS //
-    //////////////////
-    public function User($id = -1)
+    /**
+     *
+     * @var Canard
+     */
+    private $canard;
+
+    /////////////////
+    // CONSTRUCTOR //
+    /////////////////
+
+    /**
+     * Create an empty object.
+     */
+    public function __construct()
     {
-        $this->id = $id;
-        $this->nom = null;
-        $this->adresseEmail = null;
+        $this->id = 0;
+        $this->pseudo = null;
+        $this->password = null;
+        $this->creationDate = null;
         $this->role = null;
+        $this->canard = null;
     }
 
-    /////////////////////
-    // GETTERS&SETTERS //
-    /////////////////////
+    ///////////////////////
+    // GETTERS & SETTERS //
+    ///////////////////////
+
+    /**
+     * Setter of id.
+     *
+     * @param int $id
+     */
     public function setId($id)
     {
         if (is_int($id))
@@ -70,78 +97,143 @@ class User
         }
     }
 
+    /**
+     * Getter of id.
+     *
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setNom($nom)
+    /**
+     * Setter of pseudo.
+     *
+     * @param string $pseudo
+     */
+    public function setPseudo($pseudo)
     {
-        if (is_string($nom))
+        if (is_string($pseudo))
         {
-            $this->nom = $nom;
+            $this->pseudo = $pseudo;
         }
     }
-
-    public function getNom()
-    {
-        return $this->nom;
-    }
-    
-    public function setAdresseEmail($adresseEmail)
-    {
-        if (is_string($adresseEmail))
-        {
-            $this->adresseEmail = $adresseEmail;
-        }
-    }
-
-    public function getAdresseEmail()
-    {
-        return $this->adresseEmail;
-    }    
 
     /**
-     * Setter of the Role
+     * Getter of pseudo.
      *
-     * Accept its id, or the item
+     * @return string
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * Setter of password.
      *
-     * @param Role $role
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        if (is_string($password))
+        {
+            $this->password = $password;
+        }
+    }
+
+    /**
+     * Getter of password.
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Setter of creationDate.
+     *
+     * @param DateTime $creationDate
+     */
+    public function setCreationDate($creationDate)
+    {
+        if (is_DateTime($creationDate))
+        {
+            $this->creationDate = $creationDate;
+        }
+    }
+
+    /**
+     * Getter of creationDate.
+     *
+     * @return DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Setter of role.
+     *
+     * @param Role|int $role
      */
     public function setRole($role)
     {
-//        if (is_int($role))
-//        {
-//            $this->role = RoleDAL::findById($role);
-//        }
-//        else if (is_a($role, 'Role'))
-//        {
-//            $this->role = $role;
-//        }
-        
-        $this->role = $role;
+        if (is_a($role, 'Role'))
+        {
+            $this->role = $role;
+        }
+        else if (is_int($role))
+        {
+            $this->role = RoleDAL::findById($role);
+        }
     }
 
+    /**
+     * Getter of role.
+     *
+     * @return Role
+     */
     public function getRole()
     {
-//        $role = null;
-//
-//        if (is_int($this->role))
-//        {
-//            $role = RoleDAL::findById($this->role);
-//        }
-//        else if (is_a($this->role, 'Role'))
-//        {
-//            $role = $this->role;
-//        }
-//
-//        return $role;
-        
         return $this->role;
     }
 
-    //////////////
-    // METHODES //
-    //////////////
+    /**
+     * Setter of canard.
+     *
+     * @param Canard|int $canard
+     */
+    public function setCanard($canard)
+    {
+        if (is_a($canard, 'Canard'))
+        {
+            $this->canard = $canard;
+        }
+        else if (is_int($canard))
+        {
+            $this->canard = CanardDAL::findById($canard);
+        }
+    }
+
+    /**
+     * Getter of canard.
+     *
+     * @return Canard
+     */
+    public function getCanard()
+    {
+        return $this->canard;
+    }
+
+    /////////////
+    // METHODS //
+    /////////////
+
+    // Write your customs methods here !
 
 }

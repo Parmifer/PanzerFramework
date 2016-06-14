@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) 2015 lucile
+ * Copyright (C) 2016
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,31 +18,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/UserDAL.php');
-
-$users      = UserDAL::findAll();
-$parmifer   = UserDAL::findById(2);
-
-$userToInsert = new User();
-$userToInsert->setNom('UserBidon');
-$userToInsert->setAdresseEmail('mail.bidon@gmail.com');
-$userToInsert->setRole(3);
-
-UserDAL::persist($userToInsert);
-
-if(isset($_SESSION['message']))
+if (isset($_SESSION['user']))
 {
-    $message = $_SESSION['message'];
-    unset($_SESSION['message']);
+    $user = $_SESSION['user'];
 
-    echo '<pre>';
-    var_dump ($message);
-    echo '</pre>';
+    if ($user->getRole()->getNiveau() >= PanzerSQLUtils::getNiveauRoleFromCode('V'))
+    {
+        require_once('view/page/Accueil.phtml');
+    }
+    else
+    {
+        header('Location: '.PanzerConfiguration::getProjectRoot().'accueil');
+    }
 }
-
-
-echo '<pre>';
-var_dump($users);
-echo '<br />';
-var_dump($parmifer);
-echo '</pre>';
+else
+{
+    header('Location: '.PanzerConfiguration::getProjectRoot().'login');
+}

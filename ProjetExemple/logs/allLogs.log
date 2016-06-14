@@ -1,0 +1,4 @@
+[2016-06-14 17:51:15] [select] ERROR : An error has occured when preparing the SQL query.\r\n
+[2016-06-14 17:51:15] [select] ERROR : Unknown column 'ext_role' in 'field list'\r\n
+[2016-06-14 17:54:38] [select] ERROR : An error has occured when preparing the SQL query.\r\n
+[2016-06-14 17:54:39] [select] ERROR : Unknown column 'ext_role' in 'field list'\r\n

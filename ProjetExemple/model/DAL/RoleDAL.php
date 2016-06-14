@@ -31,7 +31,7 @@ class RoleDAL extends PanzerDAL
     public static function findById($id)
     {
         $params = array('i', &$id);
-        $dataset = BaseSingleton::select('SELECT id, label, clef FROM role WHERE id = ?', $params);
+        $dataset = BaseSingleton::select('SELECT id, label FROM role WHERE id = ?', $params);
 
         return self::handleResults($dataset);
     }
@@ -43,14 +43,14 @@ class RoleDAL extends PanzerDAL
      */
     public static function findAll()
     {
-        $dataset = BaseSingleton::select('SELECT id, label, clef FROM role');
+        $dataset = BaseSingleton::select('SELECT id, label FROM role');
 
         return self::handleResults($dataset);
     }
-    
+
     /**
      * Create or edit a Role.
-     * 
+     *
      * @param Role $role
      * @return int id of the Role inserted/edited in base. False if it didn't work.
      */
@@ -58,33 +58,31 @@ class RoleDAL extends PanzerDAL
     {
         $id = $role->getId();
         $label = $role->getLabel();
-        $clef = $role->getClef();
-            
+        $level = $role->getLevel();
+        $code = $role->getCode();
+
         if ($id > 0)
         {
             $sql = 'UPDATE role SET '
-                    .'role.label = ?, '
-                    .'role.clef = ? '
+                    .'role.label = ? '
                     .'WHERE role.id = ?';
-            
-            $params = array('ssi',
+
+            $params = array('si',
                 &$label,
-                &$clef,
                 &$id
-            );           
+            );
         }
         else
         {
             $sql = 'INSERT INTO role '
-                    . '(label, clef) '
-                    . 'VALUES (? ,?)';
+                    . '(label) '
+                    . 'VALUES (?)';
 
-            $params = array('ss',
-                &$label,
-                &$clef               
+            $params = array('s',
+                &$label
             );
         }
-        
+
         $idInsert = BaseSingleton::insertOrEdit($sql, $params);
 
         if($idInsert !== false && $id > 0)
@@ -92,9 +90,9 @@ class RoleDAL extends PanzerDAL
             $idInsert = $id;
         }
 
-        return $idInsert;  
+        return $idInsert;
     }
-    
+
     /**
      * Delete the row corresponding to the given id.
      *
@@ -104,7 +102,7 @@ class RoleDAL extends PanzerDAL
     public static function deleteRole($id)
     {
         $deleted = BaseSingleton::delete('delete from role where id = ?', array('i', &$id));
-            
+
         return $deleted;
     }
 

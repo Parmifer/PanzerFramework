@@ -39,9 +39,15 @@ class Role
 
     /**
      *
+     * @var int
+     */
+    private $level;
+
+    /**
+     *
      * @var string
      */
-    private $clef;
+    private $code;
 
     /////////////////
     // CONSTRUCTOR //
@@ -54,7 +60,8 @@ class Role
     {
         $this->id = 0;
         $this->label = null;
-        $this->clef = null;
+        $this->level = 0;
+        $this->code = null;
     }
 
     ///////////////////////
@@ -108,26 +115,49 @@ class Role
     }
 
     /**
-     * Setter of clef.
+     * Setter of level.
      *
-     * @param string $clef
+     * @param int $level
      */
-    public function setClef($clef)
+    public function setLevel($level)
     {
-        if (is_string($clef))
+        if (is_int($level))
         {
-            $this->clef = $clef;
+            $this->level = $level;
         }
     }
 
     /**
-     * Getter of clef.
+     * Getter of level.
+     *
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * Setter of code.
+     *
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        if (is_string($code))
+        {
+            $this->code = $code;
+        }
+    }
+
+    /**
+     * Getter of code.
      *
      * @return string
      */
-    public function getClef()
+    public function getCode()
     {
-        return $this->clef;
+        return $this->code;
     }
 
     /////////////

@@ -1,0 +1,67 @@
+<?php
+require_once('../../core_imports.php');
+session_start();
+
+?>
+<!DOCTYPE html>
+<html>
+    <head lang=en>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Login</title>
+
+        <!-- CSS -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="core/library/bootstrap-3.3.6/css/bootstrap.min.css">
+        <!-- Bootstrap theme -->
+        <link rel="stylesheet" href="core/library/bootstrap-3.3.6/css/bootstrap-theme.min.css">
+        <!-- Theme>
+        <!-- Custom css -->
+
+
+        <!-- JAVASCRIPT -->
+        <!-- JQuery -->
+        <script src="core/library/jquery-1.11.3.min.js"></script>
+        <script src="core/library/jquery.validate.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="core/library/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="page-header col-sm-offset-3 col-sm-6">
+            <h1 class="white chalk"><em>Panzer Project</em></h1>
+        </div>
+        <?php 
+        $alerts = PanzerAlerter::getAlerts();
+        ?>
+        <?php if ($alerts !== null): ?>
+            <?php foreach ($alerts as $alert): ?>
+                <div class="alert <?= $alert->getLevel(); ?> alert-dismissible col-sm-offset-3 col-sm-6" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <?= $alert->getMessage(); ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+
+        <div class="panel panel-default col-sm-offset-3 col-sm-6 no-padding">
+            <div class="panel-heading">
+                <h3 class="panel-title">Please sign in</h3>
+            </div>
+            <div class="panel-body">
+                <form id="formLogin" method="POST" action="controller/page/checkLogin.php">
+                    <div class="form-group">
+                        <label for="pseudo">Pseudo</label>
+                        <input type="text" class="form-control" name="pseudo" placeholder="Pseudo" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" placeholder="Password" />
+                    </div>
+                    <button type="submit" class="btn btn-default">Log me</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
