@@ -19,7 +19,7 @@ CREATE TABLE `user` (
     `password` VARCHAR(255) UNIQUE,
     `creation_date` TIMESTAMP DEFAULT NOW(),
     role_id int,
-    FOREIGN KEY (role_id) REFERENCES role(id)
+    FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `ressources_humaines` (
@@ -29,7 +29,7 @@ CREATE TABLE `ressources_humaines` (
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
     `user_id` int,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `veterinaire` (
@@ -39,7 +39,7 @@ CREATE TABLE `veterinaire` (
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
     `user_id` int,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `infirmier` (
@@ -49,7 +49,7 @@ CREATE TABLE `infirmier` (
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
     `user_id` int,
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `salle` (
@@ -66,15 +66,15 @@ CREATE TABLE `chat` (
     `reference` VARCHAR(255) UNIQUE NOT NULL,
     `etat` ENUM('entré', 'pris en charge', 'opéré', 'rétablissement', 'ok', 'sorti'),
     `salle_id` int,
-    FOREIGN KEY (salle_id) REFERENCES salle(id)
+    FOREIGN KEY (salle_id) REFERENCES salle(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `prendre_en_charge` (
     `chat_id` int,
     `infirmier_id` int,
     PRIMARY KEY (chat_id, infirmier_id),
-    FOREIGN KEY (chat_id) REFERENCES chat(id),
-    FOREIGN KEY (infirmier_id) REFERENCES infirmier(id)
+    FOREIGN KEY (chat_id) REFERENCES chat(id) ON DELETE CASCADE,
+    FOREIGN KEY (infirmier_id) REFERENCES infirmier(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `diagnostiquer` (
@@ -83,8 +83,8 @@ CREATE TABLE `diagnostiquer` (
     `date` TIMESTAMP,
     `diagnostic` TEXT,
     PRIMARY KEY (chat_id, veterinaire_id),
-    FOREIGN KEY (chat_id) REFERENCES chat(id),
-    FOREIGN KEY (veterinaire_id) REFERENCES veterinaire(id)
+    FOREIGN KEY (chat_id) REFERENCES chat(id) ON DELETE CASCADE,
+    FOREIGN KEY (veterinaire_id) REFERENCES veterinaire(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `operer` (
@@ -92,6 +92,6 @@ CREATE TABLE `operer` (
     `veterinaire_id` int,
     `date` TIMESTAMP,
     PRIMARY KEY (chat_id, veterinaire_id),
-    FOREIGN KEY (chat_id) REFERENCES chat(id),
-    FOREIGN KEY (veterinaire_id) REFERENCES veterinaire(id)
+    FOREIGN KEY (chat_id) REFERENCES chat(id) ON DELETE CASCADE,
+    FOREIGN KEY (veterinaire_id) REFERENCES veterinaire(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
