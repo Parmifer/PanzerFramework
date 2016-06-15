@@ -119,9 +119,7 @@ class PanzerSQLUtils
     public static function getEnumList($rawType)
     {
         $enumListString = substr($rawType, 6);
-        PanzerLogger::logDebug($enumListString);
         $enumListStringTrimed = str_replace('\')', '', $enumListString);
-        PanzerLogger::logDebug($enumListStringTrimed);
         $enumList = explode('\',\'', strtolower($enumListStringTrimed));
         
         return $enumList;
@@ -191,6 +189,31 @@ class PanzerSQLUtils
         
         return $infos;
     }
+    
+    public static function getManyToManyMappingInfo($table, $referencedTable)
+    {
+        $sql = 'select K.REFERENCED_TABLE_NAME, K.REFERENCED_COLUMN_NAME
+                from KEY_COLUMN_USAGE K, COLUMNS C
+                where C.COLUMN_NAME = K.COLUMN_NAME
+                and C.TABLE_NAME = K.TABLE_NAME
+                and K.TABLE_SCHEMA = ?
+                and C.COLUMN_KEY = \'PRI\'
+                and C.TABLE_NAME = ?
+                and K.REFERENCED_TABLE_NAME <> ?
+                and K.referenced_column_name is not NULL';
+        
+        $databaseName = $_SESSION[PanzerConfiguration::CONFIG][PanzerConfiguration::FILE_DATABASE][PanzerConfiguration::DATABASE_NAME];        
+        $params = array('sss', &$databaseName, &$table, &$referencedTable);
+        
+        $result = BaseSingleton::select($sql, $params, 'INFORMATION_SCHEMA')[0];
+        
+        $infos = array (
+            'referencedTable' => $result['REFERENCED_TABLE_NAME'],
+            'referencedColumn' => $result['REFERENCED_COLUMN_NAME']
+        );
+        
+        return $infos;
+    }    
     
     public static function getRelationType($table, $referencedTable)
     {

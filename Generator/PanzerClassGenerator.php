@@ -23,38 +23,31 @@ class PanzerClassGenerator
     private $attributes;
     private $includes;
 
-    public function generateOneClass($table, $relations, $folder)
+    public function generateOneClass($table, $attributes, $folder)
     {
         // Usefull vars
         $className = PanzerStringUtils::convertToClassName($table);
-        $this->attributes = BaseSingleton::select('describe ' . $table);
         $this->includes = array();
+        $primaryKeyAttributIndex = array();
+        $currentIndex = 0;
 
-        if (!empty($relations))
+        foreach ($attributes as $attribut)
         {
-            foreach ($relations as $uneRelation)
+            switch ($attribut['storage'])
             {
-                $this->attributes[] = array(
-                    'Field' => $uneRelation['table'],
-                    'Type' => PanzerStringUtils::convertToClassName($uneRelation['table']),
-                    'storage' => $uneRelation['storage'],
-                    'Key' => (isset($uneRelation['clef_externe']) ? $uneRelation['clef_externe'] : null),
-                    'DAL' => (isset($uneRelation['DAL']) ? $uneRelation['DAL'] : null)
-                );
-
-                switch ($uneRelation['storage'])
-                {
-                    case 'object':
-                    case 'array':
-                        $fileName = PanzerStringUtils::convertToClassName($uneRelation['table']) . 'DAL.php';
-                        $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $fileName;
-                        break;
-                    case 'manyToMany':
-                        $fileName = PanzerStringUtils::convertToClassName($uneRelation['DAL']) . 'DAL.php';
-                        $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $fileName;
-                        break;
-                }
+                case 'object':
+                case 'array':
+                case 'manyToMany':
+                    $this->includes[] = 'PanzerConfiguration::getProjectRoot().\'model/DAL/' . $attribut['toUpperName'] . 'DAL.php';
+                    break;
             }
+
+            if ($attribut['isPrimaryKey'])
+            {
+                $primaryKeyAttributIndex[] = $currentIndex;
+            }
+
+            $currentIndex++;
         }
 
         $generatedClassFile = $folder . $className . '.php';
@@ -81,37 +74,31 @@ class PanzerClassGenerator
  */
 ';
 
-        foreach($this->includes as $fileToInclude)
+        foreach ($this->includes as $fileToInclude)
         {
             $maClasse .= '
-require_once('.$fileToInclude.'\');';
+require_once(' . $fileToInclude . '\');';
         }
 
         $maClasse .= '
 
 class ' . $className .
-'
+                '
 {
     ////////////////
     // ATTRIBUTES //
     ////////////////';
 
-        foreach ($this->attributes as $attribut)
+        foreach ($attributes as $attribut)
         {
-            if ($attribut['Key'] != 'MUL')
-            {
-                $attributCamelCase = PanzerStringUtils::convertBddEnCamelCase($attribut['Field']);
-                $type = PanzerSQLUtils::getPhpType($attribut['Type']);
-
-                $maClasse .=
-                        '
+            $maClasse .=
+                    '
 
     /**
      *
-     * @var ' . $type . '
+     * @var ' . ($attribut['storage'] === 'array' || $attribut['storage'] === 'manyToMany' ? 'array of ' : '') . $attribut['phpType'] . '
      */
-    private $' . $attributCamelCase . ';';
-            }
+    private $' . $attribut['attributName'] . ';';
         }
 
         $maClasse .=
@@ -126,15 +113,17 @@ class ' . $className .
      */
     public function __construct()
     {';
-        foreach ($this->attributes as $attribut)
+        foreach ($attributes as $attribut)
         {
-            if ($attribut['Key'] != 'MUL')
+            if($attribut['storage'] === 'array')
             {
-                $attributCamelCase = PanzerStringUtils::convertBddEnCamelCase($attribut['Field']);
-                $type = PanzerSQLUtils::getPhpType($attribut['Type']);
-
                 $maClasse .= '
-        $this->' . $attributCamelCase . ' = ' . (($type === 'int' || $type === 'float') ? '0' : 'null') . ';';
+        $this->' . $attribut['attributName'] . ' = array();';
+            }
+            else
+            {
+                $maClasse .= '
+        $this->' . $attribut['attributName'] . ' = ' . (($attribut['phpType'] === 'int' || $attribut['phpType'] === 'float') ? '0' : 'null') . ';';
             }
         }
 
@@ -146,67 +135,202 @@ class ' . $className .
     // GETTERS & SETTERS //
     ///////////////////////';
 
-        foreach ($this->attributes as $attribut)
+        foreach ($attributes as $attribut)
         {
-            if ($attribut['Key'] != 'MUL')
+            switch ($attribut['storage'])
             {
-                $attributCamelCase = PanzerStringUtils::convertBddEnCamelCase($attribut['Field']);
-                $attributMaj = PanzerStringUtils::premiereLettreMaj($attributCamelCase);
-                $type = PanzerSQLUtils::getPhpType($attribut['Type']);
+                case 'object':
+                    if ($attribut['foreignKeyInClass'])
+                    {
+                        $maClasse .=
+                                '
 
-                if (isset($attribut['storage']))
-                {
+    /**
+     * Setter of ' . $attribut['attributName'] . '.
+     *
+     * @param ' . $attribut['phpType'] . '|int $' . $attribut['attributName'] . '
+     */
+    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    {
+        if (is_a($' . $attribut['attributName'] . ', \'' . $attribut['phpType'] . '\'))
+        {
+            $this->' . $attribut['attributName'] . ' = $' . $attribut['attributName'] . ';
+        }
+        else if (is_int($' . $attribut['attributName'] . '))
+        {
+            $this->' . $attribut['attributName'] . ' = ' . $attribut['toUpperName'] . 'DAL::findById($' . $attribut['attributName'] . ');
+        }
+    }';
+                    }
+                    else
+                    {
+                        $maClasse .=
+                                '
+
+    /**
+     * Setter of ' . $attribut['attributName'] . '.
+     *
+     * @param ' . $attribut['phpType'] . '|int $' . $attribut['attributName'] . '
+     */
+    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    {
+        if (is_a($' . $attribut['attributName'] . ', \'' . $attribut['phpType'] . '\'))
+        {
+            $this->' . $attribut['attributName'] . ' = $' . $attribut['attributName'] . ';
+        }
+        else if (is_int($' . $attribut['attributName'] . '))
+        {
+            $this->' . $attribut['attributName'] . ' = ' . $attribut['toUpperName'] . 'DAL::findById' . $className . '($this->' . $attribut[$primaryKeyAttributIndex[0]]['attributName'] . ');
+        }
+    }';
+                    }
+                    $maClasse .=
+                            '
+    
+    /**
+     * Getter of ' . $attribut['attributName'] . '.
+     *
+     * @return ' . $attribut['phpType'] . '
+     */
+    public function get' . $attribut['toUpperName'] . '()
+    {
+        return $this->' . $attribut['attributName'] . ';
+    }';
+                    break;
+                case 'var':
+                    if ($attribut['isForeignKey'])
+                    {
+                        $maClasse .=
+                                '
+
+    /**
+     * Setter of ' . $attribut['attributName'] . '.
+     *
+     * @param ' . $attribut['phpType'] . ' $' . $attribut['attributName'] . '
+     */
+    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    {
+        if (is_' . $attribut['phpType'] . '($' . $attribut['attributName'] . '))
+        {
+            $this->' . $attribut['attributName'] . ' = $' . $attribut['attributName'] . ';
+            $this->' . PanzerStringUtils::convertBddEnCamelCase($attribut['referencedTable']) .
+            ' = ' . PanzerStringUtils::convertToClassName($attribut['referencedTable']) . 'DAL::findById($' . $attribut['attributName'] . ');
+        }
+    }';
+                    }
+                    else
+                    {
+                        $maClasse .=
+                                '
+
+    /**
+     * Setter of ' . $attribut['attributName'] . '.
+     *
+     * @param ' . $attribut['phpType'] . ' $' . $attribut['attributName'] . '
+     */
+    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    {
+        if (is_' . $attribut['phpType'] . '($' . $attribut['attributName'] . '))
+        {
+            $this->' . $attribut['attributName'] . ' = $' . $attribut['attributName'] . ';
+        }
+    }';
+                    }
+
+                    $maClasse .=
+                            '
+    
+    /**
+     * Getter of ' . $attribut['attributName'] . '.
+     *
+     * @return ' . $attribut['phpType'] . '
+     */
+    public function get' . $attribut['toUpperName'] . '()
+    {
+        return $this->' . $attribut['attributName'] . ';
+    }';
+                    break;
+                case 'array':
                     $maClasse .=
                             '
 
     /**
-     * Setter of ' . $attributCamelCase . '.
+     * Setter of ' . $attribut['attributName'] . '.
      *
-     * @param ' . $type . '|int $' . $attributCamelCase . '
+     * @param array of ' . $attribut['phpType'] . ' $' . $attribut['attributName'] . '
      */
-    public function set' . $attributMaj . '($' . $attributCamelCase . ')
+    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
     {
-        if (is_a($' . $attributCamelCase . ', \'' . $type . '\'))
+        if (is_array($' . $attribut['attributName'] . '))
         {
-            $this->' . $attributCamelCase . ' = $' . $attributCamelCase . ';
+            $this->' . $attribut['attributName'] . ' = $' . $attribut['attributName'] . ';
         }
-        else if (is_int($' . $attributCamelCase . '))
+    }
+    
+    /**
+     * Getter of ' . $attribut['attributName'] . '.
+     *
+     * @return array of ' . $attribut['phpType'] . '
+     */
+    public function get' . $attribut['toUpperName'] . '()
+    {
+        return $this->' . $attribut['attributName'] . ';
+    }
+    
+    /**
+     * Add a ' . $attribut['phpType'] . '.
+     *
+     * @param ' . $attribut['phpType'] . '
+     */
+    public function add' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    {
+        if (is_a($' . $attribut['attributName'] . ', \'' . $attribut['phpType'] . '\'))
         {
-            $this->' . $attributCamelCase . ' = ' . $attributMaj . 'DAL::findById($' . $attributCamelCase . ');
+            $this->' . $attribut['attributName'] . '[] = $' . $attribut['attributName'] . ';
         }
     }';
-                }
-                else
-                {
+                    break;
+                
+                case 'manyToMany':                    
                     $maClasse .=
                             '
 
     /**
-     * Setter of ' . $attributCamelCase . '.
+     * Setter of ' . $attribut['referencedTable'] . '.
      *
-     * @param ' . $type . ' $' . $attributCamelCase . '
+     * @param array of ' . $attribut['phpType'] . ' $' . $attribut['attributName'] . '
      */
-    public function set' . $attributMaj . '($' . $attributCamelCase . ')
+    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
     {
-        if (is_' . $type . '($' . $attributCamelCase . '))
+        if (is_array($' . $attribut['attributName'] . '))
         {
-            $this->' . $attributCamelCase . ' = $' . $attributCamelCase . ';
+            $this->' . $attribut['attributName'] . ' = $' . $attribut['attributName'] . ';
+        }
+    }
+    
+    /**
+     * Getter of ' . $attribut['attributName'] . '.
+     *
+     * @return array of ' . $attribut['phpType'] . '
+     */
+    public function get' . $attribut['toUpperName'] . '()
+    {
+        return $this->' . $attribut['attributName'] . ';
+    }
+    
+    /**
+     * Add a ' . $attribut['phpType'] . '.
+     *
+     * @param ' . $attribut['phpType'] . '
+     */
+    public function add' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    {
+        if (is_a($' . $attribut['attributName'] . ', \'' . $attribut['phpType'] . '\'))
+        {
+            $this->' . $attribut['attributName'] . '[] = $' . $attribut['attributName'] . ';
         }
     }';
-                }
-
-                $maClasse .=
-                        '
-
-    /**
-     * Getter of ' . $attributCamelCase . '.
-     *
-     * @return ' . $type . '
-     */
-    public function get' . $attributMaj . '()
-    {
-        return $this->' . $attributCamelCase . ';
-    }';
+                    break;
             }
         }
 

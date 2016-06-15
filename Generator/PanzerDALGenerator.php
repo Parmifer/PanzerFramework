@@ -22,29 +22,18 @@ class PanzerDALGenerator
 {
     private $attributes;
     private $requestableFieldCount;
+    private $savableFieldCount;
 
-    public function generateOneDAL($table, $relations, $folder)
+    public function generateOneDAL($table, $attributes, $folder)
     {
+        $this->attributes = $attributes;
+        
         // Usefull vars
         $className = PanzerStringUtils::convertToClassName($table);
         $dalName = $className . 'DAL';
         $classCamelCase = PanzerStringUtils::convertBddEnCamelCase($table);
-        $this->attributes = BaseSingleton::select('describe ' . $table);
         $pkField = $this->getPrimaryKeyFieldName();
-
-        if (!empty($relations))
-        {
-            foreach ($relations as $uneRelation)
-            {
-                $this->attributes[] = array(
-                    'Field' => $uneRelation['table'],
-                    'Type' => PanzerStringUtils::convertToClassName($uneRelation['table']),
-                    'storage' => $uneRelation['storage'],
-                    'Key' => (isset($uneRelation['clef_externe']) ? $uneRelation['clef_externe'] : null),
-                    'DAL' => (isset($uneRelation['DAL']) ? $uneRelation['DAL'] : null)
-                );
-            }
-        }
+        
 
         $generatedDALFile = $folder . $dalName . '.php';
         $handle = fopen($generatedDALFile, 'w') or die('Cannot open file:  ' . $generatedDALFile);
@@ -82,7 +71,7 @@ class ' . $dalName . ' extends PanzerDAL
     public static function findById($id)
     {
         $params = array(\'i\', &$id);
-        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true, true).' FROM '.$table.' WHERE '.$pkField.' = ?\', $params);
+        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true).' FROM '.$table.' WHERE '.$pkField[0]['fieldName'].' = ?\', $params);
 
         return self::handleResults($dataset);
     }
@@ -94,7 +83,7 @@ class ' . $dalName . ' extends PanzerDAL
      */
     public static function findAll()
     {
-        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true, true).' FROM '.$table.'\');
+        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true).' FROM '.$table.'\');
 
         return self::handleResults($dataset);
     }';
@@ -112,7 +101,7 @@ class ' . $dalName . ' extends PanzerDAL
     public static function findByPseudo($pseudo)
     {
         $params = array(\'s\', &$pseudo);
-        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true, true).' FROM user WHERE pseudo = ?\', $params);
+        $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true).' FROM user WHERE pseudo = ?\', $params);
 
         return self::handleResults($dataset);
     }';
@@ -246,27 +235,16 @@ class ' . $dalName . ' extends PanzerDAL
         fclose($handle);
     }
        
-    private function getRequestableFields($idIsNeeded, $addAlias)
+    private function getRequestableFields()
     {
         $attributesList = "";
         $this->requestableFieldCount = 0;
 
         foreach ($this->attributes as $attribut)
         {
-            if ($attribut['Key'] === '' || $attribut['Key'] === 'UNI' || ($attribut['Key'] === 'PRI' && $idIsNeeded))
+            if ($attribut['isRequestable'])
             {
-                $attributesList .= $attribut['Field'] . ', ';
-                $this->requestableFieldCount++;
-            }
-            else if(isset($attribut['storage']) && $attribut['storage'] === 'object')
-            {
-                $attributesList .= $attribut['Key'];
-                if($addAlias)
-                {
-                    $attributesList .= ' as ' . $attribut['Field'];
-                }
-                $attributesList .= ', ';
-
+                $attributesList .= $attribut['fieldName'] . ', ';
                 $this->requestableFieldCount++;
             }
         }
@@ -278,22 +256,42 @@ class ' . $dalName . ' extends PanzerDAL
 
         return $attributesList;
     }
-
-    private function getPrimaryKeyFieldName()
+    
+    private function getSavableFields()
     {
-        $pkFieldName = "";
-        $i = -1;
+        $attributesList = "";
+        $this->savableFieldCount = 0;
 
-        do
+        foreach ($this->attributes as $attribut)
         {
-            if($this->attributes[++$i]['Key'] === 'PRI')
+            if ($attribut['isSavable'] )
             {
-                $pkFieldName = $this->attributes[$i]['Field'];
+                $attributesList .= $attribut['fieldName'] . ', ';
+                $this->savableFieldCount++;
             }
         }
-        while($pkFieldName === "");
 
-        return $pkFieldName;
+        if($attributesList !== "")
+        {
+            $attributesList = substr($attributesList, 0, -2);
+        }
+
+        return $attributesList;
+    }
+
+    private function getPrimaryKeyFields()
+    {
+        $primaryKeyFields = array();
+
+        foreach($this->attributes as $attribut)
+        {
+            if($attribut['isPrimaryKey'])
+            {
+                $primaryKeyFields[] = $attribut;
+            }
+        }
+
+        return $primaryKeyFields;
     }
 
     private function getPrimaryKeyFromDb($tableName, $moreThanOneId)
@@ -310,7 +308,7 @@ class ' . $dalName . ' extends PanzerDAL
         
     }
 
-    private function getNeededTokensString()
+    private function getRequestTokensString()
     {
         $tokenString = '';
 
@@ -320,5 +318,38 @@ class ' . $dalName . ' extends PanzerDAL
         }
 
         return substr($tokenString, 0, -2);
+    }
+    
+    private function getPersistTokensString()
+    {
+        $tokenString = '';
+
+        for($i = 0; $i < $this->savableFieldCount; $i++)
+        {
+            $tokenString .= '? ,';
+        }
+
+        return substr($tokenString, 0, -2);
+    }
+    
+    private function tableIsAnAssociation()
+    {
+        $isAnAssociation = false;
+        
+        foreach($this->attributes as $attribut)
+        {
+            if($attribut['relationType'] == PanzerSQLUtils::MANY_TO_MANY)
+            {
+                $isAnAssociation = true;
+                break;
+            }
+        }
+        
+        if($isAnAssociation)
+        {
+            
+        }
+        
+        return $isAnAssociation;
     }
 }
