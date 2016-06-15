@@ -27,3 +27,9 @@ require_once('Core_Origins/alerter/PanzerAlerter.php');
 require_once('Core_Origins/alerter/PanzerAlert.php');
 require_once('Core_Origins/logger/PanzerLogger.php');
 require_once('Core_Origins/Syntaxalyser.php');
+
+// à générer automatiquement : si le type veut le calendrier.
+$files = glob($dir . 'Core_Origins/widget/calendar/*.php');
+foreach ($files as $file) {
+    require($file);
+}
