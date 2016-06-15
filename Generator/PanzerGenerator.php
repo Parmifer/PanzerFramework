@@ -163,26 +163,38 @@ class PanzerGenerator
         }
         
         foreach($infosTable['relations'] as $relation)
-        {
-            $fieldName = $relation['table'];
-            $attributName = PanzerStringUtils::convertBddEnCamelCase($fieldName);
-            $toUpperName = PanzerStringUtils::premiereLettreMaj($attributName);
+        {           
             $storage = $relation['storage'];
+            $fieldName = $relation['table'];
+            
             $relatedForeignKey = null;
+            $referencedTable = null;
+            $referencedColumn = null;            
             
             switch ($storage)
             {
-                case 'object':
+                case 'object':                    
+                    $attributName = PanzerStringUtils::convertBddEnCamelCase($fieldName);
+                    $toUpperName = PanzerStringUtils::premiereLettreMaj($attributName);
                     $mappingInfo = PanzerSQLUtils::getTableMappingInfo($table, $relation['table']);
                     $foreignKeyInClass = $mappingInfo['foreignKeyInClass'];
                     $relatedForeignKey = $mappingInfo['relatedForeignKey'];
                     break;
                 case 'array':
-                case 'manyToMany':
+                    $attributName = 'les' . PanzerStringUtils::convertToClassName($fieldName);
                     $foreignKeyInClass = false;
                     break;
-            }
+                case 'manyToMany':
+                    $mappingInfo = PanzerSQLUtils::getManyToManyMappingInfo($fieldName, $table);
+                    $fieldName = $mappingInfo['referencedTable'];
+                    $attributName = 'les' . PanzerStringUtils::convertToClassName($fieldName);    
+                    $foreignKeyInClass = false;
+                    $referencedTable = $relation['table'];
+                    $referencedColumn = $mappingInfo['referencedColumn'];
+                    break;
+            }            
             
+            $toUpperName = PanzerStringUtils::convertToClassName($fieldName);
             
             $attribut = array(
                 'tableName' => $table,
@@ -197,8 +209,8 @@ class PanzerGenerator
                 'enumList' => null,
                 'isPrimaryKey' => false,
                 'isForeignKey' => false,
-                'referencedTable' => null,
-                'referencedColumn' => null,
+                'referencedTable' => $referencedTable,
+                'referencedColumn' => $referencedColumn,
                 'isRequestable' => false,
                 'isSavable' => false,
                 'relationType' => null,

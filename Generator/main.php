@@ -32,5 +32,5 @@ $optionsJSON = file_get_contents('configuration.json');
 $generator = new PanzerGenerator($optionsJSON);
 
 $generator->generateAllClasses();
-$generator->generateAllDAL();
-$generator->generateAllControllers();
+//$generator->generateAllDAL();
+//$generator->generateAllControllers();

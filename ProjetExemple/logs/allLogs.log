@@ -1,4 +1,54 @@
-[2016-06-14 17:51:15] [select] ERROR : An error has occured when preparing the SQL query.\r\n
-[2016-06-14 17:51:15] [select] ERROR : Unknown column 'ext_role' in 'field list'\r\n
-[2016-06-14 17:54:38] [select] ERROR : An error has occured when preparing the SQL query.\r\n
-[2016-06-14 17:54:39] [select] ERROR : Unknown column 'ext_role' in 'field list'\r\n
+[2016-06-15 06:08:13] [getEnumList] DEBUG : ('entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 06:08:13] [getEnumList] DEBUG : )
+[2016-06-15 06:10:06] [getEnumList] DEBUG : 'entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 06:10:06] [getEnumList] DEBUG : 'entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 06:11:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 06:11:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 06:16:49] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 06:16:49] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 07:13:43] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 07:13:43] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 07:16:52] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 07:16:52] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 07:18:30] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 07:18:30] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:22:53] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:22:53] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:23:36] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:23:36] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:23:59] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:23:59] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:26:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:26:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:27:05] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:27:05] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:27:57] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:27:57] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:28:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:28:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:38:18] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:38:18] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 10:38:34] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 10:38:34] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:00:00] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:00:00] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:02:01] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:02:01] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:06:31] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:06:31] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:08:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:08:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:09:09] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:09:09] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:10:23] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:10:23] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:14:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:14:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:15:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:15:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:48:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:48:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 11:52:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 11:52:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 13:14:25] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
+[2016-06-15 13:14:25] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti

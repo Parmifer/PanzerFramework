@@ -27,16 +27,6 @@
             {
               "onlyDAL": "true",
               "relations": [
-                {
-                  "table": "chat",
-                  "storage": "object",
-                  "cle_externe": "chat_id"
-                },
-                {
-                  "table": "infirmiere",
-                  "storage": "object",
-                  "cle_externe": "infirmiere_id"
-                }
               ]
             },
         "infirmier":
@@ -45,7 +35,7 @@
               "relations": [
                 {
                   "table": "prendre_en_charge",
-                  "storage": "array"
+                  "storage": "manyToMany"
                 }
               ]
             },
@@ -78,11 +68,7 @@
                 {
                   "table": "veterinaire",
                   "storage": "object"
-                },
-                {
-                  "table": "chat",
-                  "storage": "object"
-                }
+                }                
               ]
             },
         "role":
@@ -119,7 +105,7 @@
                       "storage": "array"
                     },
                     {
-                      "table": "infirmiere",
+                      "table": "infirmier",
                       "storage": "array"
                     },
                     {
