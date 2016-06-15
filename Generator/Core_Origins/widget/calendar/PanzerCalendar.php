@@ -27,6 +27,6 @@ class PanzerCalendar
 {
     public function __toString()
     {
-        return $calendarFile = file_get_contents('./PanzerCalendar.html');
+        return $calendarFile = file_get_contents('Core_Origins/widget/calendar/PanzerCalendar.html');
     }
 }
