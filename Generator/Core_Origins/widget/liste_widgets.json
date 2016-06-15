@@ -2,7 +2,8 @@
   "widgets":
       [
         {
-          "nom": "PanzerCalendar",
+          "label": "PanzerCalendar",
+          "nom": "calendar",
           "apercu": "apercu.png"
         }
       ]
