@@ -139,7 +139,7 @@ class ' . $dalName . ' extends PanzerDAL
             }
             else if(isset($attribut['storage']) && $attribut['storage'] == 'object')
             {
-                $getPKfunction = 'get'. PanzerStringUtils::convertToClassName($this->getPrimaryKeyFromDb($attribut['Field'])).'()';
+                $getPKfunction = 'get'. PanzerStringUtils::convertToClassName($this->getPrimaryKeyFromDb($attribut['Field'], false)).'()';
                 $newDAL .= '
         $'. $nomObjet . ' = $'.$classCamelCase.'->get'.PanzerStringUtils::convertToClassName($attribut['Field']).'()->'.$getPKfunction.';';
             }
@@ -245,7 +245,7 @@ class ' . $dalName . ' extends PanzerDAL
         fwrite($handle, $newDAL);
         fclose($handle);
     }
-
+       
     private function getRequestableFields($idIsNeeded, $addAlias)
     {
         $attributesList = "";
@@ -296,9 +296,18 @@ class ' . $dalName . ' extends PanzerDAL
         return $pkFieldName;
     }
 
-    private function getPrimaryKeyFromDb($tableName)
+    private function getPrimaryKeyFromDb($tableName, $moreThanOneId)
     {
-        return BaseSingleton::select('SHOW KEYS FROM ' . $tableName . ' WHERE Key_name = \'PRIMARY\'')[0]['Column_name'];
+        $result = BaseSingleton::select('SHOW KEYS FROM ' . $tableName . ' WHERE Key_name = \'PRIMARY\'');
+        if($moreThanOneId)
+        {
+            return array($result[0]['Column_name'], $result[1]['Column_name']);
+        }
+        else
+        {
+            return $result[0]['Column_name'];
+        }
+        
     }
 
     private function getNeededTokensString()

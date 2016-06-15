@@ -30,6 +30,9 @@ require_once('PanzerControllerGenerator.php');
 class PanzerGenerator
 {
     private $options;
+    
+    private $tables;
+    
     private $panzerClassGenerator;
     private $panzerDALGenerator;
     private $panzerControllerGenerator;
@@ -40,10 +43,13 @@ class PanzerGenerator
     function __construct($options)
     {
         $this->options = json_decode($options, true);
+        $this->processAllTables();
 
-        // echo('<pre>');
-        // var_dump($this->options);
-        // echo('</pre>');
+        echo('<pre>');
+        var_dump($this->tables);
+        echo('</pre>');
+        
+        die();
     }
 
     /**
@@ -53,17 +59,13 @@ class PanzerGenerator
     {
         $this->panzerClassGenerator = new PanzerClassGenerator();
 
-        // echo('<pre>');
-        // var_dump($this->options['tables_a_transformer']);
-        // echo('</pre>');
-
-        foreach ($this->options['tables_a_transformer'] as $uneTable => $infosTable)
+        foreach ($this->tables as $table => $infos)
         {
-            if($infosTable['onlyDAL'] != "true")
+            if($infos['onlyDAL'] != 'true')
             {
-                $this->panzerClassGenerator->generateOneClass($uneTable, $infosTable['relations'], PanzerConfiguration::getProjectRoot().'model/class/');
+                $this->panzerClassGenerator->generateOneClass($table, $infos['attributes'], PanzerConfiguration::getProjectRoot().'model/class/');
 
-                echo 'Classe : ' . $uneTable . ' ok ! <br />';
+                echo 'Classe : ' . $table . ' ok ! <br />';
             }
         }
     }
@@ -75,11 +77,14 @@ class PanzerGenerator
     {
         $this->panzerDALGenerator = new PanzerDALGenerator();
 
-        foreach ($this->options['tables_a_transformer'] as $uneTable => $infosTable)
+        foreach ($this->tables as $table => $infos)
         {
-            $this->panzerDALGenerator->generateOneDAL($uneTable, $infosTable['relations'], PanzerConfiguration::getProjectRoot().'model/DAL/');
+            if($infos['onlyDAL'] != 'true')
+            {
+                $this->panzerDALGenerator->generateOneDAL($table, $infos['attributes'], PanzerConfiguration::getProjectRoot().'model/class/');
 
-            echo 'DAL : ' . $uneTable . ' ok ! <br />';
+                echo 'DAL : ' . $table . ' ok ! <br />';
+            }
         }
     }
 
@@ -91,5 +96,119 @@ class PanzerGenerator
         {
             $this->panzerControllerGenerator->generateOneController($pageName, $pageInfos, PanzerConfiguration::getProjectRoot().'controller/page/');
         }
+    }
+    
+    private function processAllTables()
+    {
+        $this->tables = array();
+        
+        foreach ($this->options['tables_a_transformer'] as $uneTable => $infosTable)
+        {
+            $this->tables[$uneTable]['onlyDAL'] = $infosTable['onlyDAL'];
+            $this->tables[$uneTable]['attributes'] = $this->processTableData($uneTable, $infosTable);
+        }
+    }
+    
+    private function processTableData($table, $infosTable)
+    {
+        $attributes = array();     
+        
+        $databaseFields = BaseSingleton::select('describe ' . $table);
+        
+        foreach ($databaseFields as $field)
+        {
+            $fieldName = $field['Field'];
+            $attributName = PanzerStringUtils::convertBddEnCamelCase($fieldName);
+            $toUpperName = PanzerStringUtils::premiereLettreMaj($attributName);
+            $isEnum = PanzerSQLUtils::isEnum($field['Type']);
+            $enumList = ($isEnum ? PanzerSQLUtils::getEnumList($field['Type']) : null );
+            $isPrimaryKey = $field['Key'] === 'PRI';
+            $isForeignKey = PanzerSQLUtils::isAForeignKey($table, $fieldName);
+            
+            $referencedTable = null;
+            $referencedColumn = null;
+            $relationType = null;
+            
+            if($isForeignKey)
+            {
+                $mappingInfo = PanzerSQLUtils::getFieldMappingInfo($table, $fieldName);
+                $relationType = $mappingInfo['relationType'];
+                $referencedTable = $mappingInfo['referencedTable'];
+                $referencedColumn = $mappingInfo['referencedColumn'];
+            }                
+            
+            $attribut = array(
+                'tableName' => $table,
+                'fieldName' => $fieldName,
+                'attributName' => $attributName,
+                'toUpperName' => $toUpperName,
+                'storage' => 'var',
+                'sqlType' => $field['Type'],
+                'phpType' => PanzerSQLUtils::getPhpType($field['Type']),
+                'paramsMapping' => PanzerSQLUtils::getParamsMapping($field['Type']),
+                'isEnum' => $isEnum, 
+                'enumList' => $enumList,
+                'isPrimaryKey' => $isPrimaryKey,
+                'isForeignKey' => $isForeignKey,
+                'referencedTable' => $referencedTable,
+                'referencedColumn' => $referencedColumn,
+                'isRequestable' => true,
+                'isSavable' => true,
+                'relationType' => $relationType,
+                'foreignKeyInClass' => null,
+                'relatedForeignKey' => null,
+            ); 
+            
+            $attributes[] = $attribut;
+        }
+        
+        foreach($infosTable['relations'] as $relation)
+        {
+            $fieldName = $relation['table'];
+            $attributName = PanzerStringUtils::convertBddEnCamelCase($fieldName);
+            $toUpperName = PanzerStringUtils::premiereLettreMaj($attributName);
+            $storage = $relation['storage'];
+            $relatedForeignKey = null;
+            
+            switch ($storage)
+            {
+                case 'object':
+                    $mappingInfo = PanzerSQLUtils::getTableMappingInfo($table, $relation['table']);
+                    $foreignKeyInClass = $mappingInfo['foreignKeyInClass'];
+                    $relatedForeignKey = $mappingInfo['relatedForeignKey'];
+                    break;
+                case 'array':
+                case 'manyToMany':
+                    $foreignKeyInClass = false;
+                    break;
+            }
+            
+            
+            $attribut = array(
+                'tableName' => $table,
+                'fieldName' => $fieldName,
+                'attributName' => $attributName,
+                'toUpperName' => $toUpperName,
+                'storage' => $storage,
+                'sqlType' => null,
+                'phpType' => $toUpperName,
+                'paramsMapping' => null,
+                'isEnum' => false,
+                'enumList' => null,
+                'isPrimaryKey' => false,
+                'isForeignKey' => false,
+                'referencedTable' => null,
+                'referencedColumn' => null,
+                'isRequestable' => false,
+                'isSavable' => false,
+                'relationType' => null,
+                'foreignKeyInClass' => $foreignKeyInClass,
+                'relatedForeignKey' => $relatedForeignKey,
+            );
+            
+            $attributes[] = $attribut;
+        }
+        
+        return  $attributes;
     }
 }
