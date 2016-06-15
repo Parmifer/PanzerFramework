@@ -39,14 +39,13 @@
                 }
               ]
             },
-        "infirmiere":
+        "infirmier":
             {
               "onlyDAL": "false",
               "relations": [
                 {
-                  "table": "chat",
-                  "DAL": "prendre_en_charge",
-                  "storage": "manyToMany"
+                  "table": "prendre_en_charge",
+                  "storage": "array"
                 }
               ]
             },
@@ -78,8 +77,11 @@
               "relations": [
                 {
                   "table": "veterinaire",
-                  "storage": "object",
-                  "cle_externe": "veterinaire_id"
+                  "storage": "object"
+                },
+                {
+                  "table": "chat",
+                  "storage": "object"
                 }
               ]
             },
@@ -95,35 +97,34 @@
               "relations": [
                 {
                   "table": "veterinaire",
-                  "storage": "object",
-                  "cle_externe": "veterinaire_id"
+                  "storage": "object"
+                },
+                {
+                  "table": "chat",
+                  "storage": "object"
                 }
               ]
             },
-        "utilisateur":
+        "user":
             {
               "onlyDAL": "false",
               "relations":
                   [
                     {
                       "table": "ressources_humaines",
-                      "storage": "object",
-                      "cle_externe": "pas dans la classe"
+                      "storage": "array"
                     },
                     {
                       "table": "veterinaire",
-                      "storage": "object",
-                      "cle_externe": "pas dans la classe"
+                      "storage": "array"
                     },
                     {
                       "table": "infirmiere",
-                      "storage": "object",
-                      "cle_externe": "pas dans la classe"
+                      "storage": "array"
                     },
                     {
                       "table": "role",
-                      "storage": "object",
-                      "cle_externe": "role_id"
+                      "storage": "object"
                     }
                   ]
             }
@@ -144,13 +145,13 @@
                   {
                     "droits": "V",
                     "label_menu": "Accueil",
-                    "type": "random"
+                    "type": "custom"
                   },
               "chats_etat_sante":
                   {
                     "droits": "U",
                     "label_menu": "Etat de santé",
-                    "type": "random"
+                    "type": "custom"
                   },
               "chats_liste":
                   {
@@ -177,7 +178,7 @@
                   {
                     "droits": "S",
                     "label_menu": "Editer fiche de paie",
-                    "type": "random"
+                    "type": "custom"
                   },
               "veterinaire_ajouter":
                   {
@@ -190,7 +191,7 @@
                   {
                     "droits": "V",
                     "label_menu": "?",
-                    "type": "random"
+                    "type": "custom"
                   }
             },
         "menu":
