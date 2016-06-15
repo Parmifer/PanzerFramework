@@ -28,7 +28,7 @@ CREATE TABLE `ressources_humaines` (
     `prenom` VARCHAR(255),
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
-    `user_id` int,
+    `user_id` int UNIQUE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -38,7 +38,7 @@ CREATE TABLE `veterinaire` (
     `prenom` VARCHAR(255),
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
-    `user_id` int,
+    `user_id` int UNIQUE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -48,7 +48,7 @@ CREATE TABLE `infirmier` (
     `prenom` VARCHAR(255),
     `adresse` VARCHAR(255),
     `salaire` FLOAT(7,2),
-    `user_id` int,
+    `user_id` int UNIQUE,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
