@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    
+
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Chat.php');
 
 class ChatDAL extends PanzerDAL
@@ -47,12 +47,12 @@ class ChatDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-                    
+
     /**
-     * Returns the Chat which the salle_id match with the given id.
+     * Returns all the Chat where the salle_id match with the given id.
      *
      * @param int $idSalle The id of the Salle.
-     * @return mixed A Chat. Null if not found.
+     * @return array One or many Chat. Null if not found.
      */
     public static function findByIdSalle($idSalle)
     {
@@ -112,6 +112,18 @@ class ChatDAL extends PanzerDAL
         }
 
         $idInsert = BaseSingleton::insertOrEdit($sql, $params);
+
+        $diagnostiquerToPersist = $chat->getLesDiagnostiquer();
+        foreach($diagnostiquerToPersist as $diagnostiquer)
+        {
+            DiagnostiquerDAL::persist($diagnostiquer);
+        }
+
+        $opererToPersist = $chat->getLesOperer();
+        foreach($opererToPersist as $operer)
+        {
+            OpererDAL::persist($operer);
+        }
 
         if($idInsert !== false && $id > 0)
         {

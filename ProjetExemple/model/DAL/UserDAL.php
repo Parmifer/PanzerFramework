@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    
+
 require_once(PanzerConfiguration::getProjectRoot().'model/class/User.php');
 
 class UserDAL extends PanzerDAL
@@ -47,7 +47,7 @@ class UserDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-                
+
     /**
      * Returns the User matching with the given pseudo.
      *
@@ -61,12 +61,12 @@ class UserDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-                    
+
     /**
-     * Returns the User which the role_id match with the given id.
+     * Returns all the User where the role_id match with the given id.
      *
      * @param int $idRole The id of the Role.
-     * @return mixed A User. Null if not found.
+     * @return array One or many User. Null if not found.
      */
     public static function findByIdRole($idRole)
     {
@@ -122,6 +122,21 @@ class UserDAL extends PanzerDAL
         }
 
         $idInsert = BaseSingleton::insertOrEdit($sql, $params);
+
+        $ressourcesHumaines = $user->getRessourcesHumaines();
+        RessourcesHumainesDAL::persist($ressourcesHumaines);
+
+        $veterinaireToPersist = $user->getLesVeterinaire();
+        foreach($veterinaireToPersist as $veterinaire)
+        {
+            VeterinaireDAL::persist($veterinaire);
+        }
+
+        $infirmierToPersist = $user->getLesInfirmier();
+        foreach($infirmierToPersist as $infirmier)
+        {
+            InfirmierDAL::persist($infirmier);
+        }
 
         if($idInsert !== false && $id > 0)
         {

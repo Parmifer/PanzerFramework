@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    
+
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Chat.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
@@ -38,7 +38,7 @@ class OpererDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-    
+
     /**
      * Returns all the Operer for which the VeterinaireId match with the given id.
      *
@@ -52,7 +52,7 @@ class OpererDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-    
+
     /**
      * Returns the Operer for which both id's match.
      *
@@ -66,8 +66,8 @@ class OpererDAL extends PanzerDAL
         $dataset = BaseSingleton::select('SELECT chat_id, veterinaire_id, date FROM operer WHERE chat_id = ? AND veterinaire_id = ?', $params);
 
         return self::handleResults($dataset);
-    } 
-    
+    }
+
     /**
      * Returns all the Operer.
      *

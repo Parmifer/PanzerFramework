@@ -50,14 +50,7 @@ PanzerConfiguration::loadConfiguration();
         <!-- Latest compiled and minified JavaScript -->
         <script src="../../core/library/bootstrap/js/bootstrap.min.js"></script>
     </head>
-    <body>
-        <?php
-        if (!isset($_SESSION['user']))
-        {                        
-            header('Location: login');
-            die(0);
-        }
-        ?>
+    <body>        
         <div class="page-header col-sm-offset-2 col-sm-8">
             <h1 class="white chalk"><em>PanzerFramework</em></h1>
         </div>

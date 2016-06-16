@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    
+
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Infirmier.php');
 
 class InfirmierDAL extends PanzerDAL
@@ -47,12 +47,12 @@ class InfirmierDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-                    
+
     /**
-     * Returns the Infirmier which the user_id match with the given id.
+     * Returns all the Infirmier where the user_id match with the given id.
      *
      * @param int $idUser The id of the User.
-     * @return mixed A Infirmier. Null if not found.
+     * @return array One or many Infirmier. Null if not found.
      */
     public static function findByIdUser($idUser)
     {

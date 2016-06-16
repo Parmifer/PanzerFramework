@@ -242,7 +242,7 @@ class Chat
      *
      * @param array of Diagnostiquer $lesDiagnostiquer
      */
-    public function setDiagnostiquer($lesDiagnostiquer)
+    public function setLesDiagnostiquer($lesDiagnostiquer)
     {
         if (is_array($lesDiagnostiquer))
         {
@@ -255,7 +255,7 @@ class Chat
      *
      * @return array of Diagnostiquer
      */
-    public function getDiagnostiquer()
+    public function getLesDiagnostiquer()
     {
         return $this->lesDiagnostiquer;
     }
@@ -265,11 +265,11 @@ class Chat
      *
      * @param Diagnostiquer
      */
-    public function addDiagnostiquer($lesDiagnostiquer)
+    public function addDiagnostiquer($diagnostiquer)
     {
-        if (is_a($lesDiagnostiquer, 'Diagnostiquer'))
+        if (is_a($diagnostiquer, 'Diagnostiquer'))
         {
-            $this->lesDiagnostiquer[] = $lesDiagnostiquer;
+            $this->lesDiagnostiquer[] = $diagnostiquer;
         }
     }
 
@@ -278,7 +278,7 @@ class Chat
      *
      * @param array of Operer $lesOperer
      */
-    public function setOperer($lesOperer)
+    public function setLesOperer($lesOperer)
     {
         if (is_array($lesOperer))
         {
@@ -291,7 +291,7 @@ class Chat
      *
      * @return array of Operer
      */
-    public function getOperer()
+    public function getLesOperer()
     {
         return $this->lesOperer;
     }
@@ -301,11 +301,11 @@ class Chat
      *
      * @param Operer
      */
-    public function addOperer($lesOperer)
+    public function addOperer($operer)
     {
-        if (is_a($lesOperer, 'Operer'))
+        if (is_a($operer, 'Operer'))
         {
-            $this->lesOperer[] = $lesOperer;
+            $this->lesOperer[] = $operer;
         }
     }
 

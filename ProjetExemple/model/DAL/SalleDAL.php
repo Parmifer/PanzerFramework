@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    
+
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Salle.php');
 
 class SalleDAL extends PanzerDAL
@@ -90,6 +90,12 @@ class SalleDAL extends PanzerDAL
         }
 
         $idInsert = BaseSingleton::insertOrEdit($sql, $params);
+
+        $chatToPersist = $salle->getLesChat();
+        foreach($chatToPersist as $chat)
+        {
+            ChatDAL::persist($chat);
+        }
 
         if($idInsert !== false && $id > 0)
         {

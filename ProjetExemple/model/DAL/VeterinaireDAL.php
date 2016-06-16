@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    
+
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Veterinaire.php');
 
 class VeterinaireDAL extends PanzerDAL
@@ -47,12 +47,12 @@ class VeterinaireDAL extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-                    
+
     /**
-     * Returns the Veterinaire which the user_id match with the given id.
+     * Returns all the Veterinaire where the user_id match with the given id.
      *
      * @param int $idUser The id of the User.
-     * @return mixed A Veterinaire. Null if not found.
+     * @return array One or many Veterinaire. Null if not found.
      */
     public static function findByIdUser($idUser)
     {

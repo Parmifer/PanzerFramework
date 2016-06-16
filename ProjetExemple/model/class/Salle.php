@@ -173,7 +173,7 @@ class Salle
      *
      * @param array of Chat $lesChat
      */
-    public function setChat($lesChat)
+    public function setLesChat($lesChat)
     {
         if (is_array($lesChat))
         {
@@ -186,7 +186,7 @@ class Salle
      *
      * @return array of Chat
      */
-    public function getChat()
+    public function getLesChat()
     {
         return $this->lesChat;
     }
@@ -196,11 +196,11 @@ class Salle
      *
      * @param Chat
      */
-    public function addChat($lesChat)
+    public function addChat($chat)
     {
-        if (is_a($lesChat, 'Chat'))
+        if (is_a($chat, 'Chat'))
         {
-            $this->lesChat[] = $lesChat;
+            $this->lesChat[] = $chat;
         }
     }
 

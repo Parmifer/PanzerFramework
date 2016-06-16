@@ -20,7 +20,7 @@
 
 class PrendreEnChargeDAL extends PanzerDAL
 {
-    
+
     /**
      * Create a new association between one Chat and one Infirmier.
      *
@@ -35,10 +35,10 @@ class PrendreEnChargeDAL extends PanzerDAL
                 . 'VALUES (?, ?)';
         $params = array('ii', &$idChat, &$idInfirmier);
         $itWorked = BaseSingleton::insertOrEdit($sql, $params);
-        
+
         return $itWorked !== false;
     }
-    
+
     /**
      * Delete an association between one Chat and one Infirmier.
      *
@@ -51,7 +51,7 @@ class PrendreEnChargeDAL extends PanzerDAL
         $sql = 'DELETE FROM prendre_en_charge WHERE chat_id = ? AND infirmier_id = ?';
         $params = array('ii', &$idChat, &$idInfirmier);
         $deleted = BaseSingleton::delete($sql, $params);
-        
+
         return $deleted;
     }
 }
