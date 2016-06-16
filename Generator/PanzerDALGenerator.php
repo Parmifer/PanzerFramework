@@ -104,6 +104,21 @@ class ' . $dalName . ' extends PanzerDAL
         $dataset = BaseSingleton::select(\'SELECT '.$this->getRequestableFields(true).' FROM user WHERE pseudo = ?\', $params);
 
         return self::handleResults($dataset);
+    }
+
+    /**
+     * Verify if the user exist and if his password is correct, return the user if true, null otherwise
+     *
+     * @param String $login Login given by the user
+     * @param String(SHA512) $password Password given by the user
+     * @return User|null|false User if login and password correct, null if not, false in case of error
+     */
+    public static function verifyConnection($login, $password)
+    {
+        $params = [\'ss\', &$login, &$password];
+        $dataset = BaseSingleton::select(\'SELECT * FROM user where pseudo = ? AND password = ?\', $params);
+
+        return self::handleResults($dataset);
     }';
         }
 
