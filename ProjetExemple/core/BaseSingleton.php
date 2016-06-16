@@ -52,6 +52,10 @@ class BaseSingleton
         self::$instance->mysqli->close();
         self::$instance = null;
     }
+    private function changeDatabase($databaseName)
+    {
+        self::$instance->mysqli->select_db($databaseName);
+    }
     /**
      * Data access function.
      *
@@ -61,13 +65,18 @@ class BaseSingleton
      *        	The parameters to replace (and their data types) in an array. Eg : array("i", &$id);
      * @return mixed Result of the select statement. Data are formated in an array.
      */
-    public static function select($sql, $params = null)
+    public static function select($sql, $params = null, $database = null)
     {
         $data = array();
         self::connect();
         // S'il n'y a pas d'erreur de connection.
         if (!self::$instance->mysqli->connect_error)
         {
+            if(!is_null($database))
+            {
+                self::$instance->changeDatabase($database);
+            }
+            
             // On prépare la requête.
             if (self::$instance->statement = self::$instance->mysqli->prepare($sql))
             {

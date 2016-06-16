@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) 2016 Parmifer
+ * Copyright (C) 2016 lucile
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,19 +18,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-session_start();
-
-require_once('core_origins_imports.php');
-
-PanzerConfiguration::resetConfiguration();
-PanzerConfiguration::loadConfiguration();
-
-require_once('PanzerGenerator.php');
-
-$optionsJSON = file_get_contents('configuration.json');
-
-$generator = new PanzerGenerator($optionsJSON);
-
-//$generator->generateAllClasses();
-$generator->generateAllDAL();
-//$generator->generateAllControllers();
+/**
+ * Little calendar easy to use
+ *
+ * @author lucile
+ */
+class PanzerCalendar
+{
+    public function __toString()
+    {
+        return $calendarFile = file_get_contents('Core_Origins/widget/calendar/PanzerCalendar.html');
+    }
+}

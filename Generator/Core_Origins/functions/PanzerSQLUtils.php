@@ -255,7 +255,7 @@ class PanzerSQLUtils
     
     public static function isAForeignKey($table, $field)
     {
-        $sql = 'select count(COLUMN_NAME) as isAForeignKey
+        $sql = 'select count(COLUMN_NAME) as nbResult
                 from KEY_COLUMN_USAGE
                 where TABLE_SCHEMA = ?
                 and TABLE_NAME = ? 
@@ -265,9 +265,9 @@ class PanzerSQLUtils
         $databaseName = $_SESSION[PanzerConfiguration::CONFIG][PanzerConfiguration::FILE_DATABASE][PanzerConfiguration::DATABASE_NAME];        
         $params = array('sss', &$databaseName, &$table, &$field);
         
-        $isAForeignKey = BaseSingleton::select($sql, $params, 'INFORMATION_SCHEMA')[0]['isAForeignKey'];
+        $nbResult = BaseSingleton::select($sql, $params, 'INFORMATION_SCHEMA')[0]['nbResult'];
         
-        return $isAForeignKey === 1;
+        return ($nbResult === 1 ? true : false);
     }
     
     private static function isRelationManyToMany($table)

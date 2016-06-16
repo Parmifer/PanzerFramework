@@ -18,19 +18,23 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-session_start();
-
-require_once('core_origins_imports.php');
-
-PanzerConfiguration::resetConfiguration();
-PanzerConfiguration::loadConfiguration();
-
-require_once('PanzerGenerator.php');
-
-$optionsJSON = file_get_contents('configuration.json');
-
-$generator = new PanzerGenerator($optionsJSON);
-
-//$generator->generateAllClasses();
-$generator->generateAllDAL();
-//$generator->generateAllControllers();
+/**
+ * Description of PanzerDateUtils
+ *
+ * @author Parmifer
+ */
+class PanzerDateUtils
+{
+    /**
+     * Format a given DateTime to a MySQL compliant string.
+     * 
+     * @param DateTime $dateTime The date you want to format.
+     * @return string The string value to pass to MySQL for date inserting.
+     */
+    static function formatDate($DateTime)
+    {
+        // TODO
+        
+        return '';
+    }
+}

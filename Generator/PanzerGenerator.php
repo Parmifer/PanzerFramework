@@ -48,8 +48,6 @@ class PanzerGenerator
         echo('<pre>');
         var_dump($this->tables);
         echo('</pre>');
-        
-        die();
     }
 
     /**
@@ -79,12 +77,9 @@ class PanzerGenerator
 
         foreach ($this->tables as $table => $infos)
         {
-            if($infos['onlyDAL'] != 'true')
-            {
-                $this->panzerDALGenerator->generateOneDAL($table, $infos['attributes'], PanzerConfiguration::getProjectRoot().'model/class/');
+            $this->panzerDALGenerator->generateOneDAL($table, $infos['attributes'], PanzerConfiguration::getProjectRoot().'model/DAL/');
 
-                echo 'DAL : ' . $table . ' ok ! <br />';
-            }
+            echo 'DAL : ' . $table . ' ok ! <br />';            
         }
     }
 
