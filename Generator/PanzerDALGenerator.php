@@ -61,14 +61,35 @@ class PanzerDALGenerator
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */';
+ */
+ 
+';
+        
+        foreach($this->attributes as $attribut)
+        {
+            if($attribut['storage'] !== 'var')
+            {
+                $newDAL .= '
+require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . $attribut['toUpperName'] . 'DAL.php\');';
+            }
+            else if ($attribut['isForeignKey'])
+            {
+                $newDAL .= '
+require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . PanzerStringUtils::convertToClassName($attribut['referencedTable']) . 'DAL.php\');';
+            }
+        }
+        
         if (!$isManyToMany)
         {
             $pkField = $pkFields[0];
-
-            $newDAL .=
-                    '
-
+            
+            if($attribut['storage'] === 'object' && !$attribut['foreignKeyInClass'])
+            {
+                $subObjectHydrating = '
+        $toReturn->set'.$attribut['toUpperName'].'('.$attribut['toUpperName'].'DAL::findById'.$attribut['toUpperName'].'($toReturn->get'.$pkField['toUpperName'].'()));';
+            }
+            
+            $newDAL .= '
 require_once(PanzerConfiguration::getProjectRoot().\'model/class/' . $className . '.php\');
 
 class ' . $dalName . ' extends PanzerDAL
@@ -84,7 +105,9 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'i\', &$id);
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $pkField['fieldName'] . ' = ?\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
+        
+        return $toReturn;
     }
 
     /**
@@ -96,7 +119,9 @@ class ' . $dalName . ' extends PanzerDAL
     {
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . '\');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }';
 
             if ($table == 'user')
@@ -114,7 +139,9 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'s\', &$pseudo);
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM user WHERE pseudo = ?\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
+        
+        return $toReturn;
     }
 
     /**
@@ -129,7 +156,9 @@ class ' . $dalName . ' extends PanzerDAL
         $params = [\'ss\', &$login, &$password];
         $dataset = BaseSingleton::select(\'SELECT * FROM user where pseudo = ? AND password = ?\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
+        
+        return $toReturn;
     }';
             }
 
@@ -139,7 +168,7 @@ class ' . $dalName . ' extends PanzerDAL
                 {
                     $referencedClass = PanzerStringUtils::convertToClassName($foreignKey['referencedTable']);
                     $isOneToOne = ($foreignKey['relationType'] === PanzerSQLUtils::ONE_TO_ONE);
-                    if($isOneToOne)
+                    if ($isOneToOne)
                     {
                         $newDAL .= '
 
@@ -167,7 +196,9 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'i\', &$id' . $referencedClass . ');
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $foreignKey['fieldName'] . ' = ?\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
+        
+        return $toReturn;
     }';
                 }
             }
@@ -276,23 +307,34 @@ class ' . $dalName . ' extends PanzerDAL
 
             foreach ($this->attributes as $attribut)
             {
-                if ($attribut['storage'] === 'array')
+                if ($attribut['storage'] === 'array' || $attribut['storage'] === 'manyToMany')
                 {
-                    $toPersist = PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . 'ToPersist';
+                    
+                    $toPersist = PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']);
                     $newDAL .= '
 
-        $' . $toPersist . ' = $' . $classCamelCase . '->get' . PanzerStringUtils::premiereLettreMaj($attribut['attributName']) . '();
-        foreach($'.$toPersist.' as $' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ')
+        $' . $toPersist . 'ToPersist = $' . $classCamelCase . '->get' . PanzerStringUtils::premiereLettreMaj($attribut['attributName']) . '();
+        foreach($' . $toPersist . 'ToPersist as $' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ')
         {
-            ' . PanzerStringUtils::convertToClassName($attribut['fieldName']) . 'DAL::persist($' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ');
+            ' . PanzerStringUtils::convertToClassName($attribut['fieldName']) . 'DAL::persist($' . $toPersist . ');';
+
+                    if ($attribut['storage'] === 'manyToMany')
+                    {
+                        $referencedClass = PanzerStringUtils::convertToClassName($attribut['referencedTable']);
+                        $referencedId = PanzerStringUtils::convertToClassName($attribut['referencedColumn']);
+                        $newDAL .= '
+            ' . $referencedClass . 'DAL::createAssociation($' . $pkField['attributName'] . ', $' . $toPersist . '->get'.$referencedId.'());';
+                    }
+
+                    $newDAL .= '
         }';
                 }
-                else if($attribut['storage'] === 'object' && !$attribut['foreignKeyInClass'])
+                else if ($attribut['storage'] === 'object' && !$attribut['foreignKeyInClass'])
                 {
                     $newDAL .= '
 
-        $'.$attribut['attributName'].' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();
-        '. $attribut['toUpperName'] . 'DAL::persist($' . $attribut['attributName'] . ');';
+        $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();
+        ' . $attribut['toUpperName'] . 'DAL::persist($' . $attribut['attributName'] . ');';
                 }
             }
 
@@ -325,12 +367,8 @@ class ' . $dalName . ' extends PanzerDAL
             $pk2 = $pkFields[1];
             $pk1ClassName = PanzerStringUtils::convertToClassName($pk1['referencedTable']);
             $pk2ClassName = PanzerStringUtils::convertToClassName($pk2['referencedTable']);
-            $newDAL .=
-                    '
-
-require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . $pk1ClassName . 'DAL.php\');
+            $newDAL .= '
 require_once(PanzerConfiguration::getProjectRoot().\'model/class/' . $pk1ClassName . '.php\');
-require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . $pk2ClassName . 'DAL.php\');
 require_once(PanzerConfiguration::getProjectRoot().\'model/class/' . $pk2ClassName . '.php\');
 
 class ' . $dalName . ' extends PanzerDAL
@@ -346,7 +384,9 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'i\', &$id' . $pk1ClassName . ');
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $pk1['fieldName'] . ' = ?\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -360,7 +400,9 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'i\', &$id' . $pk2ClassName . ');
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $pk2['fieldName'] . ' = ?\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -379,7 +421,9 @@ class ' . $dalName . ' extends PanzerDAL
                     ' AND ' . $pk2['fieldName'] . ' = ?' .
                     '\', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -391,7 +435,128 @@ class ' . $dalName . ' extends PanzerDAL
     {
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . '\');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
+    }
+
+    /**
+     * Create or edit a ' . $className . '.
+     *
+     * @param ' . $className . ' $' . $classCamelCase . '
+     * @return int id of the ' . $className . ' inserted/edited in base. False if it didn\'t work.
+     */
+    public static function persist($' . $classCamelCase . ')
+    {';
+            foreach ($this->attributes as $attribut)
+            {
+                if ($attribut['isSavable'] && !$attribut['isForeignKey'])
+                {
+                    $newDAL .= '
+        $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();';
+                }
+                else if ($attribut['isSavable'] && in_array($attribut, $this->objectsNotInClass))
+                {
+                    $newDAL .= '
+        $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();';
+                }
+                else if ($attribut['isSavable'] && in_array($attribut, $this->objectsInClass))
+                {
+                    $tableUpper = PanzerStringUtils::convertToClassName($attribut['referencedTable']);
+                    $clefUpper = PanzerStringUtils::convertToClassName($attribut['referencedColumn']);
+                    $newDAL .= '
+        $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $tableUpper . '()->get' . $clefUpper . '();';
+                }
+            }
+
+            $newDAL .= '
+
+        if ($' . $pk1['attributName'] . ' > 0 && $' . $pk2['attributName'] . ' > 0)
+        {
+            $sql = \'UPDATE ' . $table . ' SET \'';
+
+            $paramTypeString = '';
+            $fieldList = '';
+
+
+            foreach ($this->attributes as $attribut)
+            {
+                if ($attribut['isSavable'] && !$attribut['isPrimaryKey'])
+                {
+                    $fieldList .= '
+                    .\'' . $table . '.' . $attribut['fieldName'] . ' = ?, \'';
+                    $paramTypeString .= $attribut['paramsMapping'];
+                }
+            }
+
+            $fieldToUpdate = substr($fieldList, 0, -3);
+            $fieldToUpdate .= ' \'';
+
+            $newDAL.= $fieldToUpdate;
+            $newDAL .= '
+                    .\'WHERE ' . $table . '.' . $pk1['fieldName'] . ' = ?\' ';
+            $newDAL .= '
+                    .\'AND ' . $table . '.' . $pk2['fieldName'] . ' = ?\';';
+            $newDAL .= '
+
+            $params = array(\'' . $paramTypeString . 'ii\',';
+
+            foreach ($this->attributes as $attribut)
+            {
+                if ($attribut['isSavable'] && !$attribut['isPrimaryKey'])
+                {
+                    $newDAL .= '
+                &$' . $attribut['attributName'] . ',';
+                }
+            }
+
+            $newDAL .= '
+                &$' . $pk1['attributName'] . ',
+                &$' . $pk2['attributName'] . '
+            );
+        }
+        else
+        {
+            $sql = \'INSERT INTO ' . $table . ' \'
+                    . \'(' . $this->getSavableFields(true) . ') \'
+                    . \'VALUES (' . $this->getPersistTokensString() . ')\';
+
+            $params = array(\'' . $this->paramsTypeString . '\',';
+
+            $variableList = '';
+
+            foreach ($this->attributes as $attribut)
+            {
+                if ($attribut['isSavable'])
+                {
+                    $variableList .= '
+                &$' . $attribut['attributName'] . ',';
+                }
+            }
+
+            $variableToInsert = substr($variableList, 0, -1);
+            $newDAL .= $variableToInsert;
+
+            $newDAL .= '
+            );
+        }
+
+        $hasWorked = BaseSingleton::insertOrEdit($sql, $params);';
+
+            foreach ($this->attributes as $attribut)
+            {
+                if ($attribut['storage'] === 'object')
+                {
+                    $newDAL .= '
+
+        $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();
+        ' . $attribut['toUpperName'] . 'DAL::persist($' . $attribut['attributName'] . ');';
+                }
+            }
+
+            $newDAL .= '
+
+        return $hasWorked !== false;
     }';
         }
         else

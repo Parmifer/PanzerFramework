@@ -84,10 +84,6 @@
                 {
                   "table": "veterinaire",
                   "storage": "object"
-                },
-                {
-                  "table": "chat",
-                  "storage": "object"
                 }
               ]
             },
