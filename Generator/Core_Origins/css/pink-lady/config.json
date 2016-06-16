@@ -379,7 +379,7 @@
     "@page-header-border-color": "@gray-lighter",
     "@dl-horizontal-offset": "@component-offset-horizontal",
     "@dl-horizontal-breakpoint": "@grid-float-breakpoint",
-    "@hr-border": "@gray-lighter"
+    "@hr-border": "@gray-light"
   },
   "css": [
     "print.less",
@@ -431,5 +431,5 @@
     "scrollspy.js",
     "transition.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=a6a456169219d2e67f40f61693402af5"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=c99708e4da982384464de604b1894f67"
 }
