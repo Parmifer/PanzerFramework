@@ -94,7 +94,7 @@ class Veterinaire
             $this->id = $id;
         }
     }
-    
+
     /**
      * Getter of id.
      *
@@ -117,7 +117,7 @@ class Veterinaire
             $this->nom = $nom;
         }
     }
-    
+
     /**
      * Getter of nom.
      *
@@ -140,7 +140,7 @@ class Veterinaire
             $this->prenom = $prenom;
         }
     }
-    
+
     /**
      * Getter of prenom.
      *
@@ -163,7 +163,7 @@ class Veterinaire
             $this->adresse = $adresse;
         }
     }
-    
+
     /**
      * Getter of adresse.
      *
@@ -186,7 +186,7 @@ class Veterinaire
             $this->salaire = $salaire;
         }
     }
-    
+
     /**
      * Getter of salaire.
      *
@@ -210,7 +210,7 @@ class Veterinaire
             $this->user = UserDAL::findById($userId);
         }
     }
-    
+
     /**
      * Getter of userId.
      *

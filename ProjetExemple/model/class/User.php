@@ -117,9 +117,12 @@ class User
         if (is_int($id))
         {
             $this->id = $id;
+            $this->setRessourcesHumaines(RessourcesHumainesDAL::findByIdUser($id));
+            $this->setVeterinaire(VeterinaireDAL::findByIdUser($id));
+            $this->setInfirmier(InfirmierDAL::findByIdUser($id));
         }
     }
-    
+
     /**
      * Getter of id.
      *
@@ -142,7 +145,7 @@ class User
             $this->pseudo = $pseudo;
         }
     }
-    
+
     /**
      * Getter of pseudo.
      *
@@ -165,7 +168,7 @@ class User
             $this->password = $password;
         }
     }
-    
+
     /**
      * Getter of password.
      *
@@ -188,7 +191,7 @@ class User
             $this->creationDate = $creationDate;
         }
     }
-    
+
     /**
      * Getter of creationDate.
      *
@@ -212,7 +215,7 @@ class User
             $this->role = RoleDAL::findById($roleId);
         }
     }
-    
+
     /**
      * Getter of roleId.
      *
@@ -239,7 +242,7 @@ class User
             $this->ressourcesHumaines = RessourcesHumainesDAL::findByIdUser($this->id);
         }
     }
-    
+
     /**
      * Getter of ressourcesHumaines.
      *
@@ -262,7 +265,7 @@ class User
             $this->lesVeterinaire = $lesVeterinaire;
         }
     }
-    
+
     /**
      * Getter of lesVeterinaire.
      *
@@ -272,7 +275,7 @@ class User
     {
         return $this->lesVeterinaire;
     }
-    
+
     /**
      * Add a Veterinaire.
      *
@@ -298,7 +301,7 @@ class User
             $this->lesInfirmier = $lesInfirmier;
         }
     }
-    
+
     /**
      * Getter of lesInfirmier.
      *
@@ -308,7 +311,7 @@ class User
     {
         return $this->lesInfirmier;
     }
-    
+
     /**
      * Add a Infirmier.
      *
@@ -338,7 +341,7 @@ class User
             $this->role = RoleDAL::findById($role);
         }
     }
-    
+
     /**
      * Getter of role.
      *

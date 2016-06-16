@@ -100,9 +100,10 @@ class Infirmier
         if (is_int($id))
         {
             $this->id = $id;
+            $this->setLesChat(PrendreEnChargeDAL::findChatByIdInfirmier($id));
         }
     }
-    
+
     /**
      * Getter of id.
      *
@@ -125,7 +126,7 @@ class Infirmier
             $this->nom = $nom;
         }
     }
-    
+
     /**
      * Getter of nom.
      *
@@ -148,7 +149,7 @@ class Infirmier
             $this->prenom = $prenom;
         }
     }
-    
+
     /**
      * Getter of prenom.
      *
@@ -171,7 +172,7 @@ class Infirmier
             $this->adresse = $adresse;
         }
     }
-    
+
     /**
      * Getter of adresse.
      *
@@ -194,7 +195,7 @@ class Infirmier
             $this->salaire = $salaire;
         }
     }
-    
+
     /**
      * Getter of salaire.
      *
@@ -218,7 +219,7 @@ class Infirmier
             $this->user = UserDAL::findById($userId);
         }
     }
-    
+
     /**
      * Getter of userId.
      *
@@ -241,7 +242,7 @@ class Infirmier
             $this->lesChat = $lesChat;
         }
     }
-    
+
     /**
      * Getter of lesChat.
      *
@@ -251,7 +252,7 @@ class Infirmier
     {
         return $this->lesChat;
     }
-    
+
     /**
      * Add a Chat.
      *

@@ -19,11 +19,9 @@
  */
  
 
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RoleDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RessourcesHumainesDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/InfirmierDAL.php');
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RoleDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/User.php');
 
 class UserDAL extends PanzerDAL
@@ -39,9 +37,7 @@ class UserDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user WHERE id = ?', $params);
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -53,9 +49,7 @@ class UserDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user');
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -69,9 +63,7 @@ class UserDAL extends PanzerDAL
         $params = array('s', &$pseudo);
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user WHERE pseudo = ?', $params);
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -86,9 +78,7 @@ class UserDAL extends PanzerDAL
         $params = ['ss', &$login, &$password];
         $dataset = BaseSingleton::select('SELECT * FROM user where pseudo = ? AND password = ?', $params);
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -101,10 +91,8 @@ class UserDAL extends PanzerDAL
     {
         $params = array('i', &$idRole);
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user WHERE role_id = ?', $params);
-
-        $toReturn = self::handleResults($dataset);
         
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**

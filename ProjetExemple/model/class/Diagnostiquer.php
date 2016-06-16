@@ -89,7 +89,7 @@ class Diagnostiquer
             $this->chat = ChatDAL::findById($chatId);
         }
     }
-    
+
     /**
      * Getter of chatId.
      *
@@ -113,7 +113,7 @@ class Diagnostiquer
             $this->veterinaire = VeterinaireDAL::findById($veterinaireId);
         }
     }
-    
+
     /**
      * Getter of veterinaireId.
      *
@@ -136,7 +136,7 @@ class Diagnostiquer
             $this->date = $date;
         }
     }
-    
+
     /**
      * Getter of date.
      *
@@ -159,7 +159,7 @@ class Diagnostiquer
             $this->diagnostic = $diagnostic;
         }
     }
-    
+
     /**
      * Getter of diagnostic.
      *
@@ -186,7 +186,7 @@ class Diagnostiquer
             $this->veterinaire = VeterinaireDAL::findById($veterinaire);
         }
     }
-    
+
     /**
      * Getter of veterinaire.
      *

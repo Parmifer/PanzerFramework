@@ -86,9 +86,10 @@ class Salle
         if (is_int($id))
         {
             $this->id = $id;
+            $this->setChat(ChatDAL::findByIdSalle($id));
         }
     }
-    
+
     /**
      * Getter of id.
      *
@@ -111,7 +112,7 @@ class Salle
             $this->etage = $etage;
         }
     }
-    
+
     /**
      * Getter of etage.
      *
@@ -134,7 +135,7 @@ class Salle
             $this->numero = $numero;
         }
     }
-    
+
     /**
      * Getter of numero.
      *
@@ -157,7 +158,7 @@ class Salle
             $this->nombrePlaces = $nombrePlaces;
         }
     }
-    
+
     /**
      * Getter of nombrePlaces.
      *
@@ -180,7 +181,7 @@ class Salle
             $this->lesChat = $lesChat;
         }
     }
-    
+
     /**
      * Getter of lesChat.
      *
@@ -190,7 +191,7 @@ class Salle
     {
         return $this->lesChat;
     }
-    
+
     /**
      * Add a Chat.
      *

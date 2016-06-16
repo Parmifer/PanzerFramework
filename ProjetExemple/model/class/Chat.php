@@ -108,9 +108,11 @@ class Chat
         if (is_int($id))
         {
             $this->id = $id;
+            $this->setDiagnostiquer(DiagnostiquerDAL::findByIdChat($id));
+            $this->setOperer(OpererDAL::findByIdChat($id));
         }
     }
-    
+
     /**
      * Getter of id.
      *
@@ -133,7 +135,7 @@ class Chat
             $this->nom = $nom;
         }
     }
-    
+
     /**
      * Getter of nom.
      *
@@ -156,7 +158,7 @@ class Chat
             $this->adresse = $adresse;
         }
     }
-    
+
     /**
      * Getter of adresse.
      *
@@ -179,7 +181,7 @@ class Chat
             $this->reference = $reference;
         }
     }
-    
+
     /**
      * Getter of reference.
      *
@@ -202,7 +204,7 @@ class Chat
             $this->etat = $etat;
         }
     }
-    
+
     /**
      * Getter of etat.
      *
@@ -226,7 +228,7 @@ class Chat
             $this->salle = SalleDAL::findById($salleId);
         }
     }
-    
+
     /**
      * Getter of salleId.
      *
@@ -249,7 +251,7 @@ class Chat
             $this->lesDiagnostiquer = $lesDiagnostiquer;
         }
     }
-    
+
     /**
      * Getter of lesDiagnostiquer.
      *
@@ -259,7 +261,7 @@ class Chat
     {
         return $this->lesDiagnostiquer;
     }
-    
+
     /**
      * Add a Diagnostiquer.
      *
@@ -285,7 +287,7 @@ class Chat
             $this->lesOperer = $lesOperer;
         }
     }
-    
+
     /**
      * Getter of lesOperer.
      *
@@ -295,7 +297,7 @@ class Chat
     {
         return $this->lesOperer;
     }
-    
+
     /**
      * Add a Operer.
      *

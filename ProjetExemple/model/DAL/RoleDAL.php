@@ -34,9 +34,7 @@ class RoleDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, label, level, code FROM role WHERE id = ?', $params);
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -48,9 +46,7 @@ class RoleDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, label, level, code FROM role');
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**

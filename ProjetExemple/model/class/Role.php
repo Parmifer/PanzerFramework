@@ -80,7 +80,7 @@ class Role
             $this->id = $id;
         }
     }
-    
+
     /**
      * Getter of id.
      *
@@ -103,7 +103,7 @@ class Role
             $this->label = $label;
         }
     }
-    
+
     /**
      * Getter of label.
      *
@@ -126,7 +126,7 @@ class Role
             $this->level = $level;
         }
     }
-    
+
     /**
      * Getter of level.
      *
@@ -149,7 +149,7 @@ class Role
             $this->code = $code;
         }
     }
-    
+
     /**
      * Getter of code.
      *

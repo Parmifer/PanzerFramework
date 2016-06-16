@@ -19,7 +19,6 @@
  */
  
 
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/UserDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Infirmier.php');
 
@@ -36,9 +35,7 @@ class InfirmierDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, nom, prenom, adresse, salaire, user_id FROM infirmier WHERE id = ?', $params);
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -50,9 +47,7 @@ class InfirmierDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, nom, prenom, adresse, salaire, user_id FROM infirmier');
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -65,10 +60,8 @@ class InfirmierDAL extends PanzerDAL
     {
         $params = array('i', &$idUser);
         $dataset = BaseSingleton::select('SELECT id, nom, prenom, adresse, salaire, user_id FROM infirmier WHERE user_id = ?', $params);
-
-        $toReturn = self::handleResults($dataset);
         
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**

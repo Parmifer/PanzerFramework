@@ -67,28 +67,17 @@ class PanzerDALGenerator
         
         foreach($this->attributes as $attribut)
         {
-            if($attribut['storage'] !== 'var')
+            if($attribut['storage'] !== 'var' && !$attribut['foreignKeyInClass'])
             {
                 $newDAL .= '
 require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . $attribut['toUpperName'] . 'DAL.php\');';
-            }
-            else if ($attribut['isForeignKey'])
-            {
-                $newDAL .= '
-require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . PanzerStringUtils::convertToClassName($attribut['referencedTable']) . 'DAL.php\');';
             }
         }
         
         if (!$isManyToMany)
         {
-            $pkField = $pkFields[0];
-            
-            if($attribut['storage'] === 'object' && !$attribut['foreignKeyInClass'])
-            {
-                $subObjectHydrating = '
-        $toReturn->set'.$attribut['toUpperName'].'('.$attribut['toUpperName'].'DAL::findById'.$attribut['toUpperName'].'($toReturn->get'.$pkField['toUpperName'].'()));';
-            }
-            
+            $pkField = $pkFields[0];            
+                        
             $newDAL .= '
 require_once(PanzerConfiguration::getProjectRoot().\'model/class/' . $className . '.php\');
 
@@ -105,9 +94,7 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'i\', &$id);
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $pkField['fieldName'] . ' = ?\', $params);
 
-        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -119,9 +106,7 @@ class ' . $dalName . ' extends PanzerDAL
     {
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . '\');
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }';
 
             if ($table == 'user')
@@ -139,9 +124,7 @@ class ' . $dalName . ' extends PanzerDAL
         $params = array(\'s\', &$pseudo);
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM user WHERE pseudo = ?\', $params);
 
-        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -156,9 +139,7 @@ class ' . $dalName . ' extends PanzerDAL
         $params = [\'ss\', &$login, &$password];
         $dataset = BaseSingleton::select(\'SELECT * FROM user where pseudo = ? AND password = ?\', $params);
 
-        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }';
             }
 
@@ -195,10 +176,8 @@ class ' . $dalName . ' extends PanzerDAL
     {
         $params = array(\'i\', &$id' . $referencedClass . ');
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $foreignKey['fieldName'] . ' = ?\', $params);
-
-        $toReturn = self::handleResults($dataset);'.(isset($subObjectHydrating) ? $subObjectHydrating : '').'
         
-        return $toReturn;
+        return  self::handleResults($dataset);
     }';
                 }
             }

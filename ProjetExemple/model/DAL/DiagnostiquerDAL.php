@@ -19,9 +19,6 @@
  */
  
 
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Chat.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Veterinaire.php');
 

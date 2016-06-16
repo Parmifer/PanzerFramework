@@ -19,8 +19,6 @@
  */
  
 
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/InfirmierDAL.php');
 
 class PrendreEnChargeDAL extends PanzerDAL
 {

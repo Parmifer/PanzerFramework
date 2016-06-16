@@ -82,7 +82,7 @@ class Operer
             $this->chat = ChatDAL::findById($chatId);
         }
     }
-    
+
     /**
      * Getter of chatId.
      *
@@ -106,7 +106,7 @@ class Operer
             $this->veterinaire = VeterinaireDAL::findById($veterinaireId);
         }
     }
-    
+
     /**
      * Getter of veterinaireId.
      *
@@ -129,7 +129,7 @@ class Operer
             $this->date = $date;
         }
     }
-    
+
     /**
      * Getter of date.
      *
@@ -156,7 +156,7 @@ class Operer
             $this->veterinaire = VeterinaireDAL::findById($veterinaire);
         }
     }
-    
+
     /**
      * Getter of veterinaire.
      *

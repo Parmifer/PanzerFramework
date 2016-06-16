@@ -35,9 +35,7 @@ class SalleDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, etage, numero, nombre_places FROM salle WHERE id = ?', $params);
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
@@ -49,9 +47,7 @@ class SalleDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, etage, numero, nombre_places FROM salle');
 
-        $toReturn = self::handleResults($dataset);
-        
-        return $toReturn;
+        return  self::handleResults($dataset);
     }
 
     /**
