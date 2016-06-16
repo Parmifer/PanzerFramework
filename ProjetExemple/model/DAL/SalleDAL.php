@@ -17,7 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+ 
 
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Salle.php');
 
 class SalleDAL extends PanzerDAL
@@ -33,7 +35,9 @@ class SalleDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, etage, numero, nombre_places FROM salle WHERE id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -45,7 +49,9 @@ class SalleDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, etage, numero, nombre_places FROM salle');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**

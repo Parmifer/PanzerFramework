@@ -17,10 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+ 
 
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
-require_once(PanzerConfiguration::getProjectRoot().'model/class/Chat.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/class/Chat.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Veterinaire.php');
 
 class OpererDAL extends PanzerDAL
@@ -36,7 +38,9 @@ class OpererDAL extends PanzerDAL
         $params = array('i', &$idChat);
         $dataset = BaseSingleton::select('SELECT chat_id, veterinaire_id, date FROM operer WHERE chat_id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -50,7 +54,9 @@ class OpererDAL extends PanzerDAL
         $params = array('i', &$idVeterinaire);
         $dataset = BaseSingleton::select('SELECT chat_id, veterinaire_id, date FROM operer WHERE veterinaire_id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -65,7 +71,9 @@ class OpererDAL extends PanzerDAL
         $params = array('ii', &$idChat, &$idVeterinaire);
         $dataset = BaseSingleton::select('SELECT chat_id, veterinaire_id, date FROM operer WHERE chat_id = ? AND veterinaire_id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -77,6 +85,54 @@ class OpererDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT chat_id, veterinaire_id, date FROM operer');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
+    }
+
+    /**
+     * Create or edit a Operer.
+     *
+     * @param Operer $operer
+     * @return int id of the Operer inserted/edited in base. False if it didn't work.
+     */
+    public static function persist($operer)
+    {
+        $chatId = $operer->getChatId();
+        $veterinaireId = $operer->getVeterinaireId();
+        $date = $operer->getDate();
+
+        if ($chatId > 0 && $veterinaireId > 0)
+        {
+            $sql = 'UPDATE operer SET '
+                    .'operer.date = ? '
+                    .'WHERE operer.chat_id = ?' 
+                    .'AND operer.veterinaire_id = ?';
+
+            $params = array('sii',
+                &$date,
+                &$chatId,
+                &$veterinaireId
+            );
+        }
+        else
+        {
+            $sql = 'INSERT INTO operer '
+                    . '(chat_id, veterinaire_id, date) '
+                    . 'VALUES (? ,? ,?)';
+
+            $params = array('iis',
+                &$chatId,
+                &$veterinaireId,
+                &$date
+            );
+        }
+
+        $hasWorked = BaseSingleton::insertOrEdit($sql, $params);
+
+        $veterinaire = $operer->getVeterinaire();
+        VeterinaireDAL::persist($veterinaire);
+
+        return $hasWorked !== false;
     }
 }

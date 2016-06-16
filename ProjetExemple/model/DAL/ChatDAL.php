@@ -17,7 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+ 
 
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/SalleDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/DiagnostiquerDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/OpererDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Chat.php');
 
 class ChatDAL extends PanzerDAL
@@ -33,7 +37,9 @@ class ChatDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, nom, adresse, reference, etat, salle_id FROM chat WHERE id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -45,7 +51,9 @@ class ChatDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, nom, adresse, reference, etat, salle_id FROM chat');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -59,7 +67,9 @@ class ChatDAL extends PanzerDAL
         $params = array('i', &$idSalle);
         $dataset = BaseSingleton::select('SELECT id, nom, adresse, reference, etat, salle_id FROM chat WHERE salle_id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**

@@ -17,7 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+ 
 
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/UserDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Veterinaire.php');
 
 class VeterinaireDAL extends PanzerDAL
@@ -33,7 +35,9 @@ class VeterinaireDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, nom, prenom, adresse, salaire, user_id FROM veterinaire WHERE id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -45,7 +49,9 @@ class VeterinaireDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, nom, prenom, adresse, salaire, user_id FROM veterinaire');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -59,7 +65,9 @@ class VeterinaireDAL extends PanzerDAL
         $params = array('i', &$idUser);
         $dataset = BaseSingleton::select('SELECT id, nom, prenom, adresse, salaire, user_id FROM veterinaire WHERE user_id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**

@@ -17,6 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+ 
 
 require_once(PanzerConfiguration::getProjectRoot().'model/class/Role.php');
 
@@ -33,7 +34,9 @@ class RoleDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, label, level, code FROM role WHERE id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -45,7 +48,9 @@ class RoleDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, label, level, code FROM role');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**

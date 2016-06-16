@@ -19,7 +19,6 @@
  */
 
 require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
-require_once(PanzerConfiguration::getProjectRoot().'model/DAL/ChatDAL.php');
 
 class Diagnostiquer
 {
@@ -57,12 +56,6 @@ class Diagnostiquer
      */
     private $veterinaire;
 
-    /**
-     *
-     * @var Chat
-     */
-    private $chat;
-
     /////////////////
     // CONSTRUCTOR //
     /////////////////
@@ -77,7 +70,6 @@ class Diagnostiquer
         $this->date = null;
         $this->diagnostic = null;
         $this->veterinaire = null;
-        $this->chat = null;
     }
 
     ///////////////////////
@@ -203,33 +195,6 @@ class Diagnostiquer
     public function getVeterinaire()
     {
         return $this->veterinaire;
-    }
-
-    /**
-     * Setter of chat.
-     *
-     * @param Chat|int $chat
-     */
-    public function setChat($chat)
-    {
-        if (is_a($chat, 'Chat'))
-        {
-            $this->chat = $chat;
-        }
-        else if (is_int($chat))
-        {
-            $this->chat = ChatDAL::findById($chat);
-        }
-    }
-    
-    /**
-     * Getter of chat.
-     *
-     * @return Chat
-     */
-    public function getChat()
-    {
-        return $this->chat;
     }
 
     /////////////

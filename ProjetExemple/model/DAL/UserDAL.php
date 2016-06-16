@@ -17,7 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+ 
 
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RoleDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RessourcesHumainesDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/VeterinaireDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/InfirmierDAL.php');
+require_once(PanzerConfiguration::getProjectRoot().'model/DAL/RoleDAL.php');
 require_once(PanzerConfiguration::getProjectRoot().'model/class/User.php');
 
 class UserDAL extends PanzerDAL
@@ -33,7 +39,9 @@ class UserDAL extends PanzerDAL
         $params = array('i', &$id);
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user WHERE id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -45,7 +53,9 @@ class UserDAL extends PanzerDAL
     {
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user');
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -59,7 +69,26 @@ class UserDAL extends PanzerDAL
         $params = array('s', &$pseudo);
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user WHERE pseudo = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
+    }
+
+    /**
+     * Verify if the user exist and if his password is correct, return the user if true, null otherwise
+     *
+     * @param String $login Login given by the user
+     * @param String(SHA512) $password Password given by the user
+     * @return User|null|false User if login and password correct, null if not, false in case of error
+     */
+    public static function verifyConnection($login, $password)
+    {
+        $params = ['ss', &$login, &$password];
+        $dataset = BaseSingleton::select('SELECT * FROM user where pseudo = ? AND password = ?', $params);
+
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
@@ -73,7 +102,9 @@ class UserDAL extends PanzerDAL
         $params = array('i', &$idRole);
         $dataset = BaseSingleton::select('SELECT id, pseudo, password, creation_date, role_id FROM user WHERE role_id = ?', $params);
 
-        return self::handleResults($dataset);
+        $toReturn = self::handleResults($dataset);
+        
+        return $toReturn;
     }
 
     /**
