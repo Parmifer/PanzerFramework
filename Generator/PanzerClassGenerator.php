@@ -247,6 +247,7 @@ class ' . $className .
     }';
                     break;
                 case 'array':
+                    $upperName = PanzerStringUtils::premiereLettreMaj($attribut['attributName']);
                     $maClasse .=
                             '
 
@@ -255,7 +256,7 @@ class ' . $className .
      *
      * @param array of ' . $attribut['phpType'] . ' $' . $attribut['attributName'] . '
      */
-    public function set' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    public function set' . $upperName . '($' . $attribut['attributName'] . ')
     {
         if (is_array($' . $attribut['attributName'] . '))
         {
@@ -268,7 +269,7 @@ class ' . $className .
      *
      * @return array of ' . $attribut['phpType'] . '
      */
-    public function get' . $attribut['toUpperName'] . '()
+    public function get' . $upperName . '()
     {
         return $this->' . $attribut['attributName'] . ';
     }
@@ -278,11 +279,11 @@ class ' . $className .
      *
      * @param ' . $attribut['phpType'] . '
      */
-    public function add' . $attribut['toUpperName'] . '($' . $attribut['attributName'] . ')
+    public function add' . $attribut['toUpperName'] . '($' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ')
     {
-        if (is_a($' . $attribut['attributName'] . ', \'' . $attribut['phpType'] . '\'))
+        if (is_a($' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ', \'' . $attribut['phpType'] . '\'))
         {
-            $this->' . $attribut['attributName'] . '[] = $' . $attribut['attributName'] . ';
+            $this->' . $attribut['attributName'] . '[] = $' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ';
         }
     }';
                     break;

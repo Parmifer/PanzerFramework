@@ -23,10 +23,8 @@ class PanzerDALGenerator
     private $attributes;
     private $objectsNotInClass;
     private $objectsInClass;
-    
     private $requestableFieldCount;
     private $savableFieldCount;
-    
     private $paramsTypeString;
 
     public function generateOneDAL($table, $attributes, $folder)
@@ -70,7 +68,7 @@ class PanzerDALGenerator
 
             $newDAL .=
                     '
-    
+
 require_once(PanzerConfiguration::getProjectRoot().\'model/class/' . $className . '.php\');
 
 class ' . $dalName . ' extends PanzerDAL
@@ -104,7 +102,7 @@ class ' . $dalName . ' extends PanzerDAL
             if ($table == 'user')
             {
                 $newDAL .= '
-                
+
     /**
      * Returns the User matching with the given pseudo.
      *
@@ -134,27 +132,43 @@ class ' . $dalName . ' extends PanzerDAL
         return self::handleResults($dataset);
     }';
             }
-                        
-            if(count($this->objectsNotInClass) > 0)
+
+            if (count($this->objectsNotInClass) > 0)
             {
                 foreach ($this->objectsNotInClass as $foreignKey)
                 {
                     $referencedClass = PanzerStringUtils::convertToClassName($foreignKey['referencedTable']);
-                    $newDAL .= '
-                    
+                    $isOneToOne = ($foreignKey['relationType'] === PanzerSQLUtils::ONE_TO_ONE);
+                    if($isOneToOne)
+                    {
+                        $newDAL .= '
+
     /**
-     * Returns the ' . $className . ' which the '. $foreignKey['fieldName'] . ' match with the given id.
+     * Returns the ' . $className . ' which the ' . $foreignKey['fieldName'] . ' match with the given id.
      *
-     * @param int $id'.$referencedClass.' The id of the ' . $referencedClass . '.
+     * @param int $id' . $referencedClass . ' The id of the ' . $referencedClass . '.
      * @return mixed A ' . $className . '. Null if not found.
-     */
-    public static function findById'.$referencedClass.'($id'.$referencedClass.')
+     */';
+                    }
+                    else
+                    {
+                        $newDAL .= '
+
+    /**
+     * Returns all the ' . $className . ' where the ' . $foreignKey['fieldName'] . ' match with the given id.
+     *
+     * @param int $id' . $referencedClass . ' The id of the ' . $referencedClass . '.
+     * @return array One or many ' . $className . '. Null if not found.
+     */';
+                    }
+                    $newDAL .= '
+    public static function findById' . $referencedClass . '($id' . $referencedClass . ')
     {
-        $params = array(\'i\', &$id'.$referencedClass.');
+        $params = array(\'i\', &$id' . $referencedClass . ');
         $dataset = BaseSingleton::select(\'SELECT ' . $this->getRequestableFields() . ' FROM ' . $table . ' WHERE ' . $foreignKey['fieldName'] . ' = ?\', $params);
 
         return self::handleResults($dataset);
-    }'; 
+    }';
                 }
             }
 
@@ -175,12 +189,12 @@ class ' . $dalName . ' extends PanzerDAL
                     $newDAL .= '
         $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();';
                 }
-                else if($attribut['isSavable'] && in_array($attribut, $this->objectsNotInClass))
+                else if ($attribut['isSavable'] && in_array($attribut, $this->objectsNotInClass))
                 {
                     $newDAL .= '
         $' . $attribut['attributName'] . ' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();';
-                }                    
-                else if($attribut['isSavable'] && in_array($attribut, $this->objectsInClass))
+                }
+                else if ($attribut['isSavable'] && in_array($attribut, $this->objectsInClass))
                 {
                     $tableUpper = PanzerStringUtils::convertToClassName($attribut['referencedTable']);
                     $clefUpper = PanzerStringUtils::convertToClassName($attribut['referencedColumn']);
@@ -258,7 +272,31 @@ class ' . $dalName . ' extends PanzerDAL
             );
         }
 
-        $idInsert = BaseSingleton::insertOrEdit($sql, $params);
+        $idInsert = BaseSingleton::insertOrEdit($sql, $params);';
+
+            foreach ($this->attributes as $attribut)
+            {
+                if ($attribut['storage'] === 'array')
+                {
+                    $toPersist = PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . 'ToPersist';
+                    $newDAL .= '
+
+        $' . $toPersist . ' = $' . $classCamelCase . '->get' . PanzerStringUtils::premiereLettreMaj($attribut['attributName']) . '();
+        foreach($'.$toPersist.' as $' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ')
+        {
+            ' . PanzerStringUtils::convertToClassName($attribut['fieldName']) . 'DAL::persist($' . PanzerStringUtils::convertBddEnCamelCase($attribut['fieldName']) . ');
+        }';
+                }
+                else if($attribut['storage'] === 'object' && !$attribut['foreignKeyInClass'])
+                {
+                    $newDAL .= '
+
+        $'.$attribut['attributName'].' = $' . $classCamelCase . '->get' . $attribut['toUpperName'] . '();
+        '. $attribut['toUpperName'] . 'DAL::persist($' . $attribut['attributName'] . ');';
+                }
+            }
+
+            $newDAL .= '
 
         if($idInsert !== false && $' . $pkField['attributName'] . ' > 0)
         {
@@ -289,7 +327,7 @@ class ' . $dalName . ' extends PanzerDAL
             $pk2ClassName = PanzerStringUtils::convertToClassName($pk2['referencedTable']);
             $newDAL .=
                     '
-    
+
 require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . $pk1ClassName . 'DAL.php\');
 require_once(PanzerConfiguration::getProjectRoot().\'model/class/' . $pk1ClassName . '.php\');
 require_once(PanzerConfiguration::getProjectRoot().\'model/DAL/' . $pk2ClassName . 'DAL.php\');
@@ -310,7 +348,7 @@ class ' . $dalName . ' extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-    
+
     /**
      * Returns all the ' . $className . ' for which the ' . $pk2ClassName . 'Id match with the given id.
      *
@@ -324,7 +362,7 @@ class ' . $dalName . ' extends PanzerDAL
 
         return self::handleResults($dataset);
     }
-    
+
     /**
      * Returns the ' . $className . ' for which both id\'s match.
      *
@@ -342,8 +380,8 @@ class ' . $dalName . ' extends PanzerDAL
                     '\', $params);
 
         return self::handleResults($dataset);
-    } 
-    
+    }
+
     /**
      * Returns all the ' . $className . '.
      *
@@ -367,7 +405,7 @@ class ' . $dalName . ' extends PanzerDAL
 
 class ' . $dalName . ' extends PanzerDAL
 {
-    
+
     /**
      * Create a new association between one ' . $pk1ClassName . ' and one ' . $pk2ClassName . '.
      *
@@ -382,10 +420,10 @@ class ' . $dalName . ' extends PanzerDAL
                 . \'VALUES (?, ?)\';
         $params = array(\'ii\', &$id' . $pk1ClassName . ', &$id' . $pk2ClassName . ');
         $itWorked = BaseSingleton::insertOrEdit($sql, $params);
-        
+
         return $itWorked !== false;
     }
-    
+
     /**
      * Delete an association between one ' . $pk1ClassName . ' and one ' . $pk2ClassName . '.
      *
@@ -398,7 +436,7 @@ class ' . $dalName . ' extends PanzerDAL
         $sql = \'DELETE FROM ' . $table . ' WHERE ' . $pk1['fieldName'] . ' = ? AND ' . $pk2['fieldName'] . ' = ?\';
         $params = array(\'ii\', &$id' . $pk1ClassName . ', &$id' . $pk2ClassName . ');
         $deleted = BaseSingleton::delete($sql, $params);
-        
+
         return $deleted;
     }';
         }
@@ -530,35 +568,35 @@ class ' . $dalName . ' extends PanzerDAL
 
         return $isAnAssociation;
     }
-    
+
     private function setObjectsInClassVariables()
     {
         $this->objectsNotInClass = array();
         $this->objectsInClass = array();
-        
-        foreach($this->attributes as $attribut)
+
+        foreach ($this->attributes as $attribut)
         {
-            if($attribut['isForeignKey'])
+            if ($attribut['isForeignKey'])
             {
                 $isInClass = false;
-                
-                foreach($this->attributes as $potentielObjet)
+
+                foreach ($this->attributes as $potentielObjet)
                 {
-                    if($potentielObjet['relatedForeignKey'] === $attribut['fieldName'])
+                    if ($potentielObjet['relatedForeignKey'] === $attribut['fieldName'])
                     {
                         $isInClass = true;
                         break;
                     }
                 }
-                
-                if($isInClass)
+
+                if ($isInClass)
                 {
                     $this->objectsNotInClass[] = $attribut;
                 }
                 else
                 {
                     $this->objectsNotInClass[] = $attribut;
-                }                    
+                }
             }
         }
     }
