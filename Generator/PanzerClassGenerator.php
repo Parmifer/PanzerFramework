@@ -28,8 +28,6 @@ class PanzerClassGenerator
         // Usefull vars
         $className = PanzerStringUtils::convertToClassName($table);
         $this->includes = array();
-        $primaryKeyAttributIndex = array();
-        $currentIndex = 0;
 
         foreach ($attributes as $attribut)
         {
@@ -44,10 +42,8 @@ class PanzerClassGenerator
 
             if ($attribut['isPrimaryKey'])
             {
-                $primaryKeyAttributIndex[] = $currentIndex;
+                $primaryKeyAttribut = $attribut;
             }
-
-            $currentIndex++;
         }
 
         $generatedClassFile = $folder . $className . '.php';
@@ -180,7 +176,7 @@ class ' . $className .
         }
         else if (is_int($' . $attribut['attributName'] . '))
         {
-            $this->' . $attribut['attributName'] . ' = ' . $attribut['toUpperName'] . 'DAL::findById' . $className . '($this->' . $attribut[$primaryKeyAttributIndex[0]]['attributName'] . ');
+            $this->' . $attribut['attributName'] . ' = ' . $attribut['toUpperName'] . 'DAL::findById' . $className . '($this->' . $primaryKeyAttribut['attributName'] . ');
         }
     }';
                     }
