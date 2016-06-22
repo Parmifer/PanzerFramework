@@ -1,0 +1,159 @@
+<!--
+Copyright (C) 2016 lucile
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<link rel="stylesheet" href="./PanzerCalendar.css">
+<script src="./PanzerCalendar.js"></script>
+<div id="panzer-calendar-container" class="col-xs-6 col-sm-5 col-md-4 col-lg-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center panzer-calendar-title">
+            <span id="panzer-calendar-title-previous">
+                <a href="" id="panzer-calendar-title-previous-arrow">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+            </span>
+            <span id="panzer-calendar-title-date">
+                <span id="panzer-calendar-title-month">Janvier</span> <span id="panzer-calendar-title-year">2016</span>
+            </span>
+            <span id="panzer-calendar-title-next">
+                <a href="" id="panzer-calendar-title-next-arrow">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </span>
+        </div>
+        <div id="panzer-calendar-content" class="panel-body">
+            <div class="col-xs-0 col-sm-1 col-md-1 col-lg-1"></div>
+            <div id="panzer-calendar-content-calendar" class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                <div class="btn-group btn-group-justified panzer-calendar-content-top-date" role="group" aria-label="...">
+                    <div id="panzer-calendar-content-day-0-0" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default panzer-calendar-content-previous-month" disabled="disabled">1</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-0-1" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">2</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-0-2" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">3</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-0-3" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">4</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-0-4" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">5</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-0-5" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">6</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-0-6" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">7</button>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified panzer-calendar-content-middle-date" role="group" aria-label="...">
+                    <div id="panzer-calendar-content-day-1-0" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">1</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-1-1" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">2</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-1-2" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">3</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-1-3" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">4</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-1-4" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">5</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-1-5" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">6</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-1-6" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">7</button>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified panzer-calendar-content-middle-date" role="group" aria-label="...">
+                    <div id="panzer-calendar-content-day-2-0" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">1</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-2-1" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">2</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-2-2" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">3</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-2-3" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">4</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-2-4" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">5</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-2-5" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">6</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-2-6" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">7</button>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified panzer-calendar-content-middle-date" role="group" aria-label="...">
+                    <div id="panzer-calendar-content-day-3-0" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">1</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-3-1" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">2</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-3-2" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">3</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-3-3" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">4</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-3-4" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">5</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-3-5" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">6</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-3-6" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">7</button>
+                    </div>
+                </div>
+                <div class="btn-group btn-group-justified panzer-calendar-content-bottom-date" role="group" aria-label="...">
+                    <div id="panzer-calendar-content-day-4-0" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">1</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-4-1" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">2</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-4-2" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">3</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-4-3" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">4</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-4-4" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">5</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-4-5" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">6</button>
+                    </div>
+                    <div id="panzer-calendar-content-day-4-6" class="btn-group" role="group">
+                        <button type="button" class="btn btn-default panzer-calendar-content-next-month" disabled="disabled">7</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-0 col-sm-1 col-md-1 col-lg-1"></div>
+        </div>
+    </div>
+</div>

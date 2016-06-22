@@ -18,47 +18,314 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 <html>
     <head>
-        <title>Exemple Pink Lady</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <title>Pink Lady Theme</title>
 
-        <!--TODO : Mettre des vrais liens.-->
-        <link rel="stylesheet" href="file:///home/lucile/Documents/Ecole/ProjetPanzer/PanzerFramework/Generator/Core_Origins/css/pink-lady/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="file:///home/lucile/Documents/Ecole/ProjetPanzer/PanzerFramework/Generator/Core_Origins/css/pink-lady/css/bootstrap.min.css">
-        <script src="file:///home/lucile/Documents/Ecole/ProjetPanzer/PanzerFramework/Generator/Core_Origins/css/pink-lady/js/bootstrap.min.js"></script>
+        <!-- jQuery library -->
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+        <!-- Boostrap Pink Lady theme -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <!-- Pink Lady theme -->
+        <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="./js/bootstrap.min.js"></script>
+        
+        <!-- Bootstrap favicon -->
+        <link href="http://getbootstrap.com/2.3.2/assets/ico/favicon.png" rel="icon">
     </head>
     <body>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="?page=home">Aperçu</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="?page=home">Panzer</a>
+                </div>
+
+                <ul class="nav navbar-nav">
+                    <li id="what_is_it"><a href="">Un lien</a></li>
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Un dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Un lien</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="">Un autre lien</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <form class="navbar-form" action="index.php" method="post">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="login" placeholder="Username">
+                                    <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn btn-default">Sign In</button>
+                            </form>
+                        </li>
+                        <li>
+                            <button type="button" id="register-button-link" class="btn btn-default navbar-btn">Register</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
-        <div id="panzer-calendar-container" class="col-xs-12">
-            <form>
+
+        <div id="div-sample" class="col-lg-2"></div>
+        <div id="div-sample" class="col-lg-8">
+            <hr>
+            <h1># Headers</h1>
+            <hr>
+            <h1>h1. Bootstrap heading</h1>
+
+            <h2>h2. Bootstrap heading</h2>
+
+            <h3>h3. Bootstrap heading</h3>
+
+            <br>
+            <hr>
+            <h1># Paragraph</h1>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porta est eu augue pretium, in semper leo imperdiet. 
+                Etiam id nisi tempus, semper nisi nec, venenatis massa. Vestibulum hendrerit nulla non urna imperdiet, 
+                fermentum varius ipsum lacinia. Maecenas convallis erat arcu, at ultrices nisl cursus et. 
+                Mauris interdum vestibulum mi, nec mollis risus mattis in. Sed pulvinar justo a malesuada ultricies. 
+                Aliquam cursus massa nec ligula sollicitudin interdum. Vestibulum ut pharetra odio. Integer eget ipsum elit. 
+                Nunc ut nisl non justo consectetur ultricies in eget ipsum. Etiam fringilla tellus vel dolor aliquam, eget venenatis purus placerat.</p>
+            <p>Etiam eleifend sit amet dolor lobortis eleifend. Donec vitae justo nulla. Maecenas egestas, 
+                lorem quis consectetur pulvinar, quam dui tristique risus, quis iaculis magna quam aliquam ligula. 
+                Nunc sit amet augue risus. Vestibulum ut elit quis velit convallis pretium sit amet et dolor. 
+                Aliquam ac condimentum dolor, ac molestie ex. Duis porta vel elit vel fermentum. Nullam non lacus non purus mattis venenatis. 
+                Nunc non placerat urna, et congue dolor. Quisque imperdiet malesuada massa sit amet bibendum. 
+                Nulla sagittis ante ornare velit maximus commodo. Curabitur blandit mollis nunc a scelerisque. 
+                Mauris posuere tortor quis fermentum fermentum. Nunc tellus libero, dignissim in pretium a, iaculis non lorem. 
+                Sed eget ipsum at libero venenatis egestas vitae a mauris. Donec eget magna eu nunc fermentum consequat.</p>
+            <p>Sed vehicula est egestas, tincidunt tortor quis, tincidunt augue. Aliquam commodo scelerisque ligula non pulvinar. 
+                Quisque non rhoncus est, ac dictum ligula. Sed et mauris risus. Vestibulum justo ante, tempor vitae lacus vel, 
+                ultricies efficitur eros. In eget massa eros. Aliquam tempus ornare nisi, nec dictum odio consequat sit amet. 
+                Fusce risus ex, ultrices non ultricies et, pulvinar sed mauris. Nunc vehicula nunc et cursus accumsan. 
+                Fusce nunc mauris, varius non diam ac, ornare ornare velit. Curabitur non maximus enim. In tempus fermentum egestas. 
+                Proin in felis aliquam, aliquet leo at, lobortis orci. Sed et commodo orci. </p>
+
+            <br>
+            <hr>
+            <h1># Table</h1>
+            <hr>
+            <table class = "table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Colonne 1</th>
+                        <th>Colonne 2</th>
+                        <th>Colonne 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Case (0,0)
+                        </td>
+                        <td>
+                            Case (0,1)
+                        </td>
+                        <td>
+                            Case (0,2)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Case (1,0)
+                        </td>
+                        <td>
+                            Case (1,1)
+                        </td>
+                        <td>
+                            Case (1,2)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br>
+            <hr>
+            <h1># Form</h1>
+            <hr>
+            <!--Formulaire-->
+            <form action="" method="post" >  <!-- Action a remplir -->
+                <!--Un champ caché-->
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                    <input name="hidden-input" type="hidden" class="form-control" value ="">  <!--Value à mettre -->
                 </div>
+                <!--Champ username-->
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label for="username">Username</label>
+                    <input name="username" type="text" class="form-control" id="username" placeholder="Username">
                 </div>
+                <!--Champ email-->
                 <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <input type="file" id="exampleInputFile">
-                    <p class="help-block">Example block-level help text here.</p>
+                    <label for="email">Email address</label>
+                    <input name="email" type="email" class="form-control" id="email" placeholder="Email">
                 </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Check me out
-                    </label>
+                <!--Champ password-->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <!--Champ date-->
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input class="form-control date" name="date" id="date" type="date" value="">
+                </div>
+                <!--Checkbox-->
+                <div class="form-group">
+                    <input type="checkbox"> I'm a checkbox. Tick me :)
+                </div>
+                <!--Champ texte-->
+                <div class="form-group" id="textarea">
+                    <label>Textarea</label>
+                    <textarea class="form-control" rows="3" placeholder="I am a text area"></textarea>
+                </div>
+                <!--Select-->
+                <div class="form-group" id="select">
+                    <label>Select</label>
+                    <select class="form-control">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                        <option>Option 4</option>
+                        <option>Option 5</option>
+                    </select>
+                </div>
+                <div class="form-group" id="submit-btn">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
             </form>
 
+            <br>
+            <hr>
+            <h1># Buttons</h1>
+            <hr>
+            <!-- Standard button -->
+            <button type="button" class="btn btn-default">Default</button>
+
+            <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+            <button type="button" class="btn btn-primary">Primary</button>
+
+            <!-- Indicates a successful or positive action -->
+            <button type="button" class="btn btn-success">Success</button>
+
+            <!-- Contextual button for informational alert messages -->
+            <button type="button" class="btn btn-info">Info</button>
+
+            <!-- Indicates caution should be taken with this action -->
+            <button type="button" class="btn btn-warning">Warning</button>
+
+            <!-- Indicates a dangerous or potentially negative action -->
+            <button type="button" class="btn btn-danger">Danger</button>
+
+            <!-- Standard button disabled-->
+            <button type="button" class="btn btn-default" disabled="disabled">Default disabled</button>
+
+            <br>
+            <br>
+            <hr>
+            <h1># Pagination</h1>
+            <hr>
+            <nav>
+                <ul class="pagination pagination-lg">
+                    <li class="disabled">
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <br>
+            <hr>
+            <h1># Jumbotron</h1>
+            <hr>
+            <div class="container">
+                <div class="jumbotron">
+                    <h1>I'm a jumbotron!</h1>
+                    <p>Your text here. Be creative !</p>
+                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Maybe a link here ?</a></p>
+                </div>
+            </div>
+
+            <br>
+            <hr>
+            <h1># Alerts</h1>
+            <hr>
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Alert 1
+            </div>
+            <div class="alert alert-info" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Alert 2
+            </div>
+            <div class="alert alert-warning" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Alert 3
+            </div>
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Alert 4
+            </div>
+
+            <br>
+            <hr>
+            <h1># Panel</h1>
+            <hr>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel title</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porta est eu augue pretium, in semper leo imperdiet. 
+                        Etiam id nisi tempus, semper nisi nec, venenatis massa. Vestibulum hendrerit nulla non urna imperdiet, 
+                        fermentum varius ipsum lacinia. Maecenas convallis erat arcu, at ultrices nisl cursus et. 
+                        Mauris interdum vestibulum mi, nec mollis risus mattis in. Sed pulvinar justo a malesuada ultricies. 
+                        Aliquam cursus massa nec ligula sollicitudin interdum. Vestibulum ut pharetra odio. Integer eget ipsum elit. 
+                        Nunc ut nisl non justo consectetur ultricies in eget ipsum. Etiam fringilla tellus vel dolor aliquam, eget venenatis purus placerat.</p>
+                    <p>Etiam eleifend sit amet dolor lobortis eleifend. Donec vitae justo nulla. Maecenas egestas, 
+                        lorem quis consectetur pulvinar, quam dui tristique risus, quis iaculis magna quam aliquam ligula. 
+                        Nunc sit amet augue risus. Vestibulum ut elit quis velit convallis pretium sit amet et dolor. 
+                        Aliquam ac condimentum dolor, ac molestie ex. Duis porta vel elit vel fermentum. Nullam non lacus non purus mattis venenatis. 
+                        Nunc non placerat urna, et congue dolor. Quisque imperdiet malesuada massa sit amet bibendum. 
+                        Nulla sagittis ante ornare velit maximus commodo. Curabitur blandit mollis nunc a scelerisque. 
+                        Mauris posuere tortor quis fermentum fermentum. Nunc tellus libero, dignissim in pretium a, iaculis non lorem. 
+                        Sed eget ipsum at libero venenatis egestas vitae a mauris. Donec eget magna eu nunc fermentum consequat.</p>
+                </div>
+            </div>
+
+            <br>
+            <hr>
+            <h1># Well</h1>
+            <hr>
+            <div class="well">Don't you know what I am? Well...</div>
+
         </div>
+        <div id="div-sample" class="col-lg-2"></div>
+
     </body>
 </html>

@@ -29,7 +29,7 @@ abstract class PanzerDAL
             eval($createObjectCode);
             foreach($row as $field => $value)
             {    
-                $fillCode = '$object->set' . PanzerStringUtils::convertBddEnCamelCase($field) . '($value);';        
+                $fillCode = '$object->set' . PanzerStringUtils::convertToClassName($field) . '($value);';        
                 eval($fillCode);
             }
         

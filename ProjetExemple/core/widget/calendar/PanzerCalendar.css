@@ -1,0 +1,51 @@
+/*
+Copyright (C) 2016 lucile
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+/* 
+    Created on : 13 juin 2016, 14:15:12
+    Author     : lucile
+*/
+
+
+.panzer-calendar-title a {
+    color: #fff
+}
+
+.panzer-calendar-title a:hover {
+    color: #ccc
+}
+
+.panzer-calendar-content-day-current {
+    color: blue;
+    font-weight: bold;
+}
+
+.panzer-calendar-content-day-weekend {
+    color: grey;
+}
+
+.panzer-calendar-content-middle-date > div > button {
+    border-radius: 0;
+}
+.panzer-calendar-content-top-date > div > button {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.panzer-calendar-content-bottom-date > div > button {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

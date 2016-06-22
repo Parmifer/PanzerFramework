@@ -21,6 +21,7 @@
 
 require_once('core/functions/PanzerStringUtils.php');
 require_once('core/functions/PanzerSQLUtils.php');
+require_once('core/functions/PanzerSessionUtils.php');
 require_once('core/configuration/PanzerConfiguration.php');
 require_once('core/BaseSingleton.php');
 require_once('core/PanzerDAL.php');
@@ -28,3 +29,5 @@ require_once('core/alerter/PanzerAlerter.php');
 require_once('core/alerter/PanzerAlert.php');
 require_once('core/logger/PanzerLogger.php');
 require_once('core/Syntaxalyser.php');
+require_once('model/DAL/UserDAL.php');
+require_once('model/DAL/RoleDAL.php');

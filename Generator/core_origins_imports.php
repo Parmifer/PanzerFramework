@@ -20,6 +20,7 @@
 
 require_once('Core_Origins/functions/PanzerStringUtils.php');
 require_once('Core_Origins/functions/PanzerSQLUtils.php');
+require_once('Core_Origins/functions/PanzerSessionUtils.php');
 require_once('Core_Origins/configuration/PanzerConfiguration.php');
 require_once('Core_Origins/BaseSingleton.php');
 require_once('Core_Origins/PanzerDAL.php');
@@ -27,6 +28,8 @@ require_once('Core_Origins/alerter/PanzerAlerter.php');
 require_once('Core_Origins/alerter/PanzerAlert.php');
 require_once('Core_Origins/logger/PanzerLogger.php');
 require_once('Core_Origins/Syntaxalyser.php');
+//require_once('model/DAL/UserDAL.php');
+//require_once('model/DAL/RoleDAL.php');
 
 // à générer automatiquement : si le type veut le calendrier.
 $files = glob('Core_Origins/widget/calendar/*.php');

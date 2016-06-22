@@ -1,54 +1,106 @@
-[2016-06-15 06:08:13] [getEnumList] DEBUG : ('entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 06:08:13] [getEnumList] DEBUG : )
-[2016-06-15 06:10:06] [getEnumList] DEBUG : 'entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 06:10:06] [getEnumList] DEBUG : 'entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 06:11:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 06:11:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 06:16:49] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 06:16:49] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 07:13:43] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 07:13:43] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 07:16:52] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 07:16:52] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 07:18:30] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 07:18:30] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:22:53] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:22:53] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:23:36] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:23:36] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:23:59] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:23:59] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:26:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:26:13] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:27:05] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:27:05] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:27:57] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:27:57] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:28:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:28:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:38:18] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:38:18] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 10:38:34] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 10:38:34] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:00:00] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:00:00] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:02:01] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:02:01] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:06:31] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:06:31] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:08:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:08:41] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:09:09] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:09:09] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:10:23] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:10:23] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:14:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:14:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:15:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:15:32] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:48:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:48:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 11:52:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 11:52:50] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
-[2016-06-15 13:14:25] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti')
-[2016-06-15 13:14:25] [getEnumList] DEBUG : entré','pris en charge','opéré','rétablissement','ok','sorti
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][nom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][adresse] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][reference] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][etat] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][salle_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][diagnostiquer] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [chat][operer] isFK =  & relation = 
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [chat] nbFKPasDansLaClasse = 0
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][nom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][prenom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][adresse] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][salaire] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][user_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [infirmier][chat] isFK =  & relation = 
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [infirmier] nbFKPasDansLaClasse = 0
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [veterinaire][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [veterinaire][nom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [veterinaire][prenom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [veterinaire][adresse] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [veterinaire][salaire] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [veterinaire][user_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [veterinaire] nbFKPasDansLaClasse = 0
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][nom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][prenom] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][adresse] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][salaire] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][user_id] isFK = 1 & relation = 1,1
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : In
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [ressources_humaines] nbFKPasDansLaClasse = 1
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [salle][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [salle][etage] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [salle][numero] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [salle][nombre_places] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [salle][chat] isFK =  & relation = 
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [salle] nbFKPasDansLaClasse = 0
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [role][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [role][label] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [role][level] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [role][code] isFK =  & relation = 
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [role] nbFKPasDansLaClasse = 0
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][id] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][pseudo] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][password] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][creation_date] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][role_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][ressources_humaines] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][veterinaire] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][infirmier] isFK =  & relation = 
+[2016-06-15 23:19:03] [getForeignKeysNotInClass] DEBUG : [user][role] isFK =  & relation = 
+[2016-06-15 23:19:03] [generateOneDAL] DEBUG : [user] nbFKPasDansLaClasse = 0
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][id] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][nom] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][adresse] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][reference] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][etat] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][salle_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][diagnostiquer] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [chat][operer] isFK =  & relation = 
+[2016-06-15 23:22:06] [generateOneDAL] DEBUG : [chat] nbFKPasDansLaClasse = 0
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][id] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][nom] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][prenom] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][adresse] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][salaire] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][user_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [infirmier][chat] isFK =  & relation = 
+[2016-06-15 23:22:06] [generateOneDAL] DEBUG : [infirmier] nbFKPasDansLaClasse = 0
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [veterinaire][id] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [veterinaire][nom] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [veterinaire][prenom] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [veterinaire][adresse] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [veterinaire][salaire] isFK =  & relation = 
+[2016-06-15 23:22:06] [getForeignKeysNotInClass] DEBUG : [veterinaire][user_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:22:07] [generateOneDAL] DEBUG : [veterinaire] nbFKPasDansLaClasse = 0
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][id] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][nom] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][prenom] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][adresse] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][salaire] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [ressources_humaines][user_id] isFK = 1 & relation = 1,1
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : In
+[2016-06-15 23:22:07] [generateOneDAL] DEBUG : [ressources_humaines] nbFKPasDansLaClasse = 1
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [salle][id] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [salle][etage] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [salle][numero] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [salle][nombre_places] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [salle][chat] isFK =  & relation = 
+[2016-06-15 23:22:07] [generateOneDAL] DEBUG : [salle] nbFKPasDansLaClasse = 0
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [role][id] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [role][label] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [role][level] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [role][code] isFK =  & relation = 
+[2016-06-15 23:22:07] [generateOneDAL] DEBUG : [role] nbFKPasDansLaClasse = 0
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][id] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][pseudo] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][password] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][creation_date] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][role_id] isFK = 1 & relation = 1,n
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][ressources_humaines] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][veterinaire] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][infirmier] isFK =  & relation = 
+[2016-06-15 23:22:07] [getForeignKeysNotInClass] DEBUG : [user][role] isFK =  & relation = 
+[2016-06-15 23:22:07] [generateOneDAL] DEBUG : [user] nbFKPasDansLaClasse = 0
